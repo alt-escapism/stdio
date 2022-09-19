@@ -1,5 +1,5 @@
 import { RiFileDownloadLine } from "react-icons/ri";
-import { getSiblingFrame } from "../shared/frames";
+import { getFrame } from "../shared/frames";
 import { GenericIconButton } from "./generic-icon-button";
 import { variables } from "./variables-state";
 
@@ -7,8 +7,7 @@ export function DownloadButton() {
   return (
     <GenericIconButton
       onClick={() => {
-        const canvas =
-          getSiblingFrame("main")?.document.querySelector("canvas");
+        const canvas = getFrame("main")?.document.querySelector("canvas");
         if (canvas) {
           const filename = variables["fxhash"].value as string;
           downloadImage(canvas, filename);

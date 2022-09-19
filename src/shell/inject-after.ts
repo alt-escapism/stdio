@@ -1,7 +1,7 @@
-import { getSiblingFrame } from "../shared/frames";
+import { getFrame } from "../shared/frames";
 
 const previewFn = "fxpreview";
 
 (window as any)[previewFn] = () => {
-  getSiblingFrame("stdio")?.renderingComplete(performance.now());
+  getFrame("stdio")?.renderingComplete(performance.now());
 };

@@ -10,22 +10,20 @@ export type StdioFrame = Window & {
   renderingComplete: (duration: number) => void;
 };
 
-export function getSiblingFrame(id: "main"): MainFrame | null;
-export function getSiblingFrame(id: "stdio"): StdioFrame | null;
-export function getSiblingFrame(
-  id: "main" | "stdio"
-): Window | StdioFrame | null {
-  // If there's a parent, and it's the same origin, assume it's the top-level
-  // stdio frame
-  if (
-    window.parent !== null &&
-    window.parent !== window &&
-    window.parent.origin === window.origin
-  ) {
-    const frameElement = window.parent.document.getElementById(
-      id
-    ) as HTMLIFrameElement;
-    return frameElement.contentWindow;
+export function getFrame(id: "main", w?: Window): MainFrame | null;
+export function getFrame(id: "stdio", w?: Window): StdioFrame | null;
+export function getFrame(
+  id: "main" | "stdio",
+  w?: Window
+): MainFrame | StdioFrame | null;
+export function getFrame(id: "main" | "stdio", w: Window = window) {
+  const element = w.document.getElementById(id);
+  if (element && element.nodeName === "IFRAME") {
+    return (element as HTMLIFrameElement).contentWindow;
+  }
+
+  if (w.parent !== w && w.parent.origin === w.origin) {
+    return getFrame(id, w.parent);
   }
 
   return null;

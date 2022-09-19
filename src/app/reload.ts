@@ -1,4 +1,4 @@
-import { getSiblingFrame } from "../shared/frames";
+import { getFrame } from "../shared/frames";
 import { Variable } from "../shared/variables.type";
 import { resetRendering } from "./rendering-state";
 import { settings } from "./settings-state";
@@ -7,7 +7,7 @@ import { resetVariables } from "./variables-state";
 export function reload() {
   resetVariables();
   resetRendering();
-  getSiblingFrame("main")?.location.reload();
+  getFrame("main")?.location.reload();
 }
 
 export function autoReload(variable: Variable) {
