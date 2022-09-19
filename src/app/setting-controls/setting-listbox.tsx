@@ -69,10 +69,9 @@ export function SettingListbox({
       ? Object.fromEntries(
           (_settings.recents[variable.name] ?? []).map((hash) => [hash, hash])
         )
-      : (variable.options as Record<string, unknown>);
+      : variable.options;
   const lockedKey = _settings.variables[variable.name];
   const activeKey = lockedKey ?? variable.value;
-  const activeValue = (options as Record<string, unknown>)[activeKey];
   const items = Object.keys(options);
   const {
     isOpen,
@@ -96,7 +95,7 @@ export function SettingListbox({
         className={cx(buttonStyles, lockStyles)}
         {...getToggleButtonProps()}
       >
-        {getDisplayValue(activeKey, activeValue)}
+        {getDisplayValue(activeKey, options)}
         <MdOutlineKeyboardArrowDown />
       </button>
       <SettingLockButton variable={variable} />
@@ -114,7 +113,7 @@ export function SettingListbox({
                     fontWeight: item === activeKey ? 700 : 400,
                   }}
                 >
-                  {getDisplayValue(item, options[item])}
+                  {getDisplayValue(item, options)}
                 </li>
               );
             })}
@@ -132,10 +131,21 @@ const itemStyle = css`
   text-overflow: ellipsis;
 `;
 
-function getDisplayValue(key: string, value: unknown) {
-  const isValuePrimitive =
-    typeof value === "number" ||
-    typeof value === "string" ||
-    typeof value === "boolean";
-  return <span className={itemStyle}>{isValuePrimitive ? value : key}</span>;
+function getDisplayValue(
+  key: string,
+  options: readonly unknown[] | Record<string, unknown>
+) {
+  let displayValue: string;
+  if (!Array.isArray(options)) {
+    displayValue = key;
+  } else {
+    const value = (options as unknown as Record<string, unknown>)[key];
+    const isValuePrimitive =
+      typeof value === "number" ||
+      typeof value === "string" ||
+      typeof value === "boolean";
+    displayValue = isValuePrimitive ? String(value) : key;
+  }
+
+  return <span className={itemStyle}>{displayValue}</span>;
 }
