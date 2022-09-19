@@ -47,7 +47,7 @@ const dropdownStyles = css`
   margin: 0;
   padding: 4px 0;
   list-style: none;
-  max-height: 500px;
+  max-height: 240px;
   overflow: auto;
 
   li {
