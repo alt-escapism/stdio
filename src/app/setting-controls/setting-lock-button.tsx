@@ -2,6 +2,7 @@ import { css } from "@emotion/css";
 import { VscLock, VscUnlock } from "react-icons/vsc";
 import { useSnapshot } from "valtio";
 import { Variable } from "../../shared/variables.type";
+import { autoReload } from "../reload";
 import { settings } from "../settings-state";
 import { useLockStyles } from "./use-lock-styles";
 
@@ -37,6 +38,7 @@ export function SettingLockButton({ variable }: { variable: Variable }) {
         } else {
           settings.variables[variable.name] = String(variable.value);
         }
+        autoReload(variable);
       }}
     >
       {isLocked ? (

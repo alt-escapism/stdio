@@ -1,6 +1,7 @@
 import { css, cx } from "@emotion/css";
 import { useSnapshot } from "valtio";
 import { Variable } from "../../shared/variables.type";
+import { autoReload } from "../reload";
 import { settings } from "../settings-state";
 import { SettingLockButton } from "./setting-lock-button";
 import { useLockStyles } from "./use-lock-styles";
@@ -36,6 +37,9 @@ export function SettingInput({ variable }: { variable: Variable }) {
           settings.variables[variable.name] = e.target.value;
         }}
         spellCheck={false}
+        onBlur={() => {
+          autoReload(variable);
+        }}
       />
       <SettingLockButton variable={variable} />
     </div>

@@ -21,7 +21,7 @@ const styles = css`
   height: 100%;
   width: 100%;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
 
   h1,
   h2,

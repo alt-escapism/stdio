@@ -9,6 +9,7 @@ const DEFAULT_SETTINGS: Settings = {
   variables: {},
   recents: {},
   background: "light",
+  autoReload: true,
 };
 
 export function getStoredSettings(): Settings {

@@ -6,6 +6,7 @@ import { useLockStyles } from "./use-lock-styles";
 import { SettingLockButton } from "./setting-lock-button";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { ArrayVar, HashVar, ObjectVar } from "../../shared/variables.type";
+import { autoReload } from "../reload";
 
 const styles = css`
   position: relative;
@@ -85,6 +86,7 @@ export function SettingListbox({
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem != null) {
         settings.variables[variable.name] = selectedItem;
+        autoReload(variable);
       }
     },
   });
@@ -109,7 +111,7 @@ export function SettingListbox({
                   {...getItemProps({ item, index })}
                   style={{
                     background: index === highlightedIndex ? "#333" : undefined,
-                    color: item === activeKey ? "#fff" : "#ddd",
+                    color: item === activeKey ? "#fff" : "#aaa",
                     fontWeight: item === activeKey ? 700 : 400,
                   }}
                 >

@@ -6,6 +6,7 @@ export type HashVar = {
   type: "Hash";
   name: string;
   value: string;
+  shadowed?: string;
 };
 
 export type NumberVar = {
@@ -14,6 +15,7 @@ export type NumberVar = {
   value: number;
   min: number;
   max: number;
+  shadowed?: number;
 };
 
 export type ArrayVar = {
@@ -21,6 +23,7 @@ export type ArrayVar = {
   name: string;
   options: readonly unknown[];
   value: string; // index of selected option
+  shadowed?: string;
 };
 
 export type ObjectVar = {
@@ -28,4 +31,5 @@ export type ObjectVar = {
   name: string;
   options: Record<string, unknown>;
   value: string; // key of selected option
+  shadowed?: string;
 };

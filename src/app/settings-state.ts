@@ -10,3 +10,7 @@ export const settings = proxy<Settings>(getStoredSettings());
 subscribe(settings, () => {
   setStoredSettings(settings);
 });
+
+export function resetLockedVariables() {
+  settings.variables = {};
+}
