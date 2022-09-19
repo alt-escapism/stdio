@@ -3,7 +3,7 @@ import { useSnapshot } from "valtio";
 import { Variable } from "../../shared/variables.type";
 import { settings } from "../settings-state";
 
-export const lockedColor = "#1c91b8";
+export const lockedColor = "#218fe9";
 
 export const lockedStyles = css`
   color: ${lockedColor};
