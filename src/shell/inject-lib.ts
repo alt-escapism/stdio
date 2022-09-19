@@ -31,7 +31,7 @@ export function injectLib() {
     },
 
     choose(name, choices) {
-      const chosenValue = choose(name, choices);
+      let chosenValue = choose(name, choices);
       const unweightedEntries = Object.entries(choices).map(
         ([key, value]) => [key, toUnweighted(value)] as const
       );
@@ -46,6 +46,7 @@ export function injectLib() {
         if (lockedValue != null) {
           shadowed = key;
           key = lockedKey;
+          chosenValue = lockedValue;
         }
       }
 
