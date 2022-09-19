@@ -9,6 +9,11 @@ import { useState } from "react";
 
 const treeLabelStyles = css`
   color: #999;
+  display: inline-block;
+
+  :hover {
+    color: #fff;
+  }
 `;
 
 const chevronStyles = css`
@@ -39,10 +44,11 @@ export function VariableTreeView({
           }
         />
       </div>
-      {isOpen &&
-        tree.children.map((node) => (
+      <div style={{ display: isOpen ? "block" : "none" }}>
+        {tree.children.map((node) => (
           <TreeNodeView key={node.name} node={node} depth={depth + 1} />
         ))}
+      </div>
     </div>
   );
 }
