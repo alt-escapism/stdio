@@ -1,5 +1,5 @@
 {
-  "name": "stdio",
+  "name": "@altesc/stdio",
   "version": "0.1.0",
   "description": "A studio for fxhash artists",
   "main": "dist/lib.js",
