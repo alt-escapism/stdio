@@ -15,7 +15,7 @@ export function AppFooter() {
     <div className={styles}>
       <div>
         {_rendering.durationMs == null
-          ? "Rendering..."
+          ? ""
           : `Rendered in ${(_rendering.durationMs / 1000).toFixed(2)}s`}
       </div>
     </div>

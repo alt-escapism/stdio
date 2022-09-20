@@ -1,9 +1,5 @@
-import { css, injectGlobal } from "@emotion/css";
+import { css } from "@emotion/css";
 import { ReactNode } from "react";
-
-injectGlobal`
-  @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap");
-`;
 
 const styles = css`
   background: #101010;
