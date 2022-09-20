@@ -7,6 +7,10 @@ const MAX_RECENTS = 10;
 export function addVariable(variable: Variable) {
   const { name, value } = variable;
 
+  if (!name) {
+    return;
+  }
+
   variables[name] = variable;
 
   if (variable.type === "Hash") {
