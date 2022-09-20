@@ -1,4 +1,4 @@
-import { rand } from "./random";
+import { randomFn } from "./random-fn";
 
 export type Weighted<T> = {
   weight: number;
@@ -9,12 +9,12 @@ export function weight<T>(weight: number, value: T): Weighted<T> {
   return { weight, value };
 }
 
-export type Choice<T> = T | Weighted<T>;
+export type Choice<T> = Weighted<T> | T;
 
-export function choose<T>(
+export function randomChoice<T>(
   _name: string,
-  choices: Choice<T>[] | Record<string, Choice<T>>
-) {
+  choices: Choice<T>[] | { [k: string]: Choice<T> }
+): T {
   const choiceEntries = Object.entries(choices).map(
     ([key, choice]) => [key, toWeighted(choice)] as const
   );
@@ -22,7 +22,7 @@ export function choose<T>(
     (total, [, choice]) => total + choice.weight,
     0
   );
-  const rnd = rand() * totalWeight;
+  const rnd = randomFn() * totalWeight;
   let cumulativeWeight = 0;
   for (const [, choice] of choiceEntries) {
     cumulativeWeight += choice.weight;
@@ -31,10 +31,16 @@ export function choose<T>(
     }
   }
   // Should never occur
+  return choiceEntries[0][1].value;
 }
 
 function isWeighted<T>(choice: Choice<T>): choice is Weighted<T> {
-  return choice != null && typeof choice === "object" && "weight" in choice;
+  return (
+    choice != null &&
+    typeof choice === "object" &&
+    "weight" in choice &&
+    "value" in choice
+  );
 }
 
 // Normalizes to a weighted choice

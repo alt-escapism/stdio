@@ -1,7 +1,7 @@
-import { choose } from "./choose";
 import { random } from "./random";
+import { weight } from "./random-choice";
 
 export type Stdio = {
   random: typeof random;
-  choose: typeof choose;
+  weight: typeof weight;
 };

@@ -51,13 +51,11 @@ Restart your webpack dev server.
 fx(stdio) is available at the `/stdio` URL path. To view your project without
 the fx(stdio) UI, simply open the root (`/`) path instead.
 
-The hash is automatically detected. To control other variables from fx(stdio),
-import and use the random functions from `stdio` instead of `fxrand()` or p5js'
-`random()`.
-
-Each of the random functions from `stdio` expect a unique `name` as their first
-argument. This name will be shown in the UI, as well as used to persist values
-between reloads should you choose to lock them.
+fx(stdio) will automatically detect and allow you to control the hash.
+To control other variables, replace your p5js `random()` or `fxrand()` calls
+with the equivalent from `stdio`, with the addition of a unique `name` as the
+first argument. This name will be shown in the UI, as well as used to persist
+values between reloads.
 
 ### random()
 
@@ -84,31 +82,31 @@ const chance = random("chance");
 const width = random("width", 0, 100, Math.floor);
 ```
 
-### choose()
+### random(arrayOrObject)
 
 Choose a random option out of an array or object.
 
 ```ts
-function choose<T>(name: string, choices: T[] | { [key: string]: T }): T;
+function random<T>(name: string, choices: T[] | { [key: string]: T }): T;
 ```
 
 Examples:
 
 ```ts
-import { choose } from "stdio";
+import { random } from "stdio";
 
 // random choice out of "circle", "square", or "diamond"
-const shape = choose("shape", ["circle", "square", "diamond"]);
+const shape = random("shape", ["circle", "square", "diamond"]);
 
 // non-primitive choices (objects or functions) should use the object form
-const shapeFn = choose("shapeFn", {
+const shapeFn = random("shapeFn", {
   circle: () => drawCircle(),
   square: () => drawSquare(),
   diamond: () => drawSquare({ rotateDegrees: 45 }),
 });
 
 // object form can also be used if you simply want to give names to the choices
-const distance = choose("distance", {
+const distance = random("distance", {
   near: 10,
   far: 20,
   veryFar: 60,
@@ -118,12 +116,12 @@ const distance = choose("distance", {
 Different weights can be applied so that choices are not equally likely:
 
 ```ts
-import { choose, weight } from "stdio";
+import { random, weight } from "stdio";
 
 // 50% chance of getting "circle",
 // 30% chance of getting "square", and
 // 20% chance of getting "diamond"
-const shape = choose("shape", [
+const shape = random("shape", [
   weight(50, "circle"),
   weight(30, "square"),
   weight(20, "diamond"),
@@ -131,7 +129,7 @@ const shape = choose("shape", [
 
 // If unspecified, the default weight is 1;
 // in the below scenario, "circle" is twice as likely as "square"
-const shapeFn = choose("shapeFn", {
+const shapeFn = random("shapeFn", {
   circle: weight(2, () => drawCircle()),
   square: () => drawSquare(),
 });
@@ -147,7 +145,7 @@ you can prefix a variable name with a common group name(s), separated by a `/`
 
 ```ts
 const rotation = random("camera/rotation", 0, 360);
-const distance = choose("camera/distance", {
+const distance = random("camera/distance", {
   near: 10,
   far: 20,
   veryFar: 60,

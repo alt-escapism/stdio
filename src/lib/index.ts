@@ -1,11 +1,15 @@
-import { random as _random } from "../lib/random";
-import { choose as _choose } from "../lib/choose";
+import { random as _random } from "./random";
+import { weight as _weight } from "./random-choice";
 import { Stdio } from "./stdio.type";
 
-const stdio: Stdio | void = (window as any).stdio;
+const w = window as Window & { stdio?: Stdio };
 
-export const random = stdio?.random ?? _random;
+if (!w.stdio) {
+  w.stdio = {
+    random: _random,
+    weight: _weight,
+  };
+}
 
-export const choose = stdio?.choose ?? _choose;
-
-export { weight } from "../lib/choose";
+export const random = w.stdio.random;
+export const weight = w.stdio.weight;
