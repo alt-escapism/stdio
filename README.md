@@ -7,17 +7,10 @@ the hash and other variables for your fx(hash) projects.
 
 ## Installation
 
-Clone the repo:
-
-```bash
-git clone git@github.com:alt-escapism/stdio.git
-```
-
 Add to your fx(hash) project:
 
 ```bash
-npm install {PATH_TO_CLONED_REPO}
-# E.g. npm install ~/src/stdio
+npm install @altesc/stdio
 ```
 
 Add the plugin to your webpack config, and instruct the dev server to open at
@@ -26,7 +19,7 @@ the `/stdio` URL path. If you're using the [fxhash webpack boilerplate](https://
 ```js
 // In webpack.config.dev.js
 const config = require("./webpack.config");
-const StdioWebpackPlugin = require("stdio/webpack-plugin");
+const StdioWebpackPlugin = require("@altesc/stdio/webpack-plugin");
 
 module.exports = {
   ...config,
@@ -73,7 +66,7 @@ function random(
 Examples:
 
 ```ts
-import { random } from "stdio";
+import { random } from "@altesc/stdio";
 
 // random number between 0 and 1 (exclusive)
 const chance = random("chance");
@@ -93,7 +86,7 @@ function random<T>(name: string, choices: T[] | { [key: string]: T }): T;
 Examples:
 
 ```ts
-import { random } from "stdio";
+import { random } from "@altesc/stdio";
 
 // random choice out of "circle", "square", or "diamond"
 const shape = random("shape", ["circle", "square", "diamond"]);
@@ -116,7 +109,7 @@ const distance = random("distance", {
 Different weights can be applied so that choices are not equally likely:
 
 ```ts
-import { random, weight } from "stdio";
+import { random, weight } from "@altesc/stdio";
 
 // 50% chance of getting "circle",
 // 30% chance of getting "square", and
