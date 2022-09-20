@@ -2,8 +2,9 @@
   "name": "stdio",
   "version": "0.1.0",
   "description": "A studio for fxhash artists",
-  "main": "dist/lib/index.js",
-  "types": "dist/lib/index.d.ts",
+  "main": "dist/lib.js",
+  "module": "dist/lib-esm/index.js",
+  "types": "dist/lib-esm/index.d.ts",
   "files": [
     "dist",
     "webpack-plugin"

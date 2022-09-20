@@ -7,9 +7,10 @@ module.exports = {
     app: "./src/app/index.tsx",
     shell: "./src/shell/index.ts",
     inject: "./src/shell/inject.ts",
+    lib: { import: "./src/lib/index.ts", filename: "../[name].js" },
   },
   output: {
-    path: path.resolve(__dirname, "./dist/app"),
+    path: path.resolve(__dirname, "dist/app"),
     clean: true,
   },
   module: {
