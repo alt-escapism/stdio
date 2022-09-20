@@ -17,14 +17,34 @@ export function getFrame(
   w?: Window
 ): MainFrame | StdioFrame | null;
 export function getFrame(id: "main" | "stdio", w: Window = window) {
-  const element = w.document.getElementById(id);
-  if (element && element.nodeName === "IFRAME") {
-    return (element as HTMLIFrameElement).contentWindow;
-  }
+  try {
+    if (id === "main" && (w as MainFrame).__stdioSetBackground) {
+      return w;
+    }
+    if (id === "stdio" && (w as StdioFrame).addVariable) {
+      return w;
+    }
 
-  if (w.parent !== w && w.parent.origin === w.origin) {
-    return getFrame(id, w.parent);
-  }
+    const element = w.document.getElementById(id);
+    if (element && element.nodeName === "IFRAME") {
+      return (element as HTMLIFrameElement).contentWindow;
+    }
+
+    const parent = getParentFrame(w);
+    if (parent) {
+      return getFrame(id, parent);
+    }
+  } catch (e) {}
+
+  return null;
+}
+
+export function getParentFrame(w: Window = window): Window | null {
+  try {
+    if (w.parent !== w && w.parent.origin === w.origin) {
+      return w.parent;
+    }
+  } catch (e) {}
 
   return null;
 }

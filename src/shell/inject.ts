@@ -1,9 +1,3 @@
-import { injectBackground } from "./inject-background";
-import { injectHashes } from "./inject-hashes";
-import { injectLib } from "./inject-lib";
-import { injectPreview } from "./inject-preview";
+import { injectAll } from "./inject-all";
 
-injectHashes();
-injectPreview();
-injectLib();
-injectBackground();
+injectAll();

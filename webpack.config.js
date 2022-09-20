@@ -4,10 +4,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   mode: "production",
   entry: {
-    app: "./src/app/index.tsx",
+    app: "./src/app/index.ts",
     shell: "./src/shell/index.ts",
     inject: "./src/shell/inject.ts",
     lib: { import: "./src/lib/index.ts", filename: "../[name].js" },
+    embed: { import: "./src/embed/index.ts", filename: "../[name].js" },
   },
   output: {
     path: path.resolve(__dirname, "dist/app"),

@@ -3,7 +3,6 @@ import { SettingInput } from "../setting-controls/setting-input";
 import { SettingListbox } from "../setting-controls/setting-listbox";
 import { VariableLabel } from "./variable-label";
 import { TreeNode, VariableTree } from "./variable-tree";
-import { last } from "lodash";
 import { BiChevronDown, BiChevronRight } from "react-icons/bi";
 import { useState } from "react";
 
@@ -83,4 +82,8 @@ export function TreeNodeView({
       )}
     </div>
   );
+}
+
+function last<T>(array: T[]): T | undefined {
+  return array[array.length - 1];
 }

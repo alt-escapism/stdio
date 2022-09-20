@@ -1,7 +1,11 @@
+import { getParentFrame } from "./frames";
 import { Settings } from "./settings.type";
 
+const parent = getParentFrame();
 const projectKey =
-  new URLSearchParams(window.parent.location.search).get("project") ?? "stdio";
+  (parent
+    ? new URLSearchParams(parent.location.search).get("project")
+    : null) ?? "stdio";
 
 const storageKey = projectKey + ".settings";
 
