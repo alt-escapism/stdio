@@ -13,8 +13,10 @@ export type NumberVar = {
   type: "Number";
   name: string;
   value: number;
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
+  mean?: number;
+  sd?: number;
   shadowed?: number;
 };
 

@@ -1,4 +1,6 @@
+import { random } from "../lib/random";
 import { randomChoice, toUnweighted, weight } from "../lib/random-choice";
+import { randomGaussian } from "../lib/random-gaussian";
 import { randomNumber } from "../lib/random-number";
 import { Stdio } from "../lib/stdio.type";
 import { addVariable, settings } from "./context";
@@ -74,10 +76,47 @@ const augmentedRandomChoice: typeof randomChoice = (name, choices) => {
   return chosenValue;
 };
 
+const augmentedRandomGaussian = (...args: any[]) => {
+  let value = randomGaussian(...args);
+  if (!(typeof args[0] === "string" && args[0])) {
+    return value;
+  }
+
+  const [name, mean = 0, sd = 1] = args as [
+    string,
+    number | undefined,
+    number | undefined
+  ];
+  let shadowed: number | undefined;
+
+  const lockedValue = settings.variables[name];
+  if (lockedValue) {
+    const lockedNumber = Number(lockedValue);
+    if (!isNaN(lockedNumber)) {
+      shadowed = value;
+      value = lockedNumber;
+    }
+  }
+
+  addVariable({
+    name,
+    type: "Number",
+    value,
+    mean,
+    sd,
+    shadowed,
+  });
+
+  return value;
+};
+
 export function injectLib() {
   const stdio: Stdio = {
     random(...args: any[]): any {
       const name = typeof args[0] === "string" ? args.shift() : "";
+      if (!name) {
+        return random(...args);
+      }
       const typeOfFirstArg = typeof args[0];
       if (typeOfFirstArg === "undefined" || typeOfFirstArg === "number") {
         return augmentedRandomNumber(name, ...args);
@@ -85,6 +124,7 @@ export function injectLib() {
       return augmentedRandomChoice(name, args[0]);
     },
     weight,
+    randomGaussian: augmentedRandomGaussian,
   };
 
   (window as any).stdio = stdio;
