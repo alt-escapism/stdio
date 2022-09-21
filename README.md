@@ -128,6 +128,31 @@ const shapeFn = random("shapeFn", {
 });
 ```
 
+### randomGaussian()
+
+Generates a random number fitting a normal distribution.
+
+```ts
+function randomGaussian(
+  name: string,
+  mean: number = 0,
+  sd: number = 1,
+  transform?: (x: number) => number
+): number;
+```
+
+Examples:
+
+```ts
+import { randomGaussian } from "@altesc/stdio";
+
+// random number with mean 0 and standard deviation 1
+const length = randomGaussian("length");
+
+// random integer with mean 50 and standard deviation 10
+const count = randomGaussian("count", 50, 10, Math.floor);
+```
+
 ## Advanced
 
 ### Variable grouping
