@@ -15,7 +15,7 @@ const inputStyles = css`
   background: inherit;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 4px;
-  color: inherit;
+  color: #fff;
   font-family: inherit;
   font-size: inherit;
   padding: 6px 52px 6px 12px;

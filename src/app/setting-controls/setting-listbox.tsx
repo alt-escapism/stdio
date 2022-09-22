@@ -10,6 +10,7 @@ import { autoReload } from "../reload";
 import { OptionView } from "./option-view";
 
 const styles = css`
+  color: #fff;
   position: relative;
   display: flex;
   width: 100%;

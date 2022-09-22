@@ -3,10 +3,10 @@ import { VscLock, VscUnlock } from "react-icons/vsc";
 import { useSnapshot } from "valtio";
 import { Variable } from "../../shared/variables.type";
 import { autoReload } from "../reload";
-import { settings } from "../settings-state";
+import { lock, settings, unlock } from "../settings-state";
 import { useLockStyles } from "./use-lock-styles";
 
-const buttonStyles = css`
+export const buttonStyles = css`
   background: none;
   border: none;
   display: inline-block;
@@ -19,8 +19,13 @@ const buttonStyles = css`
   width: 40px;
 `;
 
-const unlockedButtonStyles = css`
+export const unlockedButtonStyles = css`
   color: rgba(255, 255, 255, 0.3);
+  height: 100%;
+
+  :hover {
+    color: #fff;
+  }
 `;
 
 export function SettingLockButton({ variable }: { variable: Variable }) {
@@ -34,9 +39,9 @@ export function SettingLockButton({ variable }: { variable: Variable }) {
       className={buttonStyles}
       onClick={() => {
         if (isLocked) {
-          delete settings.variables[variable.name];
+          unlock(variable);
         } else {
-          settings.variables[variable.name] = String(variable.value);
+          lock(variable);
         }
         autoReload(variable);
       }}

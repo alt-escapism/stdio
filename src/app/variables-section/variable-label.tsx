@@ -1,5 +1,5 @@
 import { css } from "@emotion/css";
-import { ReactNode } from "react";
+import { HTMLProps, ReactNode } from "react";
 
 const styles = css`
   display: flex;
@@ -14,13 +14,18 @@ export function VariableLabel({
   name,
   depth,
   icon,
+  ...labelProps
 }: {
   name: string;
   depth: number;
   icon?: ReactNode;
-}) {
+} & HTMLProps<HTMLLabelElement>) {
   return (
-    <label className={styles} style={{ paddingLeft: depth * 18 }}>
+    <label
+      className={styles}
+      style={{ paddingLeft: depth * 18 }}
+      {...labelProps}
+    >
       {icon}
       <span>{name}</span>
     </label>

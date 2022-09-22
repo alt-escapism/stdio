@@ -10,13 +10,21 @@ export function reload() {
   getFrame("main")?.location.reload();
 }
 
-export function autoReload(variable: Variable) {
+export function autoReload(...variables: Variable[]) {
   if (settings.autoReload) {
-    const { name } = variable;
-    const lockedValue = settings.variables[name];
-    if (lockedValue == null && variable.shadowed != null) {
-      reload();
-    } else if (lockedValue != null && lockedValue !== String(variable.value)) {
+    const needsReload = variables.some((variable) => {
+      const { name } = variable;
+      const lockedValue = settings.variables[name];
+      if (lockedValue == null && variable.shadowed != null) {
+        return true;
+      } else if (
+        lockedValue != null &&
+        lockedValue !== String(variable.value)
+      ) {
+        return true;
+      }
+    });
+    if (needsReload) {
       reload();
     }
   }

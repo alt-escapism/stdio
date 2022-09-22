@@ -5,13 +5,21 @@ import { VariableLabel } from "./variable-label";
 import { TreeNode, VariableTree } from "./variable-tree";
 import { BiChevronDown, BiChevronRight } from "react-icons/bi";
 import { useState } from "react";
+import { GroupLockButton } from "./group-lock-button";
+import { Variable } from "../../shared/variables.type";
 
 const treeLabelStyles = css`
-  color: #999;
-  display: inline-block;
+  color: #aaa;
+  display: flex;
+  justify-content: space-between;
 
   :hover {
     color: #fff;
+  }
+
+  > button {
+    font-size: 0.9em;
+    width: 40px;
   }
 `;
 
@@ -32,7 +40,7 @@ export function VariableTreeView({
 
   return (
     <div>
-      <div className={treeLabelStyles} onClick={toggleOpen}>
+      <div className={treeLabelStyles}>
         <VariableLabel
           name={tree.name}
           depth={depth}
@@ -41,7 +49,9 @@ export function VariableTreeView({
               {isOpen ? <BiChevronDown /> : <BiChevronRight />}
             </span>
           }
+          onClick={toggleOpen}
         />
+        <GroupLockButton tree={tree} />
       </div>
       <div style={{ display: isOpen ? "block" : "none" }}>
         {tree.children.map((node) => (
@@ -57,6 +67,11 @@ const variableStyles = css`
   grid-template-columns: 40% minmax(0, 1fr);
   gap: 12px;
   align-items: center;
+  color: #aaa;
+
+  :hover {
+    color: #fff;
+  }
 `;
 
 export function TreeNodeView({

@@ -39,3 +39,14 @@ export function buildVariableTree(variables: Variable[]): VariableTree {
   });
   return tree;
 }
+
+export function getLeafNodes(tree: VariableTree, leaves: Variable[] = []) {
+  tree.children.forEach((node) => {
+    if (node.type !== "Tree") {
+      leaves.push(node);
+    } else {
+      getLeafNodes(node, leaves);
+    }
+  });
+  return leaves;
+}
