@@ -7,6 +7,7 @@ import { SettingLockButton } from "./setting-lock-button";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { ArrayVar, HashVar, ObjectVar } from "../../shared/variables.type";
 import { autoReload } from "../reload";
+import { OptionView } from "./option-view";
 
 const styles = css`
   position: relative;
@@ -97,7 +98,7 @@ export function SettingListbox({
         className={cx(buttonStyles, lockStyles)}
         {...getToggleButtonProps()}
       >
-        {getDisplayValue(activeKey, options)}
+        <OptionView optionKey={activeKey} options={options} />
         <MdOutlineKeyboardArrowDown />
       </button>
       <SettingLockButton variable={variable} />
@@ -115,7 +116,7 @@ export function SettingListbox({
                     fontWeight: item === activeKey ? 700 : 400,
                   }}
                 >
-                  {getDisplayValue(item, options)}
+                  <OptionView optionKey={item} options={options} />
                 </li>
               );
             })}
@@ -124,30 +125,4 @@ export function SettingListbox({
       </div>
     </div>
   );
-}
-
-const itemStyle = css`
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-function getDisplayValue(
-  key: string,
-  options: readonly unknown[] | Record<string, unknown>
-) {
-  let displayValue: string;
-  if (!Array.isArray(options)) {
-    displayValue = key;
-  } else {
-    const value = (options as unknown as Record<string, unknown>)[key];
-    const isValuePrimitive =
-      typeof value === "number" ||
-      typeof value === "string" ||
-      typeof value === "boolean";
-    displayValue = isValuePrimitive ? String(value) : key;
-  }
-
-  return <span className={itemStyle}>{displayValue}</span>;
 }
