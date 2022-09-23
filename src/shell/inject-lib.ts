@@ -7,10 +7,18 @@ import { addVariable, settings } from "./context";
 
 const augmentedRandomNumber: typeof randomNumber = (
   name,
-  min = 0,
-  max = 1,
+  min,
+  max,
   transform
 ) => {
+  if (min == null) {
+    min = 0;
+    max = 1;
+  } else if (max == null) {
+    max = min;
+    min = 0;
+  }
+
   let value = randomNumber(name, min, max, transform);
   let shadowed: number | undefined;
 
