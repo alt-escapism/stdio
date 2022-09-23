@@ -6,7 +6,6 @@ import { TreeNode, VariableTree } from "./variable-tree";
 import { BiChevronDown, BiChevronRight } from "react-icons/bi";
 import { useState } from "react";
 import { GroupLockButton } from "./group-lock-button";
-import { Variable } from "../../shared/variables.type";
 
 const treeLabelStyles = css`
   color: #aaa;

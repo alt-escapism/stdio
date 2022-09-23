@@ -23,6 +23,7 @@ export function autoReload(...variables: Variable[]) {
       ) {
         return true;
       }
+      return false;
     });
     if (needsReload) {
       reload();
