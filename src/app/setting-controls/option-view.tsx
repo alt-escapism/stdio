@@ -1,5 +1,6 @@
 import { css } from "@emotion/css";
 import { ReactNode } from "react";
+import { ColorSwatch } from "./color-swatch";
 
 const styles = css`
   display: block;
@@ -21,9 +22,7 @@ export function OptionView({
   if (!Array.isArray(options)) {
     displayValue = optionKey;
   } else if (isColorString(strValue)) {
-    displayValue = (
-      <div style={{ width: "1em", height: "1em", background: strValue }}></div>
-    );
+    displayValue = <ColorSwatch color={strValue} />;
   } else {
     const isValuePrimitive =
       typeof value === "number" ||
