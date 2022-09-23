@@ -22,10 +22,6 @@ const styles = css`
     font-size: 18px;
     font-weight: normal;
   }
-
-  > main {
-    overflow: auto;
-  }
 `;
 
 export function AppChrome({ children }: { children: ReactNode }) {

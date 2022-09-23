@@ -1,18 +1,23 @@
+import { css } from "@emotion/css";
 import { useSnapshot } from "valtio";
 import { HashSection } from "./hash-section";
 import { VariablesSection } from "./variables-section/variables-section";
 import { variables } from "./variables-state";
 
+const styles = css`
+  overflow: auto;
+`;
+
 export function AppMain() {
   const _variables = useSnapshot(variables);
   if (Object.keys(_variables).length === 0) {
-    return <main></main>;
+    return <div></div>;
   }
 
   return (
-    <main>
+    <div className={styles}>
       <HashSection />
       <VariablesSection />
-    </main>
+    </div>
   );
 }
