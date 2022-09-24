@@ -6,8 +6,8 @@ import { TreeNode, VariableTree } from "./variable-tree";
 import { BiChevronDown, BiChevronRight } from "react-icons/bi";
 import { useMemo, useState } from "react";
 import { GroupLockButton } from "./group-lock-button";
-import { ColorSwatch } from "../setting-controls/color-swatch";
-import { NumberVar } from "../../shared/variables.type";
+import { last } from "../last";
+import { getCombinedValue } from "./get-combined-value";
 
 const treeLabelStyles = css`
   align-items: center;
@@ -43,22 +43,7 @@ export function VariableTreeView({
   depth: number;
 }) {
   const combinedValue = useMemo(() => {
-    const keyedChildren: Record<string, TreeNode> = Object.fromEntries(
-      tree.children.map((node) => [last(node.name.split("/")), node])
-    );
-    if (
-      nodesMatchExactly(keyedChildren, {
-        h: (node) => node.type === "Number",
-        s: (node) => node.type === "Number",
-        l: (node) => node.type === "Number",
-      })
-    ) {
-      const h = (keyedChildren.h as NumberVar).value;
-      const s = (keyedChildren.s as NumberVar).value;
-      const l = (keyedChildren.l as NumberVar).value;
-      const color = `hsl(${Math.round(h)}, ${s.toFixed(2)}%, ${l.toFixed(2)}%)`;
-      return <ColorSwatch color={color} />;
-    }
+    return getCombinedValue(tree.children);
   }, [tree.children]);
 
   const [isOpen, setIsOpen] = useState(combinedValue == null);
@@ -123,23 +108,5 @@ export function TreeNodeView({
         <SettingInput variable={node} />
       )}
     </div>
-  );
-}
-
-function last<T>(array: T[]): T | undefined {
-  return array[array.length - 1];
-}
-
-function nodesMatchExactly(
-  keyedNodes: { [key: string]: TreeNode },
-  matches: { [basename: string]: (node: TreeNode) => boolean }
-): boolean {
-  const matchEntries = Object.entries(matches);
-  if (Object.keys(keyedNodes).length !== matchEntries.length) {
-    return false;
-  }
-  return matchEntries.every(
-    ([basename, predicate]) =>
-      keyedNodes[basename] && predicate(keyedNodes[basename])
   );
 }
