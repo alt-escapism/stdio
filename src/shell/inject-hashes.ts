@@ -18,7 +18,6 @@ export function injectHashes() {
         },
       });
     } else {
-      console.log("hash set to", settings.variables[name]);
       Object.defineProperty(window, name, {
         get: () => settings.variables[name],
       });
