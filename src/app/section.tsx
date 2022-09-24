@@ -5,7 +5,6 @@ const styles = css`
   padding: 16px 24px;
 
   h2 {
-    color: #999;
     font-size: 0.9em;
     letter-spacing: 3px;
     margin-bottom: 8px;

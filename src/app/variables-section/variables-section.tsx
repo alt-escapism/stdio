@@ -1,6 +1,7 @@
 import { css } from "@emotion/css";
 import { useMemo } from "react";
 import { useSnapshot } from "valtio";
+import { EmptyMessage } from "../empty-message";
 import { Section } from "../section";
 import { variables } from "../variables-state";
 import { buildVariableTree } from "./variable-tree";
@@ -23,11 +24,18 @@ export function VariablesSection() {
 
   return (
     <Section title="Variables">
-      <div className={containerStyles}>
-        {tree.children.map((node) => (
-          <TreeNodeView key={node.name} node={node} depth={0} />
-        ))}
-      </div>
+      {tree.children.length ? (
+        <div className={containerStyles}>
+          {tree.children.map((node) => (
+            <TreeNodeView key={node.name} node={node} depth={0} />
+          ))}
+        </div>
+      ) : (
+        <EmptyMessage>
+          Add variables here by calling stdio's <code>random()</code> function
+          with a unique variable name – e.g. <code>random("count")</code>.
+        </EmptyMessage>
+      )}
     </Section>
   );
 }

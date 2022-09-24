@@ -10,7 +10,7 @@ const styles = css`
   justify-content: space-between;
 
   h1 {
-    letter-spacing: 3px;
+    letter-spacing: 2px;
   }
 `;
 
