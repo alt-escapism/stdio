@@ -1,7 +1,7 @@
 # fx(stdio) – the generative artist's studio
 
-fx(stdio) is a webpack plugin that adds a UI for viewing and controlling
-the hash and other variables for your fx(hash) projects.
+fx(stdio) makes it easy to control the hash and other variables
+for your fx(hash) projects.
 
 ![stdio overview](static/stdio-overview.png)
 
