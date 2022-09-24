@@ -13,8 +13,9 @@ const treeLabelStyles = css`
   align-items: center;
   color: #aaa;
   display: grid;
-  grid-template-columns: 40% minmax(0, 1fr) auto;
+  grid-template-columns: calc(40% + 9px) minmax(0, 1fr) auto;
   gap: 12px;
+  margin-left: -18px;
 
   :hover {
     color: #fff;
@@ -27,8 +28,9 @@ const treeLabelStyles = css`
 `;
 
 const chevronStyles = css`
-  margin-left: -4px;
+  font-size: 0.8em;
   margin-top: 4px;
+  width: 14px;
 `;
 
 const combinedValueStyles = css`
