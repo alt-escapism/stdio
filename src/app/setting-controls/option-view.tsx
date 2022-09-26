@@ -3,7 +3,8 @@ import { ReactNode } from "react";
 import { ColorSwatch } from "./color-swatch";
 
 const styles = css`
-  display: block;
+  display: flex;
+  gap: 8px;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -22,7 +23,12 @@ export function OptionView({
   if (!Array.isArray(options)) {
     displayValue = optionKey;
   } else if (isColorString(strValue)) {
-    displayValue = <ColorSwatch color={strValue} />;
+    displayValue = (
+      <>
+        <ColorSwatch color={strValue} />
+        {strValue}
+      </>
+    );
   } else {
     const isValuePrimitive =
       typeof value === "number" ||
