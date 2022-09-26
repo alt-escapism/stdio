@@ -8,6 +8,7 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { ArrayVar, HashVar, ObjectVar } from "../../shared/variables.type";
 import { autoReload } from "../reload";
 import { OptionView } from "./option-view";
+import { HashOptionView } from "./hash-option-view";
 
 const styles = css`
   color: #fff;
@@ -49,7 +50,7 @@ const dropdownStyles = css`
   margin: 0;
   padding: 4px 0;
   list-style: none;
-  max-height: 240px;
+  max-height: 340px;
   overflow: auto;
 
   li {
@@ -99,7 +100,11 @@ export function SettingListbox({
         className={cx(buttonStyles, lockStyles)}
         {...getToggleButtonProps()}
       >
-        <OptionView optionKey={activeKey} options={options} />
+        {variable.type === "Hash" ? (
+          <HashOptionView hash={variable.value} />
+        ) : (
+          <OptionView optionKey={activeKey} options={options} />
+        )}
         <MdOutlineKeyboardArrowDown />
       </button>
       <SettingLockButton variable={variable} />
@@ -117,7 +122,11 @@ export function SettingListbox({
                     fontWeight: item === activeKey ? 700 : 400,
                   }}
                 >
-                  <OptionView optionKey={item} options={options} />
+                  {variable.type === "Hash" ? (
+                    <HashOptionView hash={item} />
+                  ) : (
+                    <OptionView optionKey={item} options={options} />
+                  )}
                 </li>
               );
             })}
