@@ -1,5 +1,5 @@
 import { RiFileDownloadLine } from "react-icons/ri";
-import { getFrame } from "../shared/frames";
+import { captureImage, downloadImage } from "./capture";
 import { GenericIconButton } from "./generic-icon-button";
 import { variables } from "./variables-state";
 
@@ -7,27 +7,14 @@ export function DownloadButton() {
   return (
     <GenericIconButton
       onClick={() => {
-        const canvas = getFrame("main")?.document.querySelector("canvas");
-        if (canvas) {
+        const imageURL = captureImage();
+        if (imageURL) {
           const filename = variables["fxhash"].value as string;
-          downloadImage(canvas, filename);
+          downloadImage(imageURL, filename);
         }
       }}
     >
       <RiFileDownloadLine />
     </GenericIconButton>
   );
-}
-
-function downloadImage(canvas: HTMLCanvasElement, filename: string) {
-  const imageURI = canvas.toDataURL("image/jpg");
-  downloadFile(`${filename}.jpeg`, imageURI);
-}
-
-function downloadFile(filename: string, href: string) {
-  const link = document.createElement("a");
-  link.setAttribute("download", filename);
-  link.setAttribute("href", href);
-  document.body.appendChild(link); // Required for FF
-  link.click();
 }
