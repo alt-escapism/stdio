@@ -2,7 +2,8 @@ import { getParentFrame } from "./frames";
 import { Settings } from "./settings.type";
 
 const parent = getParentFrame();
-const projectKey =
+
+export const projectKey =
   (parent
     ? new URLSearchParams(parent.location.search).get("project")
     : null) ?? "stdio";

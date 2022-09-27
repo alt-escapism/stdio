@@ -60,6 +60,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "copy-webpack-plugin": "^11.0.0"
+    "copy-webpack-plugin": "^11.0.0",
+    "idb": "^7.1.0"
   }
 }

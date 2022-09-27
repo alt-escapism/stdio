@@ -1,6 +1,5 @@
 import { proxy } from "valtio";
-import { captureImage } from "./capture";
-import { variables } from "./variables-state";
+import { updateThumbnails } from "./thumbnails-state";
 
 export type Rendering = {
   durationMs?: number;
@@ -11,11 +10,7 @@ export const rendering = proxy<Rendering>({ thumbnails: {} });
 
 export function renderingComplete(durationMs: number) {
   rendering.durationMs = durationMs;
-
-  const imageURL = captureImage(32);
-  if (imageURL) {
-    rendering.thumbnails[variables["fxhash"].value] = imageURL;
-  }
+  updateThumbnails();
 }
 
 export function resetRendering() {
