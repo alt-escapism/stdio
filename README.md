@@ -1,7 +1,6 @@
 # fx(stdio) – the generative artist's studio
 
-fx(stdio) makes it easy to control the hash and other variables
-for your fx(hash) projects.
+A studio tailor-made for fx(hash). Control the hash and other variables with ease.
 
 ![stdio overview](static/stdio-overview.png)
 
