@@ -12,7 +12,11 @@ export function HashSection() {
       {Object.values(_variables)
         .filter((variable): variable is HashVar => variable.type === "Hash")
         .map((variable) => (
-          <SettingListbox key={variable.name} variable={variable} />
+          <SettingListbox
+            key={variable.name}
+            variable={variable}
+            header="Recent hashes"
+          />
         ))}
     </Section>
   );

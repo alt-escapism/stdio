@@ -11,6 +11,7 @@ import { autoReload } from "../reload";
 import { OptionView } from "./option-view";
 import { HashOptionView } from "./hash-option-view";
 import { SettingControlContainer } from "./setting-control-container";
+import { ReactNode } from "react";
 
 const buttonStyles = css`
   align-items: center;
@@ -42,26 +43,40 @@ const dropdownStyles = css`
   z-index: 1;
   background: #222;
   margin: 0;
-  padding: 0;
-  list-style: none;
   max-height: 340px;
   overflow: auto;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 4px;
   box-shadow: 0 6px 20px 6px rgba(0, 0, 0, 0.5);
 
-  li {
-    padding: 6px 12px;
-    overflow: hidden;
-    width: 100%;
-    cursor: default;
+  > header {
+    color: #999;
+    font-size: 0.85em;
+    letter-spacing: 2px;
+    padding: 12px 12px;
+    text-transform: uppercase;
+  }
+
+  > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    > li {
+      padding: 6px 12px;
+      overflow: hidden;
+      width: 100%;
+      cursor: default;
+    }
   }
 `;
 
 export function SettingListbox({
   variable,
+  header,
 }: {
   variable: ArrayVar | ObjectVar | HashVar;
+  header?: ReactNode;
 }) {
   const lockStyles = useLockStyles(variable);
   const _settings = useSnapshot(settings);
@@ -110,31 +125,35 @@ export function SettingListbox({
       <SettingLockButton variable={variable} />
       <div {...getMenuProps()}>
         {isOpen && (
-          <ul
+          <div
             className={dropdownStyles}
             ref={floating}
             style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
           >
-            {items.map((item, index) => {
-              return (
-                <li
-                  key={item}
-                  {...getItemProps({ item, index })}
-                  style={{
-                    background: index === highlightedIndex ? "#333" : undefined,
-                    color: item === activeKey ? "#fff" : "#aaa",
-                    fontWeight: item === activeKey ? 700 : 400,
-                  }}
-                >
-                  {variable.type === "Hash" ? (
-                    <HashOptionView hash={item} />
-                  ) : (
-                    <OptionView optionKey={item} options={options} />
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+            {header ? <header>{header}</header> : null}
+            <ul>
+              {items.map((item, index) => {
+                return (
+                  <li
+                    key={item}
+                    {...getItemProps({ item, index })}
+                    style={{
+                      background:
+                        index === highlightedIndex ? "#333" : undefined,
+                      color: item === activeKey ? "#fff" : "#aaa",
+                      fontWeight: item === activeKey ? 700 : 400,
+                    }}
+                  >
+                    {variable.type === "Hash" ? (
+                      <HashOptionView hash={item} />
+                    ) : (
+                      <OptionView optionKey={item} options={options} />
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         )}
       </div>
     </SettingControlContainer>
