@@ -2,7 +2,7 @@ import { Variable } from "../shared/variables.type";
 import { settings } from "./settings-state";
 import { variables } from "./variables-state";
 
-const MAX_RECENTS = 10;
+const MAX_RECENTS = 20;
 
 export function addVariable(variable: Variable) {
   const { name, value } = variable;
