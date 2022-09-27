@@ -5,8 +5,10 @@ import { LightDarkButton } from "./light-dark-button";
 const styles = css`
   align-items: center;
   background: #1e1e1e;
-  padding: 16px 24px;
+  box-sizing: content-box;
   display: flex;
+  height: 1em;
+  padding: 16px 24px;
   justify-content: space-between;
 
   h1 {

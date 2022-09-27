@@ -6,6 +6,7 @@ import { variables } from "./variables-state";
 export function DownloadButton() {
   return (
     <GenericIconButton
+      tip="Save image"
       onClick={() => {
         const imageURL = captureImage();
         if (imageURL) {

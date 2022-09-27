@@ -14,6 +14,7 @@ export function LightDarkButton() {
 
   return (
     <GenericIconButton
+      tip="Toggle background"
       onClick={() =>
         (settings.background =
           settings.background === "light" ? "dark" : "light")

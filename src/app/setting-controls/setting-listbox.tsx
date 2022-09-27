@@ -27,11 +27,14 @@ const buttonStyles = css`
   text-align: left;
 
   svg {
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
     padding: 0 8px;
     flex-shrink: 0;
     width: 36px;
   }
+`;
+
+const arrowStyles = css`
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 const dropdownStyles = css`
@@ -102,7 +105,7 @@ export function SettingListbox({
         ) : (
           <OptionView optionKey={activeKey} options={options} />
         )}
-        <MdOutlineKeyboardArrowDown />
+        <MdOutlineKeyboardArrowDown className={arrowStyles} />
       </button>
       <SettingLockButton variable={variable} />
       <div {...getMenuProps()}>
