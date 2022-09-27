@@ -5,7 +5,7 @@ const styles = css`
   display: flex;
   align-items: center;
   gap: 4px;
-  height: 36px;
+  height: 32px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;

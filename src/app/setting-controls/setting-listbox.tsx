@@ -9,19 +9,12 @@ import { ArrayVar, HashVar, ObjectVar } from "../../shared/variables.type";
 import { autoReload } from "../reload";
 import { OptionView } from "./option-view";
 import { HashOptionView } from "./hash-option-view";
-
-const styles = css`
-  color: #fff;
-  position: relative;
-  display: flex;
-  width: 100%;
-`;
+import { SettingControlContainer } from "./setting-control-container";
 
 const buttonStyles = css`
   align-items: center;
   background: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  border: none;
   color: inherit;
   display: flex;
   font-family: inherit;
@@ -95,7 +88,7 @@ export function SettingListbox({
   });
 
   return (
-    <div className={styles}>
+    <SettingControlContainer>
       <button
         className={cx(buttonStyles, lockStyles)}
         {...getToggleButtonProps()}
@@ -133,6 +126,6 @@ export function SettingListbox({
           </ul>
         )}
       </div>
-    </div>
+    </SettingControlContainer>
   );
 }

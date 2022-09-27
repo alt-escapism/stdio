@@ -3,19 +3,15 @@ import { useSnapshot } from "valtio";
 import { Variable } from "../../shared/variables.type";
 import { autoReload } from "../reload";
 import { settings } from "../settings-state";
+import { SettingControlContainer } from "./setting-control-container";
 import { SettingLockButton } from "./setting-lock-button";
 import { useLockStyles } from "./use-lock-styles";
 
-const styles = css`
-  display: flex;
-  position: relative;
-`;
-
 const inputStyles = css`
   background: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: none;
   border-radius: 4px;
-  color: #fff;
+  color: inherit;
   font-family: inherit;
   font-size: inherit;
   padding: 6px 52px 6px 12px;
@@ -29,7 +25,7 @@ export function SettingInput({ variable }: { variable: Variable }) {
   const lockStyles = useLockStyles(variable);
 
   return (
-    <div className={styles}>
+    <SettingControlContainer>
       <input
         className={cx(inputStyles, lockStyles)}
         value={activeValue}
@@ -42,6 +38,6 @@ export function SettingInput({ variable }: { variable: Variable }) {
         }}
       />
       <SettingLockButton variable={variable} />
-    </div>
+    </SettingControlContainer>
   );
 }

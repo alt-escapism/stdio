@@ -16,6 +16,7 @@ const treeLabelStyles = css`
   grid-template-columns: calc(40% + 9px) minmax(0, 1fr) auto;
   gap: 12px;
   margin-left: -18px;
+  margin-right: -12px;
 
   :hover {
     color: #fff;
@@ -79,7 +80,7 @@ export function VariableTreeView({
 const variableStyles = css`
   display: grid;
   grid-template-columns: 40% minmax(0, 1fr);
-  gap: 12px;
+  gap: 16px;
   align-items: center;
   color: #aaa;
 
