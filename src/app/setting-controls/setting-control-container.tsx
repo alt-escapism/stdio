@@ -1,5 +1,5 @@
 import { css, cx } from "@emotion/css";
-import { HTMLProps } from "react";
+import { FC, forwardRef, HTMLProps, RefAttributes } from "react";
 
 const styles = css`
   color: #fff;
@@ -15,6 +15,8 @@ const styles = css`
   }
 `;
 
-export function SettingControlContainer(props: HTMLProps<HTMLDivElement>) {
-  return <div {...props} className={cx(styles, props.className)} />;
-}
+export const SettingControlContainer: FC<
+  HTMLProps<HTMLDivElement> & RefAttributes<HTMLDivElement>
+> = forwardRef((props, ref) => {
+  return <div {...props} className={cx(styles, props.className)} ref={ref} />;
+});

@@ -1,4 +1,5 @@
 import { useSnapshot } from "valtio";
+import { useFloating, flip } from "@floating-ui/react-dom";
 import { settings } from "../settings-state";
 import { useSelect } from "downshift";
 import { css, cx } from "@emotion/css";
@@ -34,9 +35,6 @@ const buttonStyles = css`
 `;
 
 const dropdownStyles = css`
-  position: absolute;
-  left: 0;
-  top: 100%;
   width: 100%;
   z-index: 1;
   background: #1a1a1a;
@@ -86,9 +84,12 @@ export function SettingListbox({
       }
     },
   });
+  const { x, y, reference, floating, strategy } = useFloating({
+    middleware: [flip()],
+  });
 
   return (
-    <SettingControlContainer>
+    <SettingControlContainer ref={reference}>
       <button
         className={cx(buttonStyles, lockStyles)}
         {...getToggleButtonProps()}
@@ -103,7 +104,11 @@ export function SettingListbox({
       <SettingLockButton variable={variable} />
       <div {...getMenuProps()}>
         {isOpen && (
-          <ul className={dropdownStyles}>
+          <ul
+            className={dropdownStyles}
+            ref={floating}
+            style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
+          >
             {items.map((item, index) => {
               return (
                 <li
