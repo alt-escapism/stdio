@@ -1,5 +1,5 @@
 import { useSnapshot } from "valtio";
-import { useFloating, flip } from "@floating-ui/react-dom";
+import { useFloating, flip, offset } from "@floating-ui/react-dom";
 import { settings } from "../settings-state";
 import { useSelect } from "downshift";
 import { css, cx } from "@emotion/css";
@@ -35,14 +35,17 @@ const buttonStyles = css`
 `;
 
 const dropdownStyles = css`
-  width: 100%;
+  width: calc(100% + 2px);
   z-index: 1;
-  background: #1a1a1a;
+  background: #222;
   margin: 0;
-  padding: 4px 0;
+  padding: 0;
   list-style: none;
   max-height: 340px;
   overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 20px 6px rgba(0, 0, 0, 0.5);
 
   li {
     padding: 6px 12px;
@@ -85,7 +88,7 @@ export function SettingListbox({
     },
   });
   const { x, y, reference, floating, strategy } = useFloating({
-    middleware: [flip()],
+    middleware: [flip(), offset(4)],
   });
 
   return (
