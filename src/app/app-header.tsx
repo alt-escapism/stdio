@@ -1,6 +1,7 @@
 import { css } from "@emotion/css";
 import { DownloadButton } from "./download-button";
 import { LightDarkButton } from "./light-dark-button";
+import stdioLogo from "./fx-stdio.svg";
 
 const styles = css`
   align-items: center;
@@ -11,8 +12,13 @@ const styles = css`
   padding: 16px 24px;
   justify-content: space-between;
 
+  img {
+    height: 0.8em;
+    margin-top: 1px;
+  }
+
   h1 {
-    letter-spacing: 2px;
+    line-height: 0;
   }
 `;
 
@@ -25,7 +31,9 @@ const buttonPanelStyles = css`
 export function AppHeader() {
   return (
     <div className={styles}>
-      <h1>fx(stdio)</h1>
+      <h1>
+        <img src={stdioLogo} alt="fx(stdio)" />
+      </h1>
       <div className={buttonPanelStyles}>
         <DownloadButton />
         <LightDarkButton />
