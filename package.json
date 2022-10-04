@@ -6,6 +6,7 @@
     "type": "git",
     "url": "https://github.com/alt-escapism/stdio.git"
   },
+  "homepage": "https://altesc.art/stdio",
   "main": "dist/lib.js",
   "module": "dist/lib-esm/index.js",
   "types": "dist/lib-esm/index.d.ts",
