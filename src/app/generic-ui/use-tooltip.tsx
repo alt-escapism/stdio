@@ -6,9 +6,10 @@ const styles = css`
   background: #ccc;
   border-radius: 4px;
   color: #000;
-  font-size: 0.9rem;
+  font-size: 16px;
   line-height: 1.8;
   padding: 4px 8px;
+  z-index: 1;
 `;
 
 const TOOLTIP_DELAY = 500;

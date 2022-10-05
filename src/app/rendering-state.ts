@@ -3,10 +3,9 @@ import { updateThumbnails } from "./thumbnails-state";
 
 export type Rendering = {
   durationMs?: number;
-  thumbnails: Record<string, string>;
 };
 
-export const rendering = proxy<Rendering>({ thumbnails: {} });
+export const rendering = proxy<Rendering>({});
 
 export function renderingComplete(durationMs: number) {
   rendering.durationMs = durationMs;

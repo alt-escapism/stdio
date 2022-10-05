@@ -1,8 +1,8 @@
 import { useSnapshot } from "valtio";
-import { HashVar } from "../shared/variables.type";
-import { Section } from "./section";
-import { SettingListbox } from "./setting-controls/setting-listbox";
-import { variables } from "./variables-state";
+import { HashVar } from "../../shared/variables.type";
+import { Section } from "../generic-ui/section";
+import { SettingListbox } from "../setting-controls/setting-listbox";
+import { variables } from "../variables-state";
 
 export function HashSection() {
   const _variables = useSnapshot(variables);

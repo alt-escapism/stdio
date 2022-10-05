@@ -1,8 +1,8 @@
 import { css } from "@emotion/css";
 import { useMemo } from "react";
 import { useSnapshot } from "valtio";
-import { EmptyMessage } from "../empty-message";
-import { Section } from "../section";
+import { EmptyMessage } from "../generic-ui/empty-message";
+import { Section } from "../generic-ui/section";
 import { variables } from "../variables-state";
 import { buildVariableTree } from "./variable-tree";
 import { TreeNodeView } from "./variable-tree-view";

@@ -5,7 +5,7 @@ const styles = css`
   padding: 16px 24px;
 
   h2 {
-    font-size: 0.9em;
+    font-size: 17px;
     letter-spacing: 3px;
     margin-bottom: 8px;
     text-transform: uppercase;

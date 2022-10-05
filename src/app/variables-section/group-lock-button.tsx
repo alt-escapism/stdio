@@ -5,7 +5,7 @@ import { unlockedButtonStyles } from "../setting-controls/setting-lock-button";
 import { VscLock, VscUnlock } from "react-icons/vsc";
 import { lockedStyles } from "../setting-controls/use-lock-styles";
 import { BsCircleHalf } from "react-icons/bs";
-import { GenericIconButton } from "../generic-icon-button";
+import { Button } from "../generic-ui/button";
 import { autoReload } from "../reload";
 import { getLeafNodes, VariableTree } from "./variable-tree";
 
@@ -23,7 +23,7 @@ export function GroupLockButton({ tree }: { tree: VariableTree }) {
   );
 
   return (
-    <GenericIconButton
+    <Button
       onClick={() => {
         if (numLocked < variables.length) {
           lock(...variables);
@@ -40,6 +40,6 @@ export function GroupLockButton({ tree }: { tree: VariableTree }) {
       ) : (
         <BsCircleHalf className={lockedStyles} style={{ fontSize: "0.8em" }} />
       )}
-    </GenericIconButton>
+    </Button>
   );
 }

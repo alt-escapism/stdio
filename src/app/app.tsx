@@ -1,16 +1,15 @@
+import { useSnapshot } from "valtio";
 import { AppChrome } from "./app-chrome";
-import { AppHeader } from "./app-header";
-import { AppFooter } from "./app-footer";
-import { ReloadToolbar } from "./reload-toolbar";
-import { AppMain } from "./app-main";
+import { appState } from "./app-state";
+import { BatchPane } from "./batch/batch-pane";
+import { DevelopPane } from "./develop/develop-pane";
 
 export function App() {
+  const _appState = useSnapshot(appState);
+
   return (
     <AppChrome>
-      <AppHeader />
-      <ReloadToolbar />
-      <AppMain />
-      <AppFooter />
+      {_appState.pane === "develop" ? <DevelopPane /> : <BatchPane />}
     </AppChrome>
   );
 }

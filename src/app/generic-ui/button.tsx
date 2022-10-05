@@ -2,23 +2,32 @@ import { css, cx } from "@emotion/css";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 import { useTooltip } from "./use-tooltip";
 
+const X_PADDING = 12;
+
 const styles = css`
   background: none;
   border: none;
+  border-radius: 4px;
   color: inherit;
-  font-size: 18px;
-  padding: 0;
-  line-height: 0;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 17px;
   min-width: 24px;
   opacity: 0.8;
-  width: 1.5em;
+  padding: 8px ${X_PADDING}px;
+
+  > svg {
+    font-size: 18px;
+    vertical-align: bottom;
+  }
 
   :hover {
+    background: rgba(255, 255, 255, 0.1);
     opacity: 1;
   }
 `;
 
-export function GenericIconButton(
+export function Button(
   props: ButtonHTMLAttributes<HTMLButtonElement> & { tip?: ReactNode }
 ) {
   const { className, tip, ...otherProps } = props;
@@ -35,4 +44,13 @@ export function GenericIconButton(
       {tooltip}
     </>
   );
+}
+
+const buttonGroupStyles = css`
+  display: inline-block;
+  margin: 0 ${-X_PADDING}px;
+`;
+
+export function ButtonGroup({ children }: { children: ReactNode }) {
+  return <div className={buttonGroupStyles}> {children} </div>;
 }

@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 const styles = css`
   color: #999;
-  font-size: 0.9em;
+  font-size: 17px;
   line-height: 1.8;
   padding: 8px 0;
   font-style: italic;

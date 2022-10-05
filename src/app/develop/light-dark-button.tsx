@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { useSnapshot } from "valtio";
-import { getFrame } from "../shared/frames";
-import { GenericIconButton } from "./generic-icon-button";
-import { settings } from "./settings-state";
+import { getFrame } from "../../shared/frames";
+import { Button } from "../generic-ui/button";
+import { settings } from "../settings-state";
 
 export function LightDarkButton() {
   const _settings = useSnapshot(settings);
@@ -13,7 +13,7 @@ export function LightDarkButton() {
   }, [_settings.background]);
 
   return (
-    <GenericIconButton
+    <Button
       tip="Toggle background"
       onClick={() =>
         (settings.background =
@@ -21,6 +21,6 @@ export function LightDarkButton() {
       }
     >
       {_settings.background === "light" ? <MdLightMode /> : <MdDarkMode />}
-    </GenericIconButton>
+    </Button>
   );
 }

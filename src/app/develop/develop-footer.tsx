@@ -1,27 +1,23 @@
 import { css } from "@emotion/css";
 import { useSnapshot } from "valtio";
-import { GenericIconButton } from "./generic-icon-button";
-import { rendering } from "./rendering-state";
+import { Button } from "../generic-ui/button";
+import { rendering } from "../rendering-state";
 import { BiHelpCircle } from "react-icons/bi";
+import { Toolbar } from "../generic-ui/toolbar";
 
 const styles = css`
-  align-items: center;
   border-top: 1px solid #222;
-  display: flex;
-  gap: 8px;
-  padding: 16px 24px;
-  font-size: 0.9em;
 `;
 
-export function AppFooter() {
+export function DevelopFooter() {
   const _rendering = useSnapshot(rendering);
 
   return (
-    <div className={styles}>
+    <Toolbar className={styles}>
       {_rendering.durationMs == null ? (
         <>
           Rendering...{" "}
-          <GenericIconButton
+          <Button
             tip={
               <span>
                 Call <code>fxpreview()</code> when rendering is done
@@ -29,11 +25,11 @@ export function AppFooter() {
             }
           >
             <BiHelpCircle />
-          </GenericIconButton>
+          </Button>
         </>
       ) : (
         `Rendered in ${(_rendering.durationMs / 1000).toFixed(2)}s`
       )}
-    </div>
+    </Toolbar>
   );
 }
