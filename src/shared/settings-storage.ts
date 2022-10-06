@@ -15,6 +15,7 @@ const DEFAULT_SETTINGS: Settings = {
   recents: {},
   background: "light",
   autoReload: true,
+  pane: "develop",
 };
 
 export function getStoredSettings(): Settings {

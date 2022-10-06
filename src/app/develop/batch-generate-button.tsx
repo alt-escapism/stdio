@@ -1,13 +1,13 @@
 import { VscRunAll } from "react-icons/vsc";
-import { appState } from "../app-state";
 import { Button } from "../generic-ui/button";
+import { settings } from "../settings-state";
 
 export function BatchGenerateButton() {
   return (
     <Button
       tip="Generate batch"
       onClick={() => {
-        appState.pane = "batch";
+        settings.pane = "batch";
       }}
     >
       <VscRunAll />

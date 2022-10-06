@@ -1,15 +1,15 @@
 import { useSnapshot } from "valtio";
 import { AppChrome } from "./app-chrome";
-import { appState } from "./app-state";
 import { BatchPane } from "./batch/batch-pane";
 import { DevelopPane } from "./develop/develop-pane";
+import { settings } from "./settings-state";
 
 export function App() {
-  const _appState = useSnapshot(appState);
+  const _settings = useSnapshot(settings);
 
   return (
     <AppChrome>
-      {_appState.pane === "develop" ? <DevelopPane /> : <BatchPane />}
+      {_settings.pane === "develop" ? <DevelopPane /> : <BatchPane />}
     </AppChrome>
   );
 }

@@ -16,12 +16,12 @@ export function Section({
   title,
   children,
 }: {
-  title: string;
-  children: ReactNode;
+  title?: string;
+  children?: ReactNode;
 }) {
   return (
     <div className={styles}>
-      <h2>{title}</h2>
+      {title && <h2>{title}</h2>}
       {children}
     </div>
   );

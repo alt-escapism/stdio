@@ -5,4 +5,7 @@ export type Settings = {
   recents: Record<string, string[]>;
   background: "light" | "dark";
   autoReload: boolean;
+  pane: Pane;
 };
+
+export type Pane = "develop" | "batch";
