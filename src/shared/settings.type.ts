@@ -6,6 +6,16 @@ export type Settings = {
   background: "light" | "dark";
   autoReload: boolean;
   pane: Pane;
+  batches: Record<string, Batch>;
 };
 
 export type Pane = "develop" | "batch";
+
+export type Batch = {
+  startedAt: string;
+  windowSize: [number, number];
+  total: number;
+  done: number;
+  stopped: boolean;
+  variables: Record<string, string>;
+};

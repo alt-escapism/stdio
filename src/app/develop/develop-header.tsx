@@ -5,6 +5,7 @@ import stdioLogo from "./fx-stdio.svg";
 import { BatchGenerateButton } from "./batch-generate-button";
 import { ButtonGroup } from "../generic-ui/button";
 import { Header } from "../generic-ui/header";
+import { DevOnly } from "../generic-ui/dev-only";
 
 const logoStyles = css`
   > img {
@@ -20,7 +21,9 @@ export function DevelopHeader() {
         <img src={stdioLogo} alt="fx(stdio)" />
       </h1>
       <ButtonGroup>
-        <BatchGenerateButton />
+        <DevOnly>
+          <BatchGenerateButton />
+        </DevOnly>
         <DownloadButton />
         <LightDarkButton />
       </ButtonGroup>

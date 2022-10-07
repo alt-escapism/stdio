@@ -1,33 +1,15 @@
-import { BiArrowBack } from "react-icons/bi";
-import { Button, ButtonGroup } from "../generic-ui/button";
-import { Header } from "../generic-ui/header";
-import { Spacer } from "../generic-ui/spacer";
+import { useSnapshot } from "valtio";
 import { settings } from "../settings-state";
-import { VariablesSection } from "../variables-section/variables-section";
-import { BatchConfig } from "./batch-config";
+import { BatchPreparePane } from "./batch-prepare-pane";
+import { BatchRunningPane } from "./batch-running-pane";
 
 export function BatchPane() {
-  return (
-    <>
-      <Header>
-        <Spacer>
-          <ButtonGroup>
-            <Button
-              onClick={() => {
-                settings.pane = "develop";
-              }}
-            >
-              <BiArrowBack />
-            </Button>
-          </ButtonGroup>
-          Generate batch
-        </Spacer>
-        <ButtonGroup>
-          <Button onClick={() => {}}>Start</Button>
-        </ButtonGroup>
-      </Header>
-      <BatchConfig />
-      <VariablesSection />
-    </>
+  const _settings = useSnapshot(settings);
+  const runningBatch = _settings.runningBatch;
+
+  return runningBatch ? (
+    <BatchRunningPane id={runningBatch.startedAt} />
+  ) : (
+    <BatchPreparePane />
   );
 }

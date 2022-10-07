@@ -16,6 +16,7 @@ const DEFAULT_SETTINGS: Settings = {
   background: "light",
   autoReload: true,
   pane: "develop",
+  batches: {},
 };
 
 export function getStoredSettings(): Settings {

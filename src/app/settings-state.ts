@@ -1,12 +1,17 @@
-import { proxy, subscribe } from "valtio";
+import { subscribe } from "valtio";
+import { proxyWithComputed } from "valtio/utils";
 import {
   getStoredSettings,
   setStoredSettings,
 } from "../shared/settings-storage";
-import { Settings } from "../shared/settings.type";
 import { Variable } from "../shared/variables.type";
 
-export const settings = proxy<Settings>(getStoredSettings());
+export const settings = proxyWithComputed(getStoredSettings(), {
+  runningBatch: (snap) =>
+    Object.values(snap.batches)
+      .filter((batch) => batch.done < batch.total && !batch.stopped)
+      .sort((a, b) => b.startedAt.localeCompare(a.startedAt))[0],
+});
 
 subscribe(settings, () => {
   setStoredSettings(settings);

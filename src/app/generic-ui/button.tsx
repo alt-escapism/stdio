@@ -25,6 +25,11 @@ const styles = css`
     background: rgba(255, 255, 255, 0.1);
     opacity: 1;
   }
+
+  &[disabled] {
+    background: none;
+    opacity: 0.2;
+  }
 `;
 
 export function Button(
