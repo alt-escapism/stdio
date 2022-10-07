@@ -1,4 +1,4 @@
-import { NumberVar } from "../../shared/variables.type";
+import { NumberVar } from "../../inject/variables.type";
 import { last } from "../last";
 import { ColorSwatch } from "../setting-controls/color-swatch";
 import { TreeNode } from "./variable-tree";

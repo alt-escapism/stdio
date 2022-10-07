@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { useSnapshot } from "valtio";
-import { getFrame } from "../../shared/frames";
 import { Button } from "../generic-ui/button";
 import { settings } from "../settings-state";
 
@@ -9,7 +8,8 @@ export function LightDarkButton() {
   const _settings = useSnapshot(settings);
 
   useEffect(() => {
-    getFrame("main")?.__stdioSetBackground?.(settings.background);
+    document.body.style.background =
+      settings.background === "dark" ? "#000" : "#fff";
   }, [_settings.background]);
 
   return (

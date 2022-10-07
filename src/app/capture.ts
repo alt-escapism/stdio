@@ -1,7 +1,7 @@
-import { getFrame } from "../shared/frames";
-
-export function captureImage(size?: number): string | null {
-  const canvas = getFrame("main")?.document.querySelector("canvas");
+export function captureImage(frameId: string, size?: number): string | null {
+  const iframe = document.getElementById(frameId) as HTMLIFrameElement | null;
+  const w = iframe?.contentWindow ?? window;
+  const canvas = w.document.querySelector("canvas");
   if (canvas) {
     if (size) {
       const { width, height } = canvas;

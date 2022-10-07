@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
 import { useSnapshot } from "valtio";
-import { Variable } from "../../shared/variables.type";
+import { Variable } from "../../inject/variables.type";
 import { settings } from "../settings-state";
 
 export const lockedColor = "#218fe9";

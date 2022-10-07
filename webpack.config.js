@@ -5,8 +5,7 @@ module.exports = {
   mode: "production",
   entry: {
     app: "./src/app/index.ts",
-    shell: "./src/shell/index.ts",
-    inject: "./src/shell/inject.ts",
+    inject: "./src/inject/index.ts",
     lib: { import: "./src/lib/index.ts", filename: "../[name].js" },
     embed: { import: "./src/embed/index.ts", filename: "../[name].js" },
   },
@@ -36,15 +35,7 @@ module.exports = {
       template: "./src/app/index.html",
       inject: "body",
       publicPath: "/stdio",
-      filename: "app.html",
-    }),
-    new HtmlWebpackPlugin({
-      chunks: ["shell"],
-      template: "./src/shell/index.html",
-      inject: "body",
-      publicPath: "/stdio",
       filename: "index.html",
-      scriptLoading: "blocking",
     }),
   ],
 };

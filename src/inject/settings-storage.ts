@@ -1,19 +1,14 @@
-import { getParentFrame } from "./frames";
 import { Settings } from "./settings.type";
 
-const parent = getParentFrame();
-
 export const projectKey =
-  (parent
-    ? new URLSearchParams(parent.location.search).get("project")
-    : null) ?? "stdio";
+  new URLSearchParams(window.location.search).get("project") ?? "stdio";
 
 const storageKey = projectKey + ".settings";
 
 const DEFAULT_SETTINGS: Settings = {
   variables: {},
   recents: {},
-  background: "light",
+  background: "dark",
   autoReload: true,
   pane: "develop",
   batches: {},

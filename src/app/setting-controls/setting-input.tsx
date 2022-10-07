@@ -1,5 +1,5 @@
 import { useSnapshot } from "valtio";
-import { Variable } from "../../shared/variables.type";
+import { Variable } from "../../inject/variables.type";
 import { Input } from "../generic-ui/input";
 import { autoReload } from "../reload";
 import { settings } from "../settings-state";

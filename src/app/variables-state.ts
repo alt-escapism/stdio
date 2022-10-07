@@ -1,5 +1,5 @@
 import { proxy } from "valtio";
-import { Variables } from "../shared/variables.type";
+import { Variables } from "../inject/variables.type";
 
 export const variables = proxy<Variables>({});
 

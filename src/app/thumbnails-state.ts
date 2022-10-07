@@ -43,7 +43,7 @@ export async function updateThumbnails() {
     }
   });
 
-  const imageURL = captureImage(32);
+  const imageURL = captureImage("main", 32);
   if (imageURL) {
     const hash = variables["fxhash"].value;
     thumbnails[hash] = imageURL;

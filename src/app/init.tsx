@@ -1,17 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { getParentFrame, StdioFrame } from "../shared/frames";
+import { AppWindow } from "../inject/app-interface";
 import { addVariable } from "./add-variable";
 import { App } from "./app";
 import { renderingComplete } from "./rendering-state";
 
-export function init() {
-  const w = window as unknown as StdioFrame;
-  w.addVariable = addVariable;
-  w.renderingComplete = renderingComplete;
-  try {
-    (getParentFrame() as any).onStdioReady?.();
-  } catch (e) {}
+export function initAppInterface() {
+  const w = window as unknown as AppWindow;
+  w.stdioApp = {
+    addVariable,
+    renderingComplete,
+  };
 }
 
 export function render(rootEl: HTMLElement) {

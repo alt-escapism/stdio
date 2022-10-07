@@ -1,5 +1,5 @@
 import { IDBPDatabase, openDB } from "idb";
-import { projectKey } from "../shared/settings-storage";
+import { projectKey } from "../inject/settings-storage";
 
 let db: Promise<IDBPDatabase<unknown>>;
 

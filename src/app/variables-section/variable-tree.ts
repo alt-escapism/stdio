@@ -1,4 +1,4 @@
-import { Variable } from "../../shared/variables.type";
+import { Variable } from "../../inject/variables.type";
 
 export type VariableTree = {
   type: "Tree";

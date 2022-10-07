@@ -1,7 +1,7 @@
 import { css } from "@emotion/css";
 import { VscLock, VscUnlock } from "react-icons/vsc";
 import { useSnapshot } from "valtio";
-import { Variable } from "../../shared/variables.type";
+import { Variable } from "../../inject/variables.type";
 import { autoReload } from "../reload";
 import { lock, settings, unlock } from "../settings-state";
 import { useLockStyles } from "./use-lock-styles";

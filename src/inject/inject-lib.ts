@@ -3,7 +3,7 @@ import { randomChoice, toUnweighted, weight } from "../lib/random-choice";
 import { randomGaussian } from "../lib/random-gaussian";
 import { randomNumber } from "../lib/random-number";
 import { Stdio } from "../lib/stdio.type";
-import { addVariable, settings } from "./context";
+import { addVariable, variables } from "./context";
 
 const augmentedRandomNumber: typeof randomNumber = (
   name,
@@ -22,7 +22,7 @@ const augmentedRandomNumber: typeof randomNumber = (
   let value = randomNumber(name, min, max, transform);
   let shadowed: number | undefined;
 
-  const lockedValue = settings.variables[name];
+  const lockedValue = variables[name];
   if (lockedValue) {
     const lockedNumber = Number(lockedValue);
     if (!isNaN(lockedNumber)) {
@@ -53,7 +53,7 @@ const augmentedRandomChoice: typeof randomChoice = (name, choices) => {
     unweightedEntries[0];
   let shadowed: string | undefined;
 
-  const lockedKey = settings.variables[name];
+  const lockedKey = variables[name];
   if (lockedKey != null) {
     const lockedValue = Object.fromEntries(unweightedEntries)[lockedKey];
     if (lockedValue != null) {
@@ -97,7 +97,7 @@ const augmentedRandomGaussian = (...args: any[]) => {
   ];
   let shadowed: number | undefined;
 
-  const lockedValue = settings.variables[name];
+  const lockedValue = variables[name];
   if (lockedValue) {
     const lockedNumber = Number(lockedValue);
     if (!isNaN(lockedNumber)) {

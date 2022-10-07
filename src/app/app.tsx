@@ -1,15 +1,21 @@
-import { useSnapshot } from "valtio";
-import { AppChrome } from "./app-chrome";
-import { BatchPane } from "./batch/batch-pane";
-import { DevelopPane } from "./develop/develop-pane";
-import { settings } from "./settings-state";
+import { css } from "@emotion/css";
+import { DevelopFrame } from "./develop/develop-frame";
+import { isEmbedded } from "./is-embedded";
+import { Panes } from "./panes";
+
+const styles = css`
+  display: grid;
+  grid-template-columns: 1fr minmax(320px, 25%);
+  height: 100%;
+`;
 
 export function App() {
-  const _settings = useSnapshot(settings);
-
-  return (
-    <AppChrome>
-      {_settings.pane === "develop" ? <DevelopPane /> : <BatchPane />}
-    </AppChrome>
+  return isEmbedded() ? (
+    <Panes />
+  ) : (
+    <div className={styles}>
+      <DevelopFrame />
+      <Panes />
+    </div>
   );
 }

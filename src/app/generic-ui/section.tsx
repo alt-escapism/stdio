@@ -6,8 +6,9 @@ const styles = css`
 
   h2 {
     font-size: 17px;
+    font-weight: normal;
     letter-spacing: 3px;
-    margin-bottom: 8px;
+    margin: 0 0 8px;
     text-transform: uppercase;
   }
 `;

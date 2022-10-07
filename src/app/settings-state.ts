@@ -3,8 +3,8 @@ import { proxyWithComputed } from "valtio/utils";
 import {
   getStoredSettings,
   setStoredSettings,
-} from "../shared/settings-storage";
-import { Variable } from "../shared/variables.type";
+} from "../inject/settings-storage";
+import { Variable } from "../inject/variables.type";
 
 export const settings = proxyWithComputed(getStoredSettings(), {
   runningBatch: (snap) =>

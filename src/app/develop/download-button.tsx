@@ -8,7 +8,7 @@ export function DownloadButton() {
     <Button
       tip="Save image"
       onClick={() => {
-        const imageURL = captureImage();
+        const imageURL = captureImage("main");
         if (imageURL) {
           const filename = variables["fxhash"].value as string;
           downloadImage(imageURL, filename);

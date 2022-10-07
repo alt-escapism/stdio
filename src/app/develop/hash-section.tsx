@@ -1,5 +1,5 @@
 import { useSnapshot } from "valtio";
-import { HashVar } from "../../shared/variables.type";
+import { HashVar } from "../../inject/variables.type";
 import { Section } from "../generic-ui/section";
 import { SettingListbox } from "../setting-controls/setting-listbox";
 import { variables } from "../variables-state";
