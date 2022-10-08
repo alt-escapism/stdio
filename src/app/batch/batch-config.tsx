@@ -30,16 +30,16 @@ export function BatchConfig() {
           Window size
           <div className={dualInputStyles}>
             <Input
-              value={_batchConfig.windowSizeX}
+              value={_batchConfig.windowWidth}
               onChange={(e) => {
-                batchConfig.windowSizeX = e.target.value;
+                batchConfig.windowWidth = e.target.value;
               }}
             />
             x
             <Input
-              value={_batchConfig.windowSizeY}
+              value={_batchConfig.windowHeight}
               onChange={(e) => {
-                batchConfig.windowSizeY = e.target.value;
+                batchConfig.windowHeight = e.target.value;
               }}
             />
           </div>

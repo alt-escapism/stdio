@@ -1,9 +1,8 @@
 import { css } from "@emotion/css";
 import { useMemo } from "react";
-import { useSnapshot } from "valtio";
+import { useFrame } from "../frames-state";
 import { EmptyMessage } from "../generic-ui/empty-message";
 import { Section } from "../generic-ui/section";
-import { variables } from "../variables-state";
 import { buildVariableTree } from "./variable-tree";
 import { TreeNodeView } from "./variable-tree-view";
 
@@ -13,13 +12,15 @@ const containerStyles = css`
 `;
 
 export function VariablesSection() {
-  const _variables = useSnapshot(variables);
+  const _variableDefs = useFrame("main").variableDefs;
   const tree = useMemo(
     () =>
       buildVariableTree(
-        Object.values(_variables).filter((variable) => variable.type !== "Hash")
+        Object.values(_variableDefs).filter(
+          (variable) => variable.type !== "Hash"
+        )
       ),
-    [_variables]
+    [_variableDefs]
   );
 
   return (

@@ -1,6 +1,6 @@
-export type Variables = Record<string, Variable>;
+export type VariableDefs = Record<string, VariableDef>;
 
-export type Variable = HashVar | NumberVar | ArrayVar | ObjectVar;
+export type VariableDef = HashVar | NumberVar | ArrayVar | ObjectVar;
 
 export type HashVar = {
   type: "Hash";

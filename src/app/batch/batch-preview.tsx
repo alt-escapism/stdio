@@ -31,7 +31,7 @@ export function BatchPreview({ id }: { id: string }) {
         <Frame
           id="batch"
           variables={batch.variables}
-          windowSize={batch.windowSize as [number, number]}
+          windowSize={[batch.windowWidth, batch.windowHeight]}
           scaledSize={[BATCH_PREVIEW_SIZE, BATCH_PREVIEW_SIZE]}
         />
       </div>

@@ -1,7 +1,6 @@
 import { css } from "@emotion/css";
-import { useSnapshot } from "valtio";
 import { Button } from "../generic-ui/button";
-import { rendering } from "../rendering-state";
+import { useFrame } from "../frames-state";
 import { BiHelpCircle } from "react-icons/bi";
 import { Toolbar } from "../generic-ui/toolbar";
 
@@ -10,11 +9,11 @@ const styles = css`
 `;
 
 export function DevelopFooter() {
-  const _rendering = useSnapshot(rendering);
+  const _frame = useFrame("main");
 
   return (
     <Toolbar className={styles}>
-      {_rendering.durationMs == null ? (
+      {_frame.durationMs == null ? (
         <>
           Rendering...{" "}
           <Button
@@ -28,7 +27,7 @@ export function DevelopFooter() {
           </Button>
         </>
       ) : (
-        `Rendered in ${(_rendering.durationMs / 1000).toFixed(2)}s`
+        `Rendered in ${(_frame.durationMs / 1000).toFixed(2)}s`
       )}
     </Toolbar>
   );

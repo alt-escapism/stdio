@@ -8,7 +8,7 @@ export function BatchPane() {
   const runningBatch = _settings.runningBatch;
 
   return runningBatch ? (
-    <BatchRunningPane id={runningBatch.startedAt} />
+    <BatchRunningPane id={runningBatch.id} />
   ) : (
     <BatchPreparePane />
   );

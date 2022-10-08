@@ -1,8 +1,8 @@
-import { Variable } from "./variables.type";
+import { VariableDef } from "./variable-def.type";
 
 export type AppInterface = {
-  addVariable: (variable: Variable) => void;
-  renderingComplete: (duration: number) => void;
+  addVariable: (frameId: string, variableDef: VariableDef) => void;
+  renderingComplete: (frameId: string, durationMs: number) => void;
 };
 
 export type AppWindow = Window & {

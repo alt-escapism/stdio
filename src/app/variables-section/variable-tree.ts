@@ -1,4 +1,4 @@
-import { Variable } from "../../inject/variables.type";
+import { VariableDef } from "../../inject/variable-def.type";
 
 export type VariableTree = {
   type: "Tree";
@@ -7,9 +7,9 @@ export type VariableTree = {
   subTrees: Record<string, VariableTree>;
 };
 
-export type TreeNode = Variable | VariableTree;
+export type TreeNode = VariableDef | VariableTree;
 
-export function buildVariableTree(variables: Variable[]): VariableTree {
+export function buildVariableTree(variables: VariableDef[]): VariableTree {
   const tree: VariableTree = {
     name: "",
     type: "Tree",
@@ -40,7 +40,7 @@ export function buildVariableTree(variables: Variable[]): VariableTree {
   return tree;
 }
 
-export function getLeafNodes(tree: VariableTree, leaves: Variable[] = []) {
+export function getLeafNodes(tree: VariableTree, leaves: VariableDef[] = []) {
   tree.children.forEach((node) => {
     if (node.type !== "Tree") {
       leaves.push(node);

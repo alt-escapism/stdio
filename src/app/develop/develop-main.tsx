@@ -1,16 +1,15 @@
 import { css } from "@emotion/css";
-import { useSnapshot } from "valtio";
 import { HashSection } from "./hash-section";
 import { VariablesSection } from "../variables-section/variables-section";
-import { variables } from "../variables-state";
+import { useFrame } from "../frames-state";
 
 const styles = css`
   overflow: auto;
 `;
 
 export function DevelopMain() {
-  const _variables = useSnapshot(variables);
-  if (Object.keys(_variables).length === 0) {
+  const _variableDefs = useFrame("main").variableDefs;
+  if (Object.keys(_variableDefs).length === 0) {
     return <div></div>;
   }
 

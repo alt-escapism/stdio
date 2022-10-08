@@ -3,20 +3,18 @@ import { proxyWithComputed } from "valtio/utils";
 export const batchConfig = proxyWithComputed(
   {
     iterations: "100",
-    windowSizeX: "2000",
-    windowSizeY: "2000",
+    windowWidth: "2000",
+    windowHeight: "2000",
   },
   {
     isValid: (snap) =>
       isNumber(snap.iterations, (x) => x > 0) &&
-      isNumber(snap.windowSizeX, (x) => x > 0) &&
-      isNumber(snap.windowSizeY, (x) => x > 0),
+      isNumber(snap.windowWidth, (x) => x > 0) &&
+      isNumber(snap.windowHeight, (x) => x > 0),
     parsed: (snap) => ({
       iterations: Number(snap.iterations),
-      windowSize: [Number(snap.windowSizeX), Number(snap.windowSizeY)] as [
-        number,
-        number
-      ],
+      windowWidth: Number(snap.windowWidth),
+      windowHeight: Number(snap.windowHeight),
     }),
   }
 );

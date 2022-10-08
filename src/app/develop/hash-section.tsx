@@ -1,15 +1,14 @@
-import { useSnapshot } from "valtio";
-import { HashVar } from "../../inject/variables.type";
+import { HashVar } from "../../inject/variable-def.type";
+import { useFrame } from "../frames-state";
 import { Section } from "../generic-ui/section";
 import { SettingListbox } from "../setting-controls/setting-listbox";
-import { variables } from "../variables-state";
 
 export function HashSection() {
-  const _variables = useSnapshot(variables);
+  const _variableDefs = useFrame("main").variableDefs;
 
   return (
     <Section title="Hash">
-      {Object.values(_variables)
+      {Object.values(_variableDefs)
         .filter((variable): variable is HashVar => variable.type === "Hash")
         .map((variable) => (
           <SettingListbox

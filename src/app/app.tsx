@@ -20,11 +20,7 @@ export function App() {
     <Panes />
   ) : (
     <div className={styles}>
-      {runningBatch ? (
-        <BatchPreview id={runningBatch.startedAt} />
-      ) : (
-        <DevelopFrame />
-      )}
+      {runningBatch ? <BatchPreview id={runningBatch.id} /> : <DevelopFrame />}
       <Panes />
     </div>
   );

@@ -1,17 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { AppWindow } from "../inject/app-interface";
-import { addVariable } from "./add-variable";
+import { appInterface } from "./app-interface";
 import { App } from "./app";
-import { renderingComplete } from "./rendering-state";
 import { initSettings } from "./settings-state";
 
 export function initApp() {
   const w = window as unknown as AppWindow;
-  w.stdioApp = {
-    addVariable,
-    renderingComplete,
-  };
+  w.stdioApp = appInterface;
   initSettings();
 }
 

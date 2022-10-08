@@ -1,17 +1,15 @@
-import { Variable } from "../inject/variables.type";
+import { VariableDef } from "../inject/variable-def.type";
 import { reloadDevelopFrame } from "./develop/develop-frame";
+import { frames, getEmptyFrame } from "./frames-state";
 import { isEmbedded } from "./is-embedded";
-import { resetRendering } from "./rendering-state";
 import { settings } from "./settings-state";
-import { resetVariables } from "./variables-state";
 
 export function reload() {
-  resetVariables();
-  resetRendering();
+  frames["main"] = getEmptyFrame("main");
   isEmbedded() ? window.location.reload() : reloadDevelopFrame();
 }
 
-export function autoReload(...variables: Variable[]) {
+export function autoReload(...variables: VariableDef[]) {
   if (settings.autoReload) {
     const needsReload = variables.some((variable) => {
       const { name } = variable;

@@ -1,7 +1,7 @@
 import { css } from "@emotion/css";
 import { VscLock, VscUnlock } from "react-icons/vsc";
 import { useSnapshot } from "valtio";
-import { Variable } from "../../inject/variables.type";
+import { VariableDef } from "../../inject/variable-def.type";
 import { autoReload } from "../reload";
 import { lock, settings, unlock } from "../settings-state";
 import { useLockStyles } from "./use-lock-styles";
@@ -28,7 +28,7 @@ export const unlockedButtonStyles = css`
   }
 `;
 
-export function SettingLockButton({ variable }: { variable: Variable }) {
+export function SettingLockButton({ variable }: { variable: VariableDef }) {
   const lockStyles = useLockStyles(variable);
   const _settings = useSnapshot(settings);
   const lockedValue = _settings.variables[variable.name];

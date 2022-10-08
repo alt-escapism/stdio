@@ -6,7 +6,7 @@ import { css, cx } from "@emotion/css";
 import { useLockStyles } from "./use-lock-styles";
 import { SettingLockButton } from "./setting-lock-button";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { ArrayVar, HashVar, ObjectVar } from "../../inject/variables.type";
+import { ArrayVar, HashVar, ObjectVar } from "../../inject/variable-def.type";
 import { autoReload } from "../reload";
 import { OptionView } from "./option-view";
 import { HashOptionView } from "./hash-option-view";

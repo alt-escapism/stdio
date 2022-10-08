@@ -1,7 +1,7 @@
 import { RiFileDownloadLine } from "react-icons/ri";
 import { captureImage, downloadImage } from "../capture";
+import { getHash } from "../frames-state";
 import { Button } from "../generic-ui/button";
-import { variables } from "../variables-state";
 
 export function DownloadButton() {
   return (
@@ -10,8 +10,10 @@ export function DownloadButton() {
       onClick={() => {
         captureImage("main").then((blob) => {
           if (blob) {
-            const filename = variables["fxhash"].value as string;
-            downloadImage(blob, filename);
+            const filename = getHash("main");
+            if (filename) {
+              downloadImage(blob, filename);
+            }
           }
         });
       }}

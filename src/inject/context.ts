@@ -1,6 +1,9 @@
 import { getAppInterface } from "./app-interface";
 import { getStoredSettings } from "./settings-storage";
-import { Variable } from "./variables.type";
+import { VariableDef } from "./variable-def.type";
+
+export const frameId =
+  document.documentElement.getAttribute("data-stdio-frame-id") || "main";
 
 const dataStdioVariables = document.documentElement.getAttribute(
   "data-stdio-variables"
@@ -10,6 +13,6 @@ export const variables = dataStdioVariables
   ? JSON.parse(dataStdioVariables)
   : getStoredSettings().variables;
 
-export function addVariable(variable: Variable) {
-  getAppInterface()?.addVariable(variable);
+export function addVariable(variableDef: VariableDef) {
+  getAppInterface()?.addVariable(frameId, variableDef);
 }

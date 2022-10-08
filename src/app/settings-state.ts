@@ -4,13 +4,13 @@ import {
   getStoredSettings,
   setStoredSettings,
 } from "../inject/settings-storage";
-import { Variable } from "../inject/variables.type";
+import { VariableDef } from "../inject/variable-def.type";
 
 export const settings = proxyWithComputed(getStoredSettings(), {
   runningBatch: (snap) =>
     Object.values(snap.batches)
       .filter((batch) => batch.done < batch.total && !batch.stopped)
-      .sort((a, b) => b.startedAt.localeCompare(a.startedAt))[0],
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0],
 });
 
 export function initSettings() {
@@ -30,13 +30,13 @@ export function resetLockedVariables() {
   settings.variables = {};
 }
 
-export function lock(...variables: Variable[]) {
+export function lock(...variables: VariableDef[]) {
   variables.forEach((variable) => {
     settings.variables[variable.name] = String(variable.value);
   });
 }
 
-export function unlock(...variables: Variable[]) {
+export function unlock(...variables: VariableDef[]) {
   variables.forEach((variable) => {
     delete settings.variables[variable.name];
   });

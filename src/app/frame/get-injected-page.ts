@@ -1,5 +1,6 @@
 export function getInjectedPage(
   pageHTML: string,
+  frameId: string,
   variables: Record<string, string> = {},
   nonce?: number
 ) {
@@ -10,6 +11,7 @@ export function getInjectedPage(
     "data-stdio-variables",
     JSON.stringify(variables)
   );
+  doc.documentElement.setAttribute("data-stdio-frame-id", frameId);
   if (nonce != null) {
     doc.documentElement.setAttribute("data-stdio-nonce", String(nonce));
   }

@@ -1,5 +1,6 @@
 import { projectKey } from "../inject/settings-storage";
 import { Dexie } from "dexie";
+import { Image, ImageMeta, Thumbnail } from "./db.type";
 
 export const THUMBNAILS = "thumbnails";
 
@@ -18,8 +19,19 @@ export function getDb() {
       [THUMBNAILS]: `hash`,
       [IMAGES]: `id`,
       [IMAGES_META]: `id,batchId`,
-      [BATCHES]: `id`,
     });
   }
   return db;
+}
+
+export function getThumbnailsStore() {
+  return getDb().table<Thumbnail>(THUMBNAILS);
+}
+
+export function getImagesStore() {
+  return getDb().table<Image>(IMAGES);
+}
+
+export function getImagesMetaStore() {
+  return getDb().table<ImageMeta>(IMAGES_META);
 }

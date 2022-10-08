@@ -7,18 +7,18 @@ const styles = css`
 `;
 
 export function Frame({
+  id,
   url = "/index.html",
   variables = {},
   nonce,
-  id,
   windowSize,
   scaledSize,
 }: {
+  id: string;
   url?: string;
   variables?: Record<string, string>;
   // Increment nonce to force a reload
   nonce?: number;
-  id?: string;
   windowSize?: [number, number];
   scaledSize?: [number, number];
 }) {
@@ -28,7 +28,7 @@ export function Frame({
     return <div className={styles} />;
   }
 
-  const injectedPage = getInjectedPage(pageResult.data, variables, nonce);
+  const injectedPage = getInjectedPage(pageResult.data, id, variables, nonce);
 
   return (
     <iframe

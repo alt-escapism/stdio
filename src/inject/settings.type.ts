@@ -12,8 +12,10 @@ export type Settings = {
 export type Pane = "develop" | "batch";
 
 export type Batch = {
-  startedAt: string;
-  windowSize: [number, number];
+  id: string;
+  createdAt: string;
+  windowWidth: number;
+  windowHeight: number;
   total: number;
   done: number;
   stopped: boolean;

@@ -1,5 +1,5 @@
 import { useSnapshot } from "valtio";
-import { Variable } from "../../inject/variables.type";
+import { VariableDef } from "../../inject/variable-def.type";
 import { Input } from "../generic-ui/input";
 import { autoReload } from "../reload";
 import { settings } from "../settings-state";
@@ -7,7 +7,7 @@ import { SettingControlContainer } from "./setting-control-container";
 import { SettingLockButton } from "./setting-lock-button";
 import { useLockStyles } from "./use-lock-styles";
 
-export function SettingInput({ variable }: { variable: Variable }) {
+export function SettingInput({ variable }: { variable: VariableDef }) {
   const _settings = useSnapshot(settings);
   const lockedValue = _settings.variables[variable.name];
   const activeValue = lockedValue ?? String(variable.value);
