@@ -33,3 +33,12 @@ export function useFrame(id: string) {
 export function getHash(id: string) {
   return requireFrame(id).variableDefs["fxhash"]?.value as string | undefined;
 }
+
+export function getActiveVariableValues(id: string) {
+  return Object.fromEntries(
+    Object.values(requireFrame(id).variableDefs).map((variableDef) => [
+      variableDef.name,
+      String(variableDef.value),
+    ])
+  );
+}

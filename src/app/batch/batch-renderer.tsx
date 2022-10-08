@@ -1,11 +1,16 @@
 import { useEffect } from "react";
 import { useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
-import { captureImage, downloadImage } from "../capture";
+import { captureImage } from "../capture";
 import { Frame } from "../frame/frame";
-import { requireFrame, getHash, resetFrame } from "../frames-state";
+import {
+  requireFrame,
+  resetFrame,
+  getActiveVariableValues,
+} from "../frames-state";
 import { settings } from "../settings-state";
 import { BATCH_PREVIEW_SIZE } from "./batch-preview";
+import { saveImageInDb } from "./image-db";
 
 export function BatchRenderer({
   batchId,
@@ -23,10 +28,11 @@ export function BatchRenderer({
         // Done rendering
         captureImage(frameId).then((blob) => {
           if (blob) {
-            const hash = getHash(frameId);
-            if (hash) {
-              downloadImage(blob, hash);
-            }
+            saveImageInDb({
+              batchId,
+              image: blob,
+              variables: getActiveVariableValues(frameId),
+            });
           }
           resetFrame(frameId);
           settings.batches[batchId].done++;

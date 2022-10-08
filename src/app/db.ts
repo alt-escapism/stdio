@@ -1,37 +1,33 @@
 import { projectKey } from "../inject/settings-storage";
-import { Dexie } from "dexie";
-import { Image, ImageMeta, Thumbnail } from "./db.type";
+import { Dexie, Table } from "dexie";
 
-export const THUMBNAILS = "thumbnails";
+export type DbObject = {
+  Thumbnail: { hash: string; image: Blob };
+  Image: { id: string; image: Blob };
+  ImageMeta: {
+    id: string;
+    createdAt: string;
+    batchId: string;
+    variables: Record<string, string>;
+  };
+};
 
-export const IMAGES = "images";
+const schema: { [k in keyof DbObject]: string } = {
+  Thumbnail: `hash`,
+  Image: `id`,
+  ImageMeta: `id,batchId`,
+};
 
-export const IMAGES_META = "imagesMeta";
+export type Db = Dexie & { [k in keyof DbObject]: Table<DbObject[k]> };
 
-export const BATCHES = "batches";
-
-let db: Dexie;
-
+let db: Db;
 export function getDb() {
   if (!db) {
-    db = new Dexie(projectKey);
+    db = new Dexie(projectKey) as Db;
     db.version(2).stores({
-      [THUMBNAILS]: `hash`,
-      [IMAGES]: `id`,
-      [IMAGES_META]: `id,batchId`,
+      thumbnails: null,
+      ...schema,
     });
   }
   return db;
-}
-
-export function getThumbnailsStore() {
-  return getDb().table<Thumbnail>(THUMBNAILS);
-}
-
-export function getImagesStore() {
-  return getDb().table<Image>(IMAGES);
-}
-
-export function getImagesMetaStore() {
-  return getDb().table<ImageMeta>(IMAGES_META);
 }

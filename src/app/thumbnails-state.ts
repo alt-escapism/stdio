@@ -1,6 +1,6 @@
 import { proxy } from "valtio";
 import { captureImage } from "./capture";
-import { getThumbnailsStore } from "./db";
+import { getDb } from "./db";
 import { getHash } from "./frames-state";
 import { settings } from "./settings-state";
 
@@ -9,8 +9,7 @@ export type Thumbnails = Record<string, string>;
 export const thumbnails = proxy<Thumbnails>({});
 
 async function initThumbnails() {
-  const thumbnailsStore = getThumbnailsStore();
-  const thumbnailsData = await thumbnailsStore.toArray();
+  const thumbnailsData = await getDb().Thumbnail.toArray();
   const recentHashes = new Set(settings.recents["fxhash"] ?? []);
   const thumbnailsToDelete: string[] = [];
   thumbnailsData.forEach(({ hash, image }) => {
@@ -20,7 +19,7 @@ async function initThumbnails() {
       thumbnailsToDelete.push(hash);
     }
   });
-  await thumbnailsStore.bulkDelete(thumbnailsToDelete);
+  await getDb().Thumbnail.bulkDelete(thumbnailsToDelete);
 }
 
 initThumbnails();
@@ -39,7 +38,7 @@ export async function updateThumbnails() {
     const hash = getHash("main");
     if (hash) {
       thumbnails[hash] = URL.createObjectURL(blob);
-      getThumbnailsStore().put({ hash, image: blob });
+      getDb().Thumbnail.put({ hash, image: blob });
     }
   }
 }
