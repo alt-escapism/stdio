@@ -1,16 +1,24 @@
-import { IDBPDatabase, openDB } from "idb";
 import { projectKey } from "../inject/settings-storage";
+import { Dexie } from "dexie";
 
-let db: Promise<IDBPDatabase<unknown>>;
+export const THUMBNAILS = "thumbnails";
 
-export const THUMBNAIL_STORE = "thumbnails";
+export const IMAGES = "images";
+
+export const IMAGES_META = "imagesMeta";
+
+export const BATCHES = "batches";
+
+let db: Dexie;
 
 export function getDb() {
   if (!db) {
-    db = openDB(projectKey, 1, {
-      upgrade(db, oldVersion, newVersion, transaction, event) {
-        db.createObjectStore(THUMBNAIL_STORE, { keyPath: "hash" });
-      },
+    db = new Dexie(projectKey);
+    db.version(2).stores({
+      [THUMBNAILS]: `hash`,
+      [IMAGES]: `id`,
+      [IMAGES_META]: `id,batchId`,
+      [BATCHES]: `id`,
     });
   }
   return db;

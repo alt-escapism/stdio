@@ -1,6 +1,6 @@
-import { proxy, subscribe } from "valtio";
+import { proxy } from "valtio";
 import { captureImage } from "./capture";
-import { getDb, THUMBNAIL_STORE } from "./db";
+import { THUMBNAILS, getDb } from "./db";
 import { settings } from "./settings-state";
 import { variables } from "./variables-state";
 
@@ -9,8 +9,8 @@ export type Thumbnails = Record<string, string>;
 export const thumbnails = proxy<Thumbnails>({});
 
 async function initThumbnails() {
-  const db = await getDb();
-  const thumbnailsData = await db.getAll(THUMBNAIL_STORE);
+  const thumbnailsStore = getDb().table(THUMBNAILS);
+  const thumbnailsData = await thumbnailsStore.toArray();
   const recentHashes = new Set(settings.recents["fxhash"] ?? []);
   const thumbnailsToDelete: string[] = [];
   thumbnailsData.forEach(({ hash, image }) => {
@@ -20,19 +20,10 @@ async function initThumbnails() {
       thumbnailsToDelete.push(hash);
     }
   });
-  const tx = db.transaction(THUMBNAIL_STORE, "readwrite");
-  await Promise.allSettled(
-    thumbnailsToDelete.map((hash) => {
-      return tx.objectStore(THUMBNAIL_STORE).delete(hash);
-    })
-  );
+  await thumbnailsStore.bulkDelete(thumbnailsToDelete);
 }
 
 initThumbnails();
-
-subscribe(thumbnails, async () => {
-  await getDb();
-});
 
 export async function updateThumbnails() {
   // Clean up old thumbnails
@@ -47,7 +38,6 @@ export async function updateThumbnails() {
   if (blob) {
     const hash = variables["fxhash"].value;
     thumbnails[hash] = URL.createObjectURL(blob);
-    const db = await getDb();
-    db.put(THUMBNAIL_STORE, { hash, image: blob });
+    getDb().table(THUMBNAILS).put({ hash, image: blob });
   }
 }
