@@ -6,9 +6,9 @@ import { Section } from "../generic-ui/section";
 import { Spacer } from "../generic-ui/spacer";
 import { settings } from "../settings-state";
 
-export function BatchRunningPane({ id }: { id: string }) {
+export function BatchRunningPane({ batchId }: { batchId: string }) {
   const _settings = useSnapshot(settings);
-  const batch = _settings.batches[id];
+  const batch = _settings.batches[batchId];
 
   // Shouldn't happen
   if (!batch) return null;
@@ -28,19 +28,12 @@ export function BatchRunningPane({ id }: { id: string }) {
           </ButtonGroup>
           Generate batch
         </Spacer>
-        <ButtonGroup>
-          <Button
-            onClick={() => {
-              settings.batches[id].stopped = true;
-            }}
-          >
-            Cancel
-          </Button>
-        </ButtonGroup>
       </Header>
-      <Section>
-        Generating {batch.done + 1} of {batch.total}...
-      </Section>
+      {batch.done < batch.total ? (
+        <Section>
+          Generating {batch.done + 1} of {batch.total}...
+        </Section>
+      ) : null}
     </>
   );
 }

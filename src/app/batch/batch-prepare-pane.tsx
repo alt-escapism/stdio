@@ -44,7 +44,6 @@ export function BatchPreparePane() {
                 createdAt,
                 total: parsed.iterations,
                 done: 0,
-                stopped: false,
                 windowWidth: parsed.windowWidth,
                 windowHeight: parsed.windowHeight,
                 variables:
@@ -55,6 +54,7 @@ export function BatchPreparePane() {
                     )
                   ),
               };
+              settings.pane = ["batch", id];
             }}
             disabled={!_batchConfig.isValid}
           >

@@ -14,13 +14,16 @@ const styles = css`
 
 export function App() {
   const _settings = useSnapshot(settings);
-  const runningBatch = _settings.pane === "batch" && _settings.runningBatch;
 
   return isEmbedded() ? (
     <Panes />
   ) : (
     <div className={styles}>
-      {runningBatch ? <BatchPreview id={runningBatch.id} /> : <DevelopFrame />}
+      {_settings.pane[0] === "batch" ? (
+        <BatchPreview batchId={_settings.pane[1]} />
+      ) : (
+        <DevelopFrame />
+      )}
       <Panes />
     </div>
   );

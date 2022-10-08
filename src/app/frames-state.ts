@@ -9,22 +9,25 @@ export type Frame = {
 
 export const frames: Record<string, Frame> = proxy({});
 
-export function getEmptyFrame(id: string): Frame {
-  return {
-    id,
-    variableDefs: {},
-  };
-}
-
 export function requireFrame(id: string): Frame {
   if (!frames[id]) {
-    frames[id] = getEmptyFrame(id);
+    frames[id] = {
+      id,
+      variableDefs: {},
+    };
   }
   return frames[id];
 }
 
+export function resetFrame(id: string) {
+  const frame = requireFrame(id);
+  frame.variableDefs = {};
+  delete frame.durationMs;
+}
+
 export function useFrame(id: string) {
-  return useSnapshot(frames)[id] ?? getEmptyFrame(id);
+  requireFrame(id);
+  return useSnapshot(frames)[id];
 }
 
 export function getHash(id: string) {

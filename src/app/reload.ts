@@ -1,11 +1,11 @@
 import { VariableDef } from "../inject/variable-def.type";
 import { reloadDevelopFrame } from "./develop/develop-frame";
-import { frames, getEmptyFrame } from "./frames-state";
+import { resetFrame } from "./frames-state";
 import { isEmbedded } from "./is-embedded";
 import { settings } from "./settings-state";
 
 export function reload() {
-  frames["main"] = getEmptyFrame("main");
+  resetFrame("main");
   isEmbedded() ? window.location.reload() : reloadDevelopFrame();
 }
 

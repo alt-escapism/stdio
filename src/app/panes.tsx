@@ -1,6 +1,7 @@
 import { css } from "@emotion/css";
 import { useSnapshot } from "valtio";
-import { BatchPane } from "./batch/batch-pane";
+import { BatchPreparePane } from "./batch/batch-prepare-pane";
+import { BatchRunningPane } from "./batch/batch-running-pane";
 import { DevelopPane } from "./develop/develop-pane";
 import { settings } from "./settings-state";
 
@@ -24,7 +25,13 @@ export function Panes() {
 
   return (
     <div className={styles}>
-      {_settings.pane === "develop" ? <DevelopPane /> : <BatchPane />}
+      {_settings.pane === "develop" ? (
+        <DevelopPane />
+      ) : _settings.pane === "batch" ? (
+        <BatchPreparePane />
+      ) : _settings.pane[0] === "batch" ? (
+        <BatchRunningPane batchId={_settings.pane[1]} />
+      ) : null}
     </div>
   );
 }

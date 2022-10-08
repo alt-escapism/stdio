@@ -9,7 +9,7 @@ export type Settings = {
   batches: Record<string, Batch>;
 };
 
-export type Pane = "develop" | "batch";
+export type Pane = "develop" | "batch" | ["batch", string];
 
 export type Batch = {
   id: string;
@@ -18,6 +18,5 @@ export type Batch = {
   windowHeight: number;
   total: number;
   done: number;
-  stopped: boolean;
   variables: Record<string, string>;
 };
