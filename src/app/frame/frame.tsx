@@ -4,8 +4,6 @@ import { usePage } from "./use-page";
 
 const styles = css`
   border: none;
-  height: 100%;
-  width: 100%;
 `;
 
 export function Frame({
@@ -13,12 +11,16 @@ export function Frame({
   variables = {},
   nonce,
   id,
+  windowSize,
+  scaledSize,
 }: {
   url?: string;
   variables?: Record<string, string>;
   // Increment nonce to force a reload
   nonce?: number;
   id?: string;
+  windowSize?: [number, number];
+  scaledSize?: [number, number];
 }) {
   const pageResult = usePage(url);
 
@@ -34,6 +36,20 @@ export function Frame({
       srcDoc={injectedPage}
       title="Injected frame"
       className={styles}
+      {...(windowSize
+        ? { width: windowSize[0], height: windowSize[0] }
+        : { width: "100%", height: "100%" })}
+      {...(windowSize && scaledSize
+        ? {
+            style: {
+              transform: `scale(${Math.min(
+                scaledSize[0] / windowSize[0],
+                scaledSize[1] / windowSize[1]
+              )})`,
+              transformOrigin: "top left",
+            },
+          }
+        : {})}
     />
   );
 }
