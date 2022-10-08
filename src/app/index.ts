@@ -1,6 +1,6 @@
-import { initAppInterface, render } from "./init";
+import { initApp, render } from "./init";
 
-initAppInterface();
+initApp();
 const rootEl = document.getElementById("root");
 if (rootEl) {
   render(rootEl);

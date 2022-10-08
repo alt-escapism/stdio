@@ -4,13 +4,15 @@ import { AppWindow } from "../inject/app-interface";
 import { addVariable } from "./add-variable";
 import { App } from "./app";
 import { renderingComplete } from "./rendering-state";
+import { initSettings } from "./settings-state";
 
-export function initAppInterface() {
+export function initApp() {
   const w = window as unknown as AppWindow;
   w.stdioApp = {
     addVariable,
     renderingComplete,
   };
+  initSettings();
 }
 
 export function render(rootEl: HTMLElement) {

@@ -1,16 +1,10 @@
-import { useEffect } from "react";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { useSnapshot } from "valtio";
 import { Button } from "../generic-ui/button";
 import { settings } from "../settings-state";
 
-export function LightDarkButton() {
+export function ToggleBackgroundButton() {
   const _settings = useSnapshot(settings);
-
-  useEffect(() => {
-    document.body.style.background =
-      settings.background === "dark" ? "#000" : "#fff";
-  }, [_settings.background]);
 
   return (
     <Button

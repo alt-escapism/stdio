@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
 import { DownloadButton } from "./download-button";
-import { LightDarkButton } from "./light-dark-button";
+import { ToggleBackgroundButton } from "./toggle-background-button";
 import stdioLogo from "./fx-stdio.svg";
 import { BatchGenerateButton } from "./batch-generate-button";
 import { ButtonGroup } from "../generic-ui/button";
@@ -27,7 +27,7 @@ export function DevelopHeader() {
           <BatchGenerateButton />
         </DevOnly>
         <DownloadButton />
-        <LightDarkButton />
+        <ToggleBackgroundButton />
       </ButtonGroup>
     </Header>
   );

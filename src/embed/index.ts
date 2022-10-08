@@ -1,9 +1,9 @@
-import { initAppInterface, render } from "../app/init";
+import { initApp, render } from "../app/init";
 import { setIsEmbedded } from "../app/is-embedded";
 import { injectAll } from "../inject/inject-all";
 
 setIsEmbedded(true);
-initAppInterface();
+initApp();
 injectAll();
 
 if (document.body) {

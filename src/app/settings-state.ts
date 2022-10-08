@@ -13,9 +13,18 @@ export const settings = proxyWithComputed(getStoredSettings(), {
       .sort((a, b) => b.startedAt.localeCompare(a.startedAt))[0],
 });
 
-subscribe(settings, () => {
-  setStoredSettings(settings);
-});
+export function initSettings() {
+  subscribe(settings, () => {
+    setStoredSettings(settings);
+  });
+
+  function updateBackground() {
+    document.body.style.background =
+      settings.background === "dark" ? "#000" : "#fff";
+  }
+  updateBackground();
+  subscribe(settings, updateBackground);
+}
 
 export function resetLockedVariables() {
   settings.variables = {};
