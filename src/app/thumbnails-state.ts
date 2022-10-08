@@ -14,8 +14,8 @@ async function initThumbnails() {
   const recentHashes = new Set(settings.recents["fxhash"] ?? []);
   const thumbnailsToDelete: string[] = [];
   thumbnailsData.forEach(({ hash, image }) => {
-    if (recentHashes.has(hash)) {
-      thumbnails[hash] = image;
+    if (recentHashes.has(hash) && typeof image === "object") {
+      thumbnails[hash] = URL.createObjectURL(image);
     } else {
       thumbnailsToDelete.push(hash);
     }
@@ -43,11 +43,11 @@ export async function updateThumbnails() {
     }
   });
 
-  const imageURL = captureImage("main", 32);
-  if (imageURL) {
+  const blob = await captureImage("main", 32);
+  if (blob) {
     const hash = variables["fxhash"].value;
-    thumbnails[hash] = imageURL;
+    thumbnails[hash] = URL.createObjectURL(blob);
     const db = await getDb();
-    db.put(THUMBNAIL_STORE, { hash, image: imageURL });
+    db.put(THUMBNAIL_STORE, { hash, image: blob });
   }
 }

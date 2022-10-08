@@ -8,11 +8,12 @@ export function DownloadButton() {
     <Button
       tip="Save image"
       onClick={() => {
-        const imageURL = captureImage("main");
-        if (imageURL) {
-          const filename = variables["fxhash"].value as string;
-          downloadImage(imageURL, filename);
-        }
+        captureImage("main").then((blob) => {
+          if (blob) {
+            const filename = variables["fxhash"].value as string;
+            downloadImage(blob, filename);
+          }
+        });
       }}
     >
       <RiFileDownloadLine />

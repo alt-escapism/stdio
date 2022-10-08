@@ -1,8 +1,12 @@
-export function captureImage(frameId: string, size?: number): string | null {
+export function captureImage(
+  frameId: string,
+  size?: number
+): Promise<Blob | null> {
   const iframe = document.getElementById(frameId) as HTMLIFrameElement | null;
   const w = iframe?.contentWindow ?? window;
   const canvas = w.document.querySelector("canvas");
   if (canvas) {
+    let _canvas = canvas;
     if (size) {
       const { width, height } = canvas;
       const maxSize = Math.max(width, height);
@@ -14,15 +18,19 @@ export function captureImage(frameId: string, size?: number): string | null {
       newCanvas
         .getContext("2d")!
         .drawImage(canvas, 0, 0, newCanvas.width, newCanvas.height);
-      return newCanvas.toDataURL("image/jpg");
+      _canvas = newCanvas;
     }
-    return canvas.toDataURL("image/jpg");
+    return new Promise((resolve) => {
+      _canvas.toBlob((blob) => {
+        resolve(blob);
+      }, "image/jpeg");
+    });
   }
-  return null;
+  return Promise.resolve(null);
 }
 
-export function downloadImage(imageURL: string, filename: string) {
-  downloadFile(`${filename}.jpeg`, imageURL);
+export function downloadImage(blob: Blob, filename: string) {
+  downloadFile(`${filename}.jpeg`, URL.createObjectURL(blob));
 }
 
 function downloadFile(filename: string, href: string) {
