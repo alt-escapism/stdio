@@ -7,17 +7,10 @@ import { settings } from "./settings-state";
 
 const styles = css`
   background: #101010;
-  color: #fff;
-  font-family: "Inconsolata", monospace;
-  font-size: 18px;
   height: 100%;
   width: 100%;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
-
-  * {
-    box-sizing: border-box;
-  }
 `;
 
 export function Panes() {

@@ -8,8 +8,6 @@ import { Header } from "../generic-ui/header";
 import { DevOnly } from "../generic-ui/dev-only";
 
 const logoStyles = css`
-  font-size: 18px;
-
   > img {
     height: 0.8em;
     vertical-align: middle;
