@@ -30,7 +30,9 @@ export function captureImage(
 }
 
 export function downloadImage(blob: Blob, filename: string) {
-  downloadFile(`${filename}.jpeg`, URL.createObjectURL(blob));
+  const url = URL.createObjectURL(blob);
+  downloadFile(`${filename}.jpeg`, url);
+  URL.revokeObjectURL(url);
 }
 
 function downloadFile(filename: string, href: string) {

@@ -10,6 +10,12 @@ const styles = css`
   display: grid;
   grid-template-columns: 1fr minmax(320px, 25%);
   height: 100%;
+  overflow: hidden;
+
+  > * {
+    max-height: 100%;
+    overflow: auto;
+  }
 `;
 
 export function App() {

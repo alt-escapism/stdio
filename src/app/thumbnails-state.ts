@@ -29,6 +29,7 @@ export async function updateThumbnails() {
   const recentHashes = new Set(settings.recents["fxhash"] ?? []);
   Object.keys(thumbnails).forEach((hash) => {
     if (!recentHashes.has(hash)) {
+      URL.revokeObjectURL(thumbnails[hash]);
       delete thumbnails[hash];
     }
   });
