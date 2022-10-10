@@ -5,6 +5,7 @@ import { DropdownMenu } from "../generic-ui/dropdown-menu";
 import { isEmbedded } from "../is-embedded";
 import { settings } from "../settings-state";
 import { BatchSummaryRow } from "../batch/batch-summary-row";
+import { pushScreen } from "../navigation";
 
 export function BatchGenerateButton() {
   if (isEmbedded()) return null;
@@ -15,7 +16,7 @@ export function BatchGenerateButton() {
         <Button
           tip="Generate batch"
           onClick={() => {
-            settings.pane = "batch";
+            pushScreen(["develop", "configure-batch"]);
           }}
         >
           <VscRunAll />
@@ -38,8 +39,9 @@ function RecentBatchesDropdown() {
       items={items}
       getItemKey={(item) => item.id}
       renderItem={(item) => <BatchSummaryRow batchId={item.id} />}
+      selectedItem={null}
       onSelect={(item) => {
-        settings.pane = ["batch", item.id];
+        pushScreen(["batch", item.id]);
       }}
     />
   );

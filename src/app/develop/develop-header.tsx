@@ -4,7 +4,6 @@ import { ToggleBackgroundButton } from "./toggle-background-button";
 import stdioLogo from "./fx-stdio.svg";
 import { BatchGenerateButton } from "./batch-generate-button";
 import { ButtonGroup } from "../generic-ui/button";
-import { Header } from "../generic-ui/header";
 import { DevOnly } from "../generic-ui/dev-only";
 
 const logoStyles = css`
@@ -16,7 +15,7 @@ const logoStyles = css`
 
 export function DevelopHeader() {
   return (
-    <Header>
+    <>
       <h1 className={logoStyles}>
         <img src={stdioLogo} alt="fx(stdio)" />
       </h1>
@@ -27,6 +26,6 @@ export function DevelopHeader() {
         <DownloadButton />
         <ToggleBackgroundButton />
       </ButtonGroup>
-    </Header>
+    </>
   );
 }

@@ -10,7 +10,6 @@ const DEFAULT_SETTINGS: Settings = {
   recents: {},
   background: "dark",
   autoReload: true,
-  pane: "develop",
   batches: {},
 };
 

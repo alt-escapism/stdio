@@ -1,11 +1,10 @@
 import { css } from "@emotion/css";
 import { useLiveQuery } from "dexie-react-hooks";
-import { BiArrowBack } from "react-icons/bi";
 import { useSnapshot } from "valtio";
 import { getDb } from "../db";
-import { ButtonGroup, Button } from "../generic-ui/button";
-import { Header } from "../generic-ui/header";
+import { Pane } from "../generic-ui/pane";
 import { Spacer } from "../generic-ui/spacer";
+import { NavigationBackButton } from "../navigation-back-buttons";
 import { settings } from "../settings-state";
 import { BatchRenderer } from "./batch-renderer";
 import { formatBatchDate } from "./batch-summary-row";
@@ -37,28 +36,22 @@ export function BatchPreview({ batchId }: { batchId: string }) {
   );
 
   return (
-    <div>
-      <Header>
+    <Pane
+      header={
         <Spacer>
-          <ButtonGroup>
-            <Button
-              onClick={() => {
-                settings.pane = "develop";
-              }}
-            >
-              <BiArrowBack />
-            </Button>
-          </ButtonGroup>
+          <NavigationBackButton />
           <BatchTitle batchId={batchId} />
         </Spacer>
-      </Header>
-      <div className={imageGridStyles}>
-        <BatchRenderer batchId={batchId} />
-        {imagesMeta?.map((imageMeta) => (
-          <ImagePreview key={imageMeta.id} imageMeta={imageMeta} />
-        ))}
-      </div>
-    </div>
+      }
+      main={
+        <div className={imageGridStyles}>
+          <BatchRenderer batchId={batchId} />
+          {imagesMeta?.map((imageMeta) => (
+            <ImagePreview key={imageMeta.id} imageMeta={imageMeta} />
+          ))}
+        </div>
+      }
+    />
   );
 }
 

@@ -5,8 +5,13 @@ import { DbObject, getDb } from "../db";
 
 const styles = css`
   align-items: center;
+  border: 2px solid transparent;
   display: flex;
   justify-content: center;
+
+  :hover {
+    border-color: white;
+  }
 
   > img {
     max-height: 100%;
