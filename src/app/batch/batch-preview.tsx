@@ -4,6 +4,7 @@ import { useSnapshot } from "valtio";
 import { getDb } from "../db";
 import { Pane } from "../generic-ui/pane";
 import { Spacer } from "../generic-ui/spacer";
+import { pushScreen } from "../navigation";
 import { NavigationBackButton } from "../navigation-back-buttons";
 import { settings } from "../settings-state";
 import { BatchRenderer } from "./batch-renderer";
@@ -20,9 +21,14 @@ const imageGridStyles = css`
   padding: 24px;
 
   > * {
+    border: 2px solid transparent;
     height: ${BATCH_PREVIEW_SIZE}px;
     overflow: hidden;
     width: ${BATCH_PREVIEW_SIZE}px;
+
+    :hover {
+      border-color: white;
+    }
   }
 `;
 
@@ -47,7 +53,13 @@ export function BatchPreview({ batchId }: { batchId: string }) {
         <div className={imageGridStyles}>
           <BatchRenderer batchId={batchId} />
           {imagesMeta?.map((imageMeta) => (
-            <ImagePreview key={imageMeta.id} imageMeta={imageMeta} />
+            <ImagePreview
+              key={imageMeta.id}
+              imageId={imageMeta.id}
+              onClick={() => {
+                pushScreen(["image", imageMeta.id]);
+              }}
+            />
           ))}
         </div>
       }

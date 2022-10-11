@@ -1,17 +1,13 @@
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useEffect, useMemo } from "react";
-import { DbObject, getDb } from "../db";
+import { HTMLAttributes, useEffect, useMemo } from "react";
+import { getDb } from "../db";
 
 const styles = css`
   align-items: center;
-  border: 2px solid transparent;
   display: flex;
+  height: 100%;
   justify-content: center;
-
-  :hover {
-    border-color: white;
-  }
 
   > img {
     max-height: 100%;
@@ -20,22 +16,24 @@ const styles = css`
 `;
 
 export function ImagePreview({
-  imageMeta,
-}: {
-  imageMeta: DbObject["ImageMeta"];
-}) {
-  const image = useLiveQuery(() => getDb().Image.get(imageMeta.id));
+  imageId,
+  className,
+  ...props
+}: { imageId: string } & HTMLAttributes<HTMLDivElement>) {
+  const image = useLiveQuery(() => getDb().Image.get(imageId));
   const url = useMemo(
     () => (image ? URL.createObjectURL(image.image) : null),
     [image]
   );
   useEffect(() => {
     return () => {
-      if (url) {
-        URL.revokeObjectURL(url);
-      }
+      if (url) URL.revokeObjectURL(url);
     };
   }, [url]);
 
-  return <div className={styles}>{url && <img src={url} alt="Preview" />}</div>;
+  return (
+    <div className={cx(styles, className)} {...props}>
+      {url && <img src={url} alt="Preview" />}
+    </div>
+  );
 }

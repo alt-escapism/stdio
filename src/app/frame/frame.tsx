@@ -4,6 +4,7 @@ import { usePage } from "./use-page";
 
 const styles = css`
   border: none;
+  display: block;
 `;
 
 export function Frame({

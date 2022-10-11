@@ -1,6 +1,7 @@
 import { css } from "@emotion/css";
-import { snapshot, useSnapshot } from "valtio";
+import { useSnapshot } from "valtio";
 import { BatchPreview } from "./batch/batch-preview";
+import { ImageViewer } from "./batch/image-viewer";
 import { DevelopScreen } from "./develop/develop-screen";
 import { navigation } from "./navigation";
 
@@ -28,6 +29,8 @@ export function NavigationStack() {
           return <DevelopScreen key={screen[0]} screen={screen} />;
         } else if (screen[0] === "batch") {
           return <BatchPreview key={screen[0]} batchId={screen[1]} />;
+        } else if (screen[0] === "image") {
+          return <ImageViewer key={screen[0]} imageId={screen[1]} />;
         } else {
           return null;
         }
