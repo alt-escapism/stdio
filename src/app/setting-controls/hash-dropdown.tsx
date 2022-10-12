@@ -22,6 +22,7 @@ export function HashDropdown({ variable }: { variable: HashVar }) {
           value: hash,
         };
       }}
+      header="Recent hashes"
     />
   );
 }

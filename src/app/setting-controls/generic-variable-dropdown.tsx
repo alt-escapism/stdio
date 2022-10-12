@@ -30,12 +30,14 @@ export function GenericVariableDropdown<T>({
   selectedItem,
   renderItem,
   onSelect,
+  header,
 }: {
   variable: Variable;
   items: T[];
   selectedItem: T;
   renderItem: (item: T) => ReactNode;
   onSelect(item: T): void;
+  header?: ReactNode;
 }) {
   const lockStyles = useLockStyles(variable);
 
@@ -50,6 +52,7 @@ export function GenericVariableDropdown<T>({
           autoReload(variable);
         }}
         buttonClassName={cx(buttonStyles, lockStyles)}
+        header={header}
       />
       <SettingLockButton variable={variable} />
     </InputContainer>
