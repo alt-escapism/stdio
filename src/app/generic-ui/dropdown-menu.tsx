@@ -56,9 +56,9 @@ export function DropdownMenu<T>({
   items: T[];
   renderItem(item: T): ReactNode;
   onSelect(item: T): void;
-  selectedItem?: T | null;
+  selectedItem?: T;
   itemToString?: (item: T | null) => string;
-  renderButton?: (item: T | null) => ReactNode;
+  renderButton?: (item: T | undefined) => ReactNode;
   header?: ReactNode;
   getItemKey?: (item: T) => string;
   buttonClassName?: string;
@@ -83,8 +83,8 @@ export function DropdownMenu<T>({
     middleware: [flip(), offset(4)],
   });
   const buttonContent = renderButton
-    ? renderButton(selectedItem ?? null)
-    : selectedItem != null
+    ? renderButton(selectedItem)
+    : selectedItem !== undefined
     ? renderItem(selectedItem)
     : null;
 

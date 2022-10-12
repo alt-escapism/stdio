@@ -38,7 +38,7 @@ function RecentBatchesDropdown() {
       items={batches ?? []}
       getItemKey={(item) => item.id}
       renderItem={(item) => <BatchSummaryRow batchId={item.id} />}
-      selectedItem={null}
+      selectedItem={undefined}
       onSelect={(item) => {
         pushScreen(["batch", item.id]);
       }}
