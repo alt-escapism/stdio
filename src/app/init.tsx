@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { AppWindow } from "../inject/app-interface";
 import { appInterface } from "./app-interface";
 import { App } from "./app";
-import { initSettings } from "./settings-state";
+import { initSettings, updateBackground } from "./settings-state";
 
 export function initApp() {
   const w = window as unknown as AppWindow;
@@ -12,6 +12,8 @@ export function initApp() {
 }
 
 export function render(rootEl: HTMLElement) {
+  updateBackground();
+
   // Load font
   const fontLink = document.createElement("link");
   fontLink.rel = "stylesheet";

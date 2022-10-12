@@ -1,4 +1,5 @@
 import { proxy, subscribe } from "valtio";
+import { subscribeKey } from "valtio/utils";
 import {
   getStoredSettings,
   setStoredSettings,
@@ -13,12 +14,7 @@ export function initSettings() {
   subscribe(settings, () => {
     setStoredSettings(settings);
   });
-
-  function updateBackground() {
-    document.body.style.background = getBackgroundColor(settings);
-  }
-  updateBackground();
-  subscribe(settings, updateBackground);
+  subscribeKey(settings, "background", updateBackground);
 }
 
 export function resetLockedVariables() {
@@ -35,6 +31,10 @@ export function unlock(...variables: VariableSnapshot[]) {
   variables.forEach((variable) => {
     delete settings.variables[variable.name];
   });
+}
+
+export function updateBackground() {
+  document.body.style.background = getBackgroundColor(settings);
 }
 
 export function getBackgroundColor(settings: Settings) {
