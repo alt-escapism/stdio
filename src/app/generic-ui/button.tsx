@@ -17,6 +17,7 @@ export const buttonStyles = css`
   font-size: 17px;
   gap: 8px;
   justify-content: center;
+  min-height: 32px;
   min-width: 24px;
   opacity: 0.8;
   padding: 6px ${X_PADDING}px;

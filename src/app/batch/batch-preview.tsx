@@ -78,10 +78,17 @@ export function BatchPreview({ batchId }: { batchId: string }) {
 const batchTitleStyles = css`
   color: #aaa;
   display: flex;
+  font-size: 17px;
   gap: 24px;
 
   > :first-child {
     color: white;
+    font-size: 18px;
+  }
+
+  > :nth-child(2) {
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    padding-left: 24px;
   }
 `;
 
@@ -90,17 +97,17 @@ function BatchTitle({ batchId }: { batchId: string }) {
 
   if (!batch) return null;
 
-  return batch.rendered < batch.total ? (
-    <span>
-      Generating {batch.rendered + 1} of {batch.total}...
-    </span>
-  ) : (
-    <span className={batchTitleStyles}>
-      <span>Batch of {batch.total}</span>
-      <span>Started {formatBatchDate(new Date(batch.createdAt))}</span>
+  return (
+    <div className={batchTitleStyles}>
+      <span>
+        {batch.rendered < batch.total
+          ? `Generating ${batch.rendered + 1} of ${batch.total}...`
+          : `Batch of ${batch.total}`}
+      </span>
       <span>
         {batch.windowWidth}x{batch.windowHeight}
       </span>
-    </span>
+      <span>Started {formatBatchDate(new Date(batch.createdAt))}</span>
+    </div>
   );
 }

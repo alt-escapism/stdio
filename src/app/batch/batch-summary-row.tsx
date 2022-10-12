@@ -38,10 +38,10 @@ export function BatchSummaryRow({ batchId }: { batchId: string }) {
         )}
       </div>
       <div>
-        <span>{formatBatchDate(new Date(batch.createdAt))}</span>
         <span>
           {batch.windowWidth}x{batch.windowHeight}
         </span>
+        <span>{formatBatchDate(new Date(batch.createdAt))}</span>
       </div>
     </div>
   );
