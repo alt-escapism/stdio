@@ -5,7 +5,7 @@ import { requireFrame } from "../frames-state";
 import { Button, ButtonGroup } from "../generic-ui/button";
 import { Pane } from "../generic-ui/pane";
 import { Spacer } from "../generic-ui/spacer";
-import { pushScreen } from "../navigation";
+import { popScreen, pushScreen } from "../navigation";
 import { NavigationBackButton } from "../navigation-back-buttons";
 import { settings } from "../settings-state";
 import { VariablesSection } from "../variables-section/variables-section";
@@ -49,6 +49,7 @@ export function BatchConfigurePane() {
                       )
                     ),
                 });
+                popScreen(["develop", "configure-batch"]);
                 pushScreen(["batch", id]);
               }}
               disabled={!_batchConfig.isValid}

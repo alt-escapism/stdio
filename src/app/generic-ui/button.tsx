@@ -1,5 +1,5 @@
 import { css, cx } from "@emotion/css";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode, useState } from "react";
 import { useTooltip } from "./use-tooltip";
 
 const X_PADDING = 12;
@@ -39,17 +39,40 @@ export const buttonStyles = css`
   }
 `;
 
+const primaryStyles = css`
+  font-weight: bold;
+`;
+
 export function Button(
-  props: ButtonHTMLAttributes<HTMLButtonElement> & { tip?: ReactNode }
+  props: Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> & {
+    primary?: boolean;
+    tip?: ReactNode;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => unknown;
+  }
 ) {
-  const { className, tip, ...otherProps } = props;
+  const { className, tip, primary, onClick, disabled, ...otherProps } = props;
   const { tooltip, getTriggerProps } = useTooltip(tip);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <>
       <button
         type="button"
-        className={cx(buttonStyles, className)}
+        className={cx(buttonStyles, primary ? primaryStyles : null, className)}
+        onClick={
+          onClick
+            ? (e) => {
+                const returnValue = onClick(e);
+                if (returnValue instanceof Promise) {
+                  setIsSubmitting(true);
+                  returnValue.finally(() => {
+                    setIsSubmitting(false);
+                  });
+                }
+              }
+            : undefined
+        }
+        disabled={disabled == null ? isSubmitting : disabled}
         {...otherProps}
         {...getTriggerProps()}
       />

@@ -3,6 +3,7 @@ import { useSnapshot } from "valtio";
 import { BatchPreview } from "./batch/batch-preview";
 import { ImageViewer } from "./batch/image-viewer";
 import { DevelopScreen } from "./develop/develop-screen";
+import { Dialog } from "./generic-ui/dialog";
 import { navigation } from "./navigation";
 
 const styles = css`
@@ -31,6 +32,14 @@ export function NavigationStack() {
           return <BatchPreview key={screen[0]} batchId={screen[1]} />;
         } else if (screen[0] === "image") {
           return <ImageViewer key={screen[0]} imageId={screen[1]} />;
+        } else if (screen[0] === "dialog") {
+          return (
+            <Dialog
+              key={screen[0]}
+              body={screen[1].body}
+              actions={screen[1].actions}
+            />
+          );
         } else {
           return null;
         }

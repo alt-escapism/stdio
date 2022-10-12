@@ -1,12 +1,14 @@
 import { css } from "@emotion/css";
 import { useLiveQuery } from "dexie-react-hooks";
 import { getDb } from "../db";
+import { ButtonGroup } from "../generic-ui/button";
 import { Pane } from "../generic-ui/pane";
 import { Spacer } from "../generic-ui/spacer";
-import { pushScreen } from "../navigation";
+import { popScreen, pushScreen } from "../navigation";
 import { NavigationBackButton } from "../navigation-back-buttons";
 import { BatchRenderer } from "./batch-renderer";
 import { formatBatchDate } from "./batch-summary-row";
+import { DeleteBatchButton } from "./delete-batch-button";
 import { ImagePreview } from "./image-preview";
 
 export const BATCH_PREVIEW_SIZE = 280;
@@ -42,10 +44,18 @@ export function BatchPreview({ batchId }: { batchId: string }) {
   return (
     <Pane
       header={
-        <Spacer>
-          <NavigationBackButton />
-          <BatchTitle batchId={batchId} />
-        </Spacer>
+        <>
+          <Spacer>
+            <NavigationBackButton />
+            <BatchTitle batchId={batchId} />
+          </Spacer>
+          <ButtonGroup>
+            <DeleteBatchButton
+              batchId={batchId}
+              onSuccess={() => popScreen(["batch", batchId])}
+            />
+          </ButtonGroup>
+        </>
       }
       main={
         <div className={imageGridStyles}>

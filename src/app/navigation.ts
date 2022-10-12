@@ -1,14 +1,21 @@
+import { ComponentProps, ReactNode } from "react";
+import { ref } from "valtio";
 import { proxyWithComputed } from "valtio/utils";
+import { Button } from "./generic-ui/button";
+import { last } from "./last";
 
 export type Screen =
   | ["develop"]
   | ["develop", "configure-batch"]
   | ["batch", string]
-  | ["image", string];
+  | ["image", string]
+  | ["dialog", { body: ReactNode; actions: ComponentProps<typeof Button>[] }];
+
+const ROOT_SCREEN: Screen = ["develop"];
 
 export const navigation = proxyWithComputed(
   {
-    history: [["develop"]] as Screen[],
+    history: [ROOT_SCREEN] as Screen[],
   },
   {
     stack: ({ history }) => {
@@ -27,11 +34,17 @@ export const navigation = proxyWithComputed(
 );
 
 export function pushScreen(screen: Screen) {
-  navigation.history.push(screen);
+  navigation.history.push(ref(screen));
 }
 
-export function popScreen(): Screen | undefined {
-  if (navigation.history.length > 1) {
-    return navigation.history.pop() as Screen;
+export function popScreen(screen: Screen = last(navigation.history)!) {
+  const index = navigation.history.findIndex(
+    (_screen) =>
+      _screen.length === screen.length &&
+      (_screen as unknown[]).every((part, index) => part === screen[index])
+  );
+  navigation.history.splice(index, navigation.history.length - index);
+  if (navigation.history.length === 0) {
+    navigation.history.push(ROOT_SCREEN);
   }
 }
