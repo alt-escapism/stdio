@@ -1,8 +1,7 @@
 import { css } from "@emotion/css";
 import format from "date-fns/format";
-import { useMemo } from "react";
-import { useSnapshot } from "valtio";
-import { settings } from "../settings-state";
+import { useLiveQuery } from "dexie-react-hooks";
+import { getDb } from "../db";
 
 const styles = css`
   display: flex;
@@ -22,19 +21,18 @@ const styles = css`
 `;
 
 export function BatchSummaryRow({ batchId }: { batchId: string }) {
-  const batch = useSnapshot(settings).batches[batchId];
-  const date = useMemo(() => new Date(batch.createdAt), [batch.createdAt]);
+  const batch = useLiveQuery(() => getDb().Batch.get(batchId));
 
   if (!batch) return null;
 
   return (
     <div className={styles}>
-      <div>{formatBatchDate(date)}</div>
+      <div>{formatBatchDate(new Date(batch.createdAt))}</div>
       <div>
         <span>
-          {batch.done < batch.total ? (
+          {batch.rendered < batch.total ? (
             <>
-              {batch.done}/{batch.total} iterations
+              {batch.rendered}/{batch.total} iterations
             </>
           ) : (
             <>{batch.total} iterations</>

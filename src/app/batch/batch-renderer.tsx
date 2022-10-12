@@ -1,14 +1,14 @@
+import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect } from "react";
-import { useSnapshot } from "valtio";
 import { subscribeKey } from "valtio/utils";
 import { captureImage } from "../capture";
+import { getDb } from "../db";
 import { Frame } from "../frame/frame";
 import {
   requireFrame,
   resetFrame,
   getVariableSnapshots,
 } from "../frames-state";
-import { settings } from "../settings-state";
 import { BATCH_PREVIEW_SIZE } from "./batch-preview";
 import { saveImageInDb } from "./image-db";
 
@@ -19,8 +19,7 @@ export function BatchRenderer({
   batchId: string;
   frameId?: string;
 }) {
-  const _settings = useSnapshot(settings);
-  const batch = _settings.batches[batchId];
+  const batch = useLiveQuery(() => getDb().Batch.get(batchId));
 
   useEffect(() => {
     return subscribeKey(requireFrame(frameId), "durationMs", () => {
@@ -33,15 +32,15 @@ export function BatchRenderer({
               image: blob,
               variables: getVariableSnapshots(frameId),
             });
+            resetFrame(frameId);
+            getDb().Batch.update(batchId, { rendered: batch!.rendered + 1 });
           }
-          resetFrame(frameId);
-          settings.batches[batchId].done++;
         });
       }
     });
-  }, [batchId, frameId]);
+  }, [batch, batchId, frameId]);
 
-  if (!batch || batch.done >= batch.total) {
+  if (!batch || batch.rendered >= batch.total) {
     return null;
   }
 
@@ -52,7 +51,7 @@ export function BatchRenderer({
         variables={batch.variables}
         windowSize={[batch.windowWidth, batch.windowHeight]}
         scaledSize={[BATCH_PREVIEW_SIZE, BATCH_PREVIEW_SIZE]}
-        nonce={batch.done}
+        nonce={batch.rendered}
       />
     </div>
   );

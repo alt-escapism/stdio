@@ -1,12 +1,10 @@
 import { css } from "@emotion/css";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useSnapshot } from "valtio";
 import { getDb } from "../db";
 import { Pane } from "../generic-ui/pane";
 import { Spacer } from "../generic-ui/spacer";
 import { pushScreen } from "../navigation";
 import { NavigationBackButton } from "../navigation-back-buttons";
-import { settings } from "../settings-state";
 import { BatchRenderer } from "./batch-renderer";
 import { formatBatchDate } from "./batch-summary-row";
 import { ImagePreview } from "./image-preview";
@@ -78,13 +76,13 @@ const batchTitleStyles = css`
 `;
 
 function BatchTitle({ batchId }: { batchId: string }) {
-  const batch = useSnapshot(settings).batches[batchId];
+  const batch = useLiveQuery(() => getDb().Batch.get(batchId));
 
   if (!batch) return null;
 
-  return batch.done < batch.total ? (
+  return batch.rendered < batch.total ? (
     <span>
-      Generating {batch.done + 1} of {batch.total}...
+      Generating {batch.rendered + 1} of {batch.total}...
     </span>
   ) : (
     <span className={batchTitleStyles}>

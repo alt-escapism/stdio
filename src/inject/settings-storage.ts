@@ -14,7 +14,6 @@ const DEFAULT_SETTINGS: Settings = {
   recents: {},
   background: "dark",
   autoReload: true,
-  batches: {},
 };
 
 export function getStoredSettings(): Settings {

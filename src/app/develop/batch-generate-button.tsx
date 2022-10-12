@@ -1,11 +1,11 @@
 import { VscRunAll } from "react-icons/vsc";
-import { useSnapshot } from "valtio";
 import { Button, SplitButton } from "../generic-ui/button";
 import { DropdownMenu } from "../generic-ui/dropdown-menu";
 import { isEmbedded } from "../is-embedded";
-import { settings } from "../settings-state";
 import { BatchSummaryRow } from "../batch/batch-summary-row";
 import { pushScreen } from "../navigation";
+import { useLiveQuery } from "dexie-react-hooks";
+import { getDb } from "../db";
 
 export function BatchGenerateButton() {
   if (isEmbedded()) return null;
@@ -28,15 +28,14 @@ export function BatchGenerateButton() {
 }
 
 function RecentBatchesDropdown() {
-  const _batches = useSnapshot(settings.batches);
-  const items = Object.values(_batches).sort((a, b) =>
-    b.createdAt.localeCompare(a.createdAt)
+  const batches = useLiveQuery(() =>
+    getDb().Batch.orderBy("createdAt").reverse().toArray()
   );
 
   return (
     <DropdownMenu
       header="Previous batches"
-      items={items}
+      items={batches ?? []}
       getItemKey={(item) => item.id}
       renderItem={(item) => <BatchSummaryRow batchId={item.id} />}
       selectedItem={null}

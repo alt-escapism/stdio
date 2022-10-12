@@ -6,7 +6,6 @@ export type Settings = {
   recents: Record<string, string[]>;
   background: "light" | "dark";
   autoReload: boolean;
-  batches: Record<string, Batch>;
 };
 
 export type Pane = "develop" | "batch" | ["batch", string];

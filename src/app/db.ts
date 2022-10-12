@@ -4,6 +4,15 @@ import { VariableSnapshots } from "../inject/variable-def.type";
 
 export type DbObject = {
   Thumbnail: { hash: string; image: Blob };
+  Batch: {
+    id: string;
+    createdAt: string;
+    rendered: number;
+    total: number;
+    windowWidth: number;
+    windowHeight: number;
+    variables: VariableSnapshots;
+  };
   Image: { id: string; image: Blob };
   ImageMeta: {
     id: string;
@@ -17,6 +26,7 @@ const schema: { [k in keyof DbObject]: string } = {
   Thumbnail: `hash`,
   Image: `id`,
   ImageMeta: `id,batchId`,
+  Batch: `id,createdAt`,
 };
 
 export type Db = Dexie & { [k in keyof DbObject]: Table<DbObject[k]> };

@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { snapshot, useSnapshot } from "valtio";
+import { getDb } from "../db";
 import { requireFrame } from "../frames-state";
 import { Button, ButtonGroup } from "../generic-ui/button";
 import { Pane } from "../generic-ui/pane";
@@ -33,11 +34,11 @@ export function BatchConfigurePane() {
                     .map((variable) => variable.name)
                 );
                 const id = nanoid();
-                settings.batches[id] = {
+                getDb().Batch.add({
                   id,
                   createdAt,
                   total: parsed.iterations,
-                  done: 0,
+                  rendered: 0,
                   windowWidth: parsed.windowWidth,
                   windowHeight: parsed.windowHeight,
                   variables:
@@ -47,7 +48,7 @@ export function BatchConfigurePane() {
                         ([name]) => !hashVariableNames.has(name)
                       )
                     ),
-                };
+                });
                 pushScreen(["batch", id]);
               }}
               disabled={!_batchConfig.isValid}
