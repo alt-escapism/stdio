@@ -45,14 +45,12 @@ export function BatchRenderer({
   }
 
   return (
-    <div>
-      <Frame
-        id={frameId}
-        variables={batch.variables}
-        windowSize={[batch.windowWidth, batch.windowHeight]}
-        scaledSize={[BATCH_PREVIEW_SIZE, BATCH_PREVIEW_SIZE]}
-        nonce={batch.rendered}
-      />
-    </div>
+    <Frame
+      id={frameId}
+      variables={batch.variables}
+      windowSize={[batch.windowWidth, batch.windowHeight]}
+      scaledSize={[BATCH_PREVIEW_SIZE, BATCH_PREVIEW_SIZE]}
+      nonce={batch.rendered}
+    />
   );
 }
