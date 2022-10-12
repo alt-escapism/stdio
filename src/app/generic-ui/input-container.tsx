@@ -14,7 +14,7 @@ const styles = css`
   }
 `;
 
-export const SettingControlContainer: FC<
+export const InputContainer: FC<
   HTMLProps<HTMLDivElement> & RefAttributes<HTMLDivElement>
 > = forwardRef((props, ref) => {
   return <div {...props} className={cx(styles, props.className)} ref={ref} />;

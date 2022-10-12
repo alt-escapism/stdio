@@ -6,7 +6,7 @@ import { autoReload } from "../reload";
 import { settings } from "../settings-state";
 import { useDerivedState } from "../use-derived-state";
 import { getValueOfType } from "../variables";
-import { SettingControlContainer } from "./setting-control-container";
+import { InputContainer } from "../generic-ui/input-container";
 import { SettingLockButton } from "./setting-lock-button";
 import { useLockStyles } from "./use-lock-styles";
 
@@ -25,7 +25,7 @@ export function NumberInput({ variable }: { variable: NumberVar }) {
   const lockStyles = useLockStyles(variable);
 
   return (
-    <SettingControlContainer>
+    <InputContainer>
       <Input
         className={cx(styles, lockStyles)}
         value={text ?? lockedValue ?? value}
@@ -46,6 +46,6 @@ export function NumberInput({ variable }: { variable: NumberVar }) {
         }}
       />
       <SettingLockButton variable={variable} />
-    </SettingControlContainer>
+    </InputContainer>
   );
 }

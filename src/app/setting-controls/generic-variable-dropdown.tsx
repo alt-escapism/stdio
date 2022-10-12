@@ -4,7 +4,7 @@ import { Variable } from "../../inject/variable-def.type";
 import { DropdownMenu } from "../generic-ui/dropdown-menu";
 import { autoReload } from "../reload";
 import { OptionView } from "./option-view";
-import { SettingControlContainer } from "./setting-control-container";
+import { InputContainer } from "../generic-ui/input-container";
 import { SettingLockButton } from "./setting-lock-button";
 import { useLockStyles } from "./use-lock-styles";
 
@@ -40,7 +40,7 @@ export function GenericVariableDropdown<T>({
   const lockStyles = useLockStyles(variable);
 
   return (
-    <SettingControlContainer>
+    <InputContainer>
       <DropdownMenu
         items={items}
         selectedItem={selectedItem}
@@ -52,6 +52,6 @@ export function GenericVariableDropdown<T>({
         buttonClassName={cx(buttonStyles, lockStyles)}
       />
       <SettingLockButton variable={variable} />
-    </SettingControlContainer>
+    </InputContainer>
   );
 }

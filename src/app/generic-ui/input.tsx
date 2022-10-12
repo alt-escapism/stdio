@@ -7,7 +7,8 @@ const styles = css`
   border-radius: 4px;
   color: inherit;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 18px;
+  height: 30px;
   padding: 6px 12px;
   width: 100%;
 `;

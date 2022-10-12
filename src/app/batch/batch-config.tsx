@@ -3,6 +3,7 @@ import { useSnapshot } from "valtio";
 import { Input } from "../generic-ui/input";
 import { InputGroup } from "../generic-ui/input-group";
 import { Section } from "../generic-ui/section";
+import { InputContainer } from "../generic-ui/input-container";
 import { batchConfig } from "./batch-config-state";
 
 const dualInputStyles = css`
@@ -17,17 +18,17 @@ export function BatchConfig() {
   return (
     <Section>
       <InputGroup>
-        <label>
-          Iterations
+        <label>Iterations</label>
+        <InputContainer>
           <Input
             value={_batchConfig.iterations}
             onChange={(e) => {
               batchConfig.iterations = e.target.value;
             }}
           />
-        </label>
-        <label>
-          Window size
+        </InputContainer>
+        <label>Window size</label>
+        <InputContainer>
           <div className={dualInputStyles}>
             <Input
               value={_batchConfig.windowWidth}
@@ -43,7 +44,7 @@ export function BatchConfig() {
               }}
             />
           </div>
-        </label>
+        </InputContainer>
       </InputGroup>
     </Section>
   );
