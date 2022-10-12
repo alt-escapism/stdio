@@ -4,7 +4,6 @@ import { ToggleBackgroundButton } from "./toggle-background-button";
 import stdioLogo from "./fx-stdio.svg";
 import { BatchGenerateButton } from "./batch-generate-button";
 import { ButtonGroup } from "../generic-ui/button";
-import { DevOnly } from "../generic-ui/dev-only";
 import { captureImage } from "../capture";
 import { getHash } from "../frames-state";
 import { isEmbedded } from "../is-embedded";
@@ -23,7 +22,7 @@ export function DevelopHeader() {
         <img src={stdioLogo} alt="fx(stdio)" />
       </h1>
       <ButtonGroup>
-        <DevOnly>{isEmbedded() ? null : <BatchGenerateButton />}</DevOnly>
+        {isEmbedded() ? null : <BatchGenerateButton />}
         <DownloadButton
           getImage={() =>
             captureImage("main").then((image) =>
