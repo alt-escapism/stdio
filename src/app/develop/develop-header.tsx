@@ -7,6 +7,7 @@ import { ButtonGroup } from "../generic-ui/button";
 import { DevOnly } from "../generic-ui/dev-only";
 import { captureImage } from "../capture";
 import { getHash } from "../frames-state";
+import { isEmbedded } from "../is-embedded";
 
 const logoStyles = css`
   > img {
@@ -22,9 +23,7 @@ export function DevelopHeader() {
         <img src={stdioLogo} alt="fx(stdio)" />
       </h1>
       <ButtonGroup>
-        <DevOnly>
-          <BatchGenerateButton />
-        </DevOnly>
+        <DevOnly>{isEmbedded() ? null : <BatchGenerateButton />}</DevOnly>
         <DownloadButton
           getImage={() =>
             captureImage("main").then((image) =>

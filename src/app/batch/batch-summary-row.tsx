@@ -8,6 +8,7 @@ const styles = css`
   gap: 6px;
   flex-direction: column;
   white-space: nowrap;
+  width: 220px;
 
   > :first-child {
     color: white;
@@ -23,21 +24,21 @@ const styles = css`
 export function BatchSummaryRow({ batchId }: { batchId: string }) {
   const batch = useLiveQuery(() => getDb().Batch.get(batchId));
 
-  if (!batch) return null;
+  if (!batch) return <div className={styles} />;
 
   return (
     <div className={styles}>
-      <div>{formatBatchDate(new Date(batch.createdAt))}</div>
       <div>
-        <span>
-          {batch.rendered < batch.total ? (
-            <>
-              {batch.rendered}/{batch.total} iterations
-            </>
-          ) : (
-            <>{batch.total} iterations</>
-          )}
-        </span>
+        {batch.rendered < batch.total ? (
+          <>
+            {batch.rendered}/{batch.total}
+          </>
+        ) : (
+          <>Batch of {batch.total}</>
+        )}
+      </div>
+      <div>
+        <span>{formatBatchDate(new Date(batch.createdAt))}</span>
         <span>
           {batch.windowWidth}x{batch.windowHeight}
         </span>

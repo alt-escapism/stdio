@@ -1,4 +1,4 @@
-import { useFloating, flip, offset } from "@floating-ui/react-dom";
+import { useFloating, flip, offset, shift } from "@floating-ui/react-dom";
 import { useSelect } from "downshift";
 import { css, cx } from "@emotion/css";
 import { MdOutlineArrowDropDown } from "react-icons/md";
@@ -80,7 +80,7 @@ export function DropdownMenu<T>({
     },
   });
   const { x, y, reference, floating, strategy } = useFloating({
-    middleware: [flip(), offset(4)],
+    middleware: [flip(), offset(4), shift({ padding: 8 })],
   });
   const buttonContent = renderButton
     ? renderButton(selectedItem)
