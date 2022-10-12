@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import { VariableSnapshots } from "../../inject/variable-def.type";
 import { DbObject, getDb } from "../db";
 
 export function saveImageInDb({
@@ -8,7 +9,7 @@ export function saveImageInDb({
 }: {
   batchId: string;
   image: Blob;
-  variables: Record<string, string>;
+  variables: VariableSnapshots;
 }) {
   const id = nanoid();
   const createdAt = new Date().toISOString();

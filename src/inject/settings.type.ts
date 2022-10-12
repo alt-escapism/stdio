@@ -1,7 +1,8 @@
+import { VariableSnapshots } from "./variable-def.type";
+
 export type Settings = {
-  // Values are stored as strings;
-  // validation and casting should be done before use.
-  variables: Record<string, string>;
+  version: number;
+  variables: VariableSnapshots;
   recents: Record<string, string[]>;
   background: "light" | "dark";
   autoReload: boolean;
@@ -17,5 +18,5 @@ export type Batch = {
   windowHeight: number;
   total: number;
   done: number;
-  variables: Record<string, string>;
+  variables: VariableSnapshots;
 };

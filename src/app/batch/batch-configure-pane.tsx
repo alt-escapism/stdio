@@ -28,9 +28,9 @@ export function BatchConfigurePane() {
                 const parsed = batchConfig.parsed;
                 const createdAt = new Date().toISOString();
                 const hashVariableNames = new Set(
-                  Object.values(requireFrame("main").variableDefs)
-                    .filter((variableDef) => variableDef.type === "Hash")
-                    .map((variableDef) => variableDef.name)
+                  Object.values(requireFrame("main").variables)
+                    .filter((variable) => variable.type === "Hash")
+                    .map((variable) => variable.name)
                 );
                 const id = nanoid();
                 settings.batches[id] = {

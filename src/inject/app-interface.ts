@@ -1,7 +1,7 @@
-import { VariableDef } from "./variable-def.type";
+import { Variable } from "./variable-def.type";
 
 export type AppInterface = {
-  addVariable: (frameId: string, variableDef: VariableDef) => void;
+  addVariable: (frameId: string, variable: Variable) => void;
   renderingComplete: (frameId: string, durationMs: number) => void;
 };
 

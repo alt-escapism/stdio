@@ -1,9 +1,13 @@
 import { useFloating, flip, offset } from "@floating-ui/react-dom";
 import { useSelect } from "downshift";
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { ReactNode } from "react";
 import { buttonStyles } from "./button";
+
+const overrideButtonStyles = css`
+  justify-content: space-between;
+`;
 
 const dropdownStyles = css`
   background: #222;
@@ -21,6 +25,7 @@ const dropdownStyles = css`
     letter-spacing: 2px;
     padding: 12px 12px;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   > ul {
@@ -46,6 +51,7 @@ export function DropdownMenu<T>({
   renderButton,
   header,
   getItemKey,
+  buttonClassName,
 }: {
   items: T[];
   renderItem(item: T): ReactNode;
@@ -55,6 +61,7 @@ export function DropdownMenu<T>({
   renderButton?: (item: T | null) => ReactNode;
   header?: ReactNode;
   getItemKey?: (item: T) => string;
+  buttonClassName?: string;
 }) {
   const {
     isOpen,
@@ -75,16 +82,26 @@ export function DropdownMenu<T>({
   const { x, y, reference, floating, strategy } = useFloating({
     middleware: [flip(), offset(4)],
   });
+  const buttonContent = renderButton
+    ? renderButton(selectedItem ?? null)
+    : selectedItem != null
+    ? renderItem(selectedItem)
+    : null;
 
   return (
     <>
-      <div ref={reference}>
-        <button className={buttonStyles} {...getToggleButtonProps()}>
-          {renderButton
-            ? renderButton(selectedItem ?? null)
-            : selectedItem
-            ? renderItem(selectedItem)
-            : null}
+      <div
+        ref={reference}
+        style={{
+          position: "relative",
+          ...(buttonContent != null ? { width: "100%" } : { maxWidth: "100%" }),
+        }}
+      >
+        <button
+          className={cx(buttonStyles, overrideButtonStyles, buttonClassName)}
+          {...getToggleButtonProps()}
+        >
+          {buttonContent}
           <MdOutlineArrowDropDown />
         </button>
         <div {...getMenuProps()}>
@@ -92,7 +109,14 @@ export function DropdownMenu<T>({
             <div
               className={dropdownStyles}
               ref={floating}
-              style={{ position: strategy, top: y ?? 0, left: x ?? 0 }}
+              style={{
+                position: strategy,
+                top: y ?? 0,
+                left: x ?? 0,
+                ...(buttonContent != null
+                  ? { width: "calc(100% + 2px)" }
+                  : { minWidth: "calc(100% + 2px)" }),
+              }}
             >
               {header ? <header>{header}</header> : null}
               <ul>

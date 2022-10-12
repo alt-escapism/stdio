@@ -4,6 +4,7 @@ import { Pane } from "../generic-ui/pane";
 import { Spacer } from "../generic-ui/spacer";
 import { Splitter } from "../generic-ui/splitter";
 import { NavigationBackButton } from "../navigation-back-buttons";
+import { getValueOfType } from "../variables";
 import { ImagePreview } from "./image-preview";
 
 export function ImageViewer({ imageId }: { imageId: string }) {
@@ -15,7 +16,9 @@ export function ImageViewer({ imageId }: { imageId: string }) {
         <>
           <Spacer>
             <NavigationBackButton />
-            {imageMeta?.variables["fxhash"] ?? ""}
+            <span>
+              {getValueOfType(imageMeta?.variables["fxhash"], "Hash") ?? ""}
+            </span>
           </Spacer>
         </>
       }
@@ -32,10 +35,10 @@ export function ImageViewer({ imageId }: { imageId: string }) {
 function ImageMetaView({ imageMeta }: { imageMeta: DbObject["ImageMeta"] }) {
   return (
     <div style={{ padding: 24 }}>
-      {Object.entries(imageMeta.variables).map(([name, value]) => {
+      {Object.values(imageMeta.variables).map((variable) => {
         return (
           <div
-            key={name}
+            key={variable.name}
             style={{
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -43,7 +46,7 @@ function ImageMetaView({ imageMeta }: { imageMeta: DbObject["ImageMeta"] }) {
               width: "100%",
             }}
           >
-            {name}: {value}
+            {variable.name}: {String(variable.value)}
           </div>
         );
       })}

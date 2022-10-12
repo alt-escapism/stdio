@@ -4,7 +4,17 @@ const hashes = ["fxhash"];
 
 export function injectHashes() {
   hashes.forEach((name) => {
-    if (variables[name] == null) {
+    const variable = variables[name];
+    if (variable?.type === "Hash") {
+      Object.defineProperty(window, name, {
+        get: () => variable.value,
+      });
+      addVariable({
+        type: "Hash",
+        name,
+        value: variable.value,
+      });
+    } else {
       let value: unknown;
       Object.defineProperty(window, name, {
         get: () => value,
@@ -16,15 +26,6 @@ export function injectHashes() {
             value: v,
           });
         },
-      });
-    } else {
-      Object.defineProperty(window, name, {
-        get: () => variables[name],
-      });
-      addVariable({
-        type: "Hash",
-        name,
-        value: variables[name],
       });
     }
   });

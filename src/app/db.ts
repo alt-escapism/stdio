@@ -1,5 +1,6 @@
 import { projectKey } from "../inject/settings-storage";
 import { Dexie, Table } from "dexie";
+import { VariableSnapshots } from "../inject/variable-def.type";
 
 export type DbObject = {
   Thumbnail: { hash: string; image: Blob };
@@ -8,7 +9,7 @@ export type DbObject = {
     id: string;
     createdAt: string;
     batchId: string;
-    variables: Record<string, string>;
+    variables: VariableSnapshots;
   };
 };
 

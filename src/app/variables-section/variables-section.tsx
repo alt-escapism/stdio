@@ -12,15 +12,13 @@ const containerStyles = css`
 `;
 
 export function VariablesSection() {
-  const _variableDefs = useFrame("main").variableDefs;
+  const _variables = useFrame("main").variables;
   const tree = useMemo(
     () =>
       buildVariableTree(
-        Object.values(_variableDefs).filter(
-          (variable) => variable.type !== "Hash"
-        )
+        Object.values(_variables).filter((variable) => variable.type !== "Hash")
       ),
-    [_variableDefs]
+    [_variables]
   );
 
   return (

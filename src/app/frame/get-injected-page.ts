@@ -1,7 +1,9 @@
+import { VariableSnapshots } from "../../inject/variable-def.type";
+
 export function getInjectedPage(
   pageHTML: string,
   frameId: string,
-  variables: Record<string, string> = {},
+  variables: VariableSnapshots = {},
   nonce?: number
 ) {
   const parser = new DOMParser();

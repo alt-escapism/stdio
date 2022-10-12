@@ -1,9 +1,10 @@
 import { proxy, useSnapshot } from "valtio";
-import { VariableDefs } from "../inject/variable-def.type";
+import { Variables } from "../inject/variable-def.type";
+import { getValueOfType, toVariableSnapshot } from "./variables";
 
 export type Frame = {
   id: string;
-  variableDefs: VariableDefs;
+  variables: Variables;
   durationMs?: number;
 };
 
@@ -13,7 +14,7 @@ export function requireFrame(id: string): Frame {
   if (!frames[id]) {
     frames[id] = {
       id,
-      variableDefs: {},
+      variables: {},
     };
   }
   return frames[id];
@@ -21,7 +22,7 @@ export function requireFrame(id: string): Frame {
 
 export function resetFrame(id: string) {
   const frame = requireFrame(id);
-  frame.variableDefs = {};
+  frame.variables = {};
   delete frame.durationMs;
 }
 
@@ -31,14 +32,14 @@ export function useFrame(id: string) {
 }
 
 export function getHash(id: string) {
-  return requireFrame(id).variableDefs["fxhash"]?.value as string | undefined;
+  return getValueOfType(requireFrame(id).variables["fxhash"], "Hash");
 }
 
-export function getActiveVariableValues(id: string) {
+export function getVariableSnapshots(id: string) {
   return Object.fromEntries(
-    Object.values(requireFrame(id).variableDefs).map((variableDef) => [
-      variableDef.name,
-      String(variableDef.value),
+    Object.values(requireFrame(id).variables).map((variable) => [
+      variable.name,
+      toVariableSnapshot(variable),
     ])
   );
 }

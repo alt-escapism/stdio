@@ -1,6 +1,22 @@
-export type VariableDefs = Record<string, VariableDef>;
+export type Variables = Record<string, Variable>;
 
-export type VariableDef = HashVar | NumberVar | ArrayVar | ObjectVar;
+export type Variable =
+  | HashVar
+  | NumberVar
+  | ArrayVar
+  | SimpleArrayVar
+  | ObjectVar;
+
+export type SnapshotOf<T extends Variable> = Pick<T, "type" | "name" | "value">;
+
+export type VariableSnapshot =
+  | SnapshotOf<HashVar>
+  | SnapshotOf<NumberVar>
+  | SnapshotOf<ArrayVar>
+  | SnapshotOf<SimpleArrayVar>
+  | SnapshotOf<ObjectVar>;
+
+export type VariableSnapshots = Record<string, VariableSnapshot>;
 
 export type HashVar = {
   type: "Hash";
@@ -23,15 +39,27 @@ export type NumberVar = {
 export type ArrayVar = {
   type: "Array";
   name: string;
-  options: readonly unknown[];
-  value: string; // index of selected option
-  shadowed?: string;
+  value: number; // index of selected option
+  options: unknown[];
+  shadowed?: number;
+};
+
+export type Primitive = number | string | boolean;
+
+export type SimpleValue = Primitive | Primitive[] | Record<string, Primitive>;
+
+export type SimpleArrayVar = {
+  type: "SimpleArray";
+  name: string;
+  value: SimpleValue;
+  options: SimpleValue[];
+  shadowed?: SimpleValue;
 };
 
 export type ObjectVar = {
   type: "Object";
   name: string;
-  options: Record<string, unknown>;
   value: string; // key of selected option
+  options: Record<string, unknown>;
   shadowed?: string;
 };

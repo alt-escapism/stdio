@@ -1,21 +1,17 @@
 import { HashVar } from "../../inject/variable-def.type";
 import { useFrame } from "../frames-state";
 import { Section } from "../generic-ui/section";
-import { SettingListbox } from "../setting-controls/setting-listbox";
+import { HashDropdown } from "../setting-controls/hash-dropdown";
 
 export function HashSection() {
-  const _variableDefs = useFrame("main").variableDefs;
+  const _variables = useFrame("main").variables;
 
   return (
     <Section title="Hash">
-      {Object.values(_variableDefs)
+      {Object.values(_variables)
         .filter((variable): variable is HashVar => variable.type === "Hash")
         .map((variable) => (
-          <SettingListbox
-            key={variable.name}
-            variable={variable}
-            header="Recent hashes"
-          />
+          <HashDropdown key={variable.name} variable={variable} />
         ))}
     </Section>
   );

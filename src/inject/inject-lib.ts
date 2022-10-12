@@ -1,9 +1,13 @@
+import { getValueOfType } from "../app/variables";
 import { random } from "../lib/random";
 import { randomChoice, toUnweighted, weight } from "../lib/random-choice";
 import { randomGaussian } from "../lib/random-gaussian";
 import { randomNumber } from "../lib/random-number";
 import { Stdio } from "../lib/stdio.type";
 import { addVariable, variables } from "./context";
+import { isSimpleValue } from "./simple-value";
+import { SimpleValue, VariableSnapshot } from "./variable-def.type";
+import deepEqual from "fast-deep-equal";
 
 const augmentedRandomNumber: typeof randomNumber = (
   name,
@@ -22,13 +26,10 @@ const augmentedRandomNumber: typeof randomNumber = (
   let value = randomNumber(name, min, max, transform);
   let shadowed: number | undefined;
 
-  const lockedValue = variables[name];
-  if (lockedValue) {
-    const lockedNumber = Number(lockedValue);
-    if (!isNaN(lockedNumber)) {
-      shadowed = value;
-      value = lockedNumber;
-    }
+  const lockedValue = getValueOfType(variables[name], "Number");
+  if (lockedValue != null) {
+    shadowed = value;
+    value = lockedValue;
   }
 
   addVariable({
@@ -45,33 +46,64 @@ const augmentedRandomNumber: typeof randomNumber = (
 
 const augmentedRandomChoice: typeof randomChoice = (name, choices) => {
   let chosenValue = randomChoice(name, choices);
-  const unweightedEntries = Object.entries(choices).map(
-    ([key, value]) => [key, toUnweighted(value)] as const
-  );
-  let [key] =
-    unweightedEntries.find(([_, v]) => v === chosenValue) ??
-    unweightedEntries[0];
-  let shadowed: string | undefined;
-
-  const lockedKey = variables[name];
-  if (lockedKey != null) {
-    const lockedValue = Object.fromEntries(unweightedEntries)[lockedKey];
-    if (lockedValue != null) {
-      shadowed = key;
-      key = lockedKey;
-      chosenValue = lockedValue;
-    }
-  }
+  const lockedVariable = variables[name] as VariableSnapshot | undefined;
 
   if (Array.isArray(choices)) {
-    addVariable({
-      name,
-      type: "Array",
-      options: unweightedEntries.map(([_, v]) => v),
-      value: key,
-      shadowed,
-    });
+    const unweightedChoices = choices.map(toUnweighted);
+    if (unweightedChoices.every(isSimpleValue)) {
+      let _chosenValue = chosenValue as unknown as SimpleValue;
+      const unweightedChoices = choices.map(
+        toUnweighted
+      ) as unknown as SimpleValue[];
+      const lockedValue = getValueOfType(lockedVariable, "SimpleArray");
+      let shadowed: SimpleValue | undefined;
+      if (lockedValue) {
+        const matchingValue = unweightedChoices.find((choice) =>
+          deepEqual(choice, lockedValue)
+        );
+        if (matchingValue) {
+          shadowed = _chosenValue;
+          _chosenValue = matchingValue;
+        }
+      }
+      addVariable({
+        name,
+        type: "SimpleArray",
+        options: unweightedChoices,
+        value: _chosenValue,
+        shadowed,
+      });
+    } else {
+      let index = unweightedChoices.indexOf(chosenValue);
+      let shadowed: number | undefined;
+      const lockedValue = getValueOfType(lockedVariable, "Array");
+      if (lockedValue && choices.length > lockedValue) {
+        shadowed = index;
+        index = lockedValue;
+        chosenValue = unweightedChoices[lockedValue];
+      }
+      addVariable({
+        name,
+        type: "Array",
+        options: unweightedChoices,
+        value: index,
+        shadowed,
+      });
+    }
   } else {
+    const unweightedEntries = Object.entries(choices).map(
+      ([key, value]) => [key, toUnweighted(value)] as const
+    );
+    let [key] =
+      unweightedEntries.find(([_, v]) => v === chosenValue) ??
+      unweightedEntries[0];
+    let shadowed: string | undefined;
+    const lockedValue = getValueOfType(lockedVariable, "Object");
+    if (lockedValue && lockedValue in choices) {
+      shadowed = key;
+      key = lockedValue;
+      chosenValue = toUnweighted(choices[lockedValue]);
+    }
     addVariable({
       name,
       type: "Object",
@@ -97,13 +129,10 @@ const augmentedRandomGaussian = (...args: any[]) => {
   ];
   let shadowed: number | undefined;
 
-  const lockedValue = variables[name];
-  if (lockedValue) {
-    const lockedNumber = Number(lockedValue);
-    if (!isNaN(lockedNumber)) {
-      shadowed = value;
-      value = lockedNumber;
-    }
+  const lockedValue = getValueOfType(variables[name], "Number");
+  if (lockedValue != null) {
+    shadowed = value;
+    value = lockedValue;
   }
 
   addVariable({

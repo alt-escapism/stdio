@@ -6,7 +6,8 @@ if (rootEl) {
   render(rootEl);
 }
 
-// Override overly-strict readonly return type from useSnapshot
+// Override overly-strict readonly return types
 declare module "valtio" {
   function useSnapshot<T extends object>(p: T): T;
+  function snapshot<T extends object>(p: T): T;
 }

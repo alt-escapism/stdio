@@ -3,9 +3,13 @@ import { Settings } from "./settings.type";
 export const projectKey =
   new URLSearchParams(window.location.search).get("project") ?? "stdio";
 
-const storageKey = projectKey + ".settings";
+const storageKey = projectKey;
+
+// Delete old key
+localStorage.removeItem(projectKey + ".settings");
 
 const DEFAULT_SETTINGS: Settings = {
+  version: 1,
   variables: {},
   recents: {},
   background: "dark",
@@ -15,9 +19,12 @@ const DEFAULT_SETTINGS: Settings = {
 
 export function getStoredSettings(): Settings {
   const stored = localStorage.getItem(storageKey);
-  return stored
-    ? Object.assign({}, DEFAULT_SETTINGS, JSON.parse(stored))
-    : DEFAULT_SETTINGS;
+  const parsed = Object.assign(
+    {},
+    DEFAULT_SETTINGS,
+    JSON.parse(stored ?? "{}")
+  );
+  return parsed;
 }
 
 export function setStoredSettings(settings: Settings) {

@@ -3,7 +3,8 @@ import {
   getStoredSettings,
   setStoredSettings,
 } from "../inject/settings-storage";
-import { VariableDef } from "../inject/variable-def.type";
+import { Variable } from "../inject/variable-def.type";
+import { toVariableSnapshot } from "./variables";
 
 export const settings = proxy(getStoredSettings());
 
@@ -24,13 +25,13 @@ export function resetLockedVariables() {
   settings.variables = {};
 }
 
-export function lock(...variables: VariableDef[]) {
+export function lock(...variables: Variable[]) {
   variables.forEach((variable) => {
-    settings.variables[variable.name] = String(variable.value);
+    settings.variables[variable.name] = toVariableSnapshot(variable);
   });
 }
 
-export function unlock(...variables: VariableDef[]) {
+export function unlock(...variables: Variable[]) {
   variables.forEach((variable) => {
     delete settings.variables[variable.name];
   });

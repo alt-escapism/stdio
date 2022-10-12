@@ -1,4 +1,5 @@
 import { css } from "@emotion/css";
+import { VariableSnapshots } from "../../inject/variable-def.type";
 import { getInjectedPage } from "./get-injected-page";
 import { usePage } from "./use-page";
 
@@ -17,7 +18,7 @@ export function Frame({
 }: {
   id: string;
   url?: string;
-  variables?: Record<string, string>;
+  variables?: VariableSnapshots;
   // Increment nonce to force a reload
   nonce?: number;
   windowSize?: [number, number];

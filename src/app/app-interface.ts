@@ -6,21 +6,21 @@ import { updateThumbnails } from "./thumbnails-state";
 const MAX_RECENTS = 20;
 
 export const appInterface: AppInterface = {
-  addVariable(frameId, variableDef) {
-    const { name, value } = variableDef;
+  addVariable(frameId, variable) {
+    const { name, value } = variable;
 
     if (!name) {
       return;
     }
 
-    requireFrame(frameId).variableDefs[name] = variableDef;
+    requireFrame(frameId).variables[name] = variable;
 
-    if (frameId === "main" && variableDef.type === "Hash") {
+    if (frameId === "main" && variable.type === "Hash") {
       if (!settings.recents[name]) {
         settings.recents[name] = [];
       }
       if (!settings.recents[name].find((v) => v === value)) {
-        settings.recents[name].unshift(variableDef.value);
+        settings.recents[name].unshift(variable.value);
         settings.recents[name] = settings.recents[name].slice(0, MAX_RECENTS);
       }
     }

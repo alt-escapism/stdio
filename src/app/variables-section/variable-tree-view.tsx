@@ -1,6 +1,5 @@
 import { css } from "@emotion/css";
-import { SettingInput } from "../setting-controls/setting-input";
-import { SettingListbox } from "../setting-controls/setting-listbox";
+import { NumberInput } from "../setting-controls/number-input";
 import { VariableLabel } from "./variable-label";
 import { TreeNode, VariableTree } from "./variable-tree";
 import { BiChevronDown, BiChevronRight } from "react-icons/bi";
@@ -8,6 +7,9 @@ import { useMemo, useState } from "react";
 import { GroupLockButton } from "./group-lock-button";
 import { last } from "../last";
 import { getCombinedValue } from "./get-combined-value";
+import { ArrayDropdown } from "../setting-controls/array-dropdown";
+import { ObjectDropdown } from "../setting-controls/object-dropdown";
+import { SimpleArrayDropdown } from "../setting-controls/simple-array-dropdown";
 
 const treeLabelStyles = css`
   align-items: center;
@@ -105,11 +107,15 @@ export function TreeNodeView({
   return (
     <div key={name} className={variableStyles}>
       <VariableLabel name={last(name.split("/"))!} depth={depth} />
-      {type === "Array" || type === "Object" ? (
-        <SettingListbox variable={node} />
-      ) : (
-        <SettingInput variable={node} />
-      )}
+      {type === "Array" ? (
+        <ArrayDropdown variable={node} />
+      ) : type === "Object" ? (
+        <ObjectDropdown variable={node} />
+      ) : type === "SimpleArray" ? (
+        <SimpleArrayDropdown variable={node} />
+      ) : type === "Number" ? (
+        <NumberInput variable={node} />
+      ) : null}
     </div>
   );
 }

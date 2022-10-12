@@ -7,18 +7,23 @@ const X_PADDING = 12;
 const BORDER_RADIUS = 4;
 
 export const buttonStyles = css`
+  align-items: center;
   background: none;
   border: none;
   border-radius: ${BORDER_RADIUS}px;
   color: inherit;
-  display: inline-block;
+  display: inline-flex;
   font-family: inherit;
   font-size: 17px;
+  gap: 8px;
+  justify-content: center;
   min-width: 24px;
   opacity: 0.8;
   padding: 6px ${X_PADDING}px;
+  max-width: 100%;
 
   > svg {
+    flex-shrink: 0;
     font-size: 18px;
     vertical-align: bottom;
   }
@@ -59,7 +64,7 @@ const buttonGroupStyles = css`
 `;
 
 export function ButtonGroup({ children }: { children: ReactNode }) {
-  return <div className={buttonGroupStyles}> {children} </div>;
+  return <div className={buttonGroupStyles}>{children}</div>;
 }
 
 const splitButtonStyles = css`
@@ -78,8 +83,8 @@ const splitButtonStyles = css`
     button {
       border-bottom-left-radius: 0;
       border-top-left-radius: 0;
-      padding-left: 2px;
-      padding-right: 2px;
+      padding-left: 3px;
+      padding-right: 3px;
     }
   }
 `;

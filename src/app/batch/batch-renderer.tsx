@@ -6,7 +6,7 @@ import { Frame } from "../frame/frame";
 import {
   requireFrame,
   resetFrame,
-  getActiveVariableValues,
+  getVariableSnapshots,
 } from "../frames-state";
 import { settings } from "../settings-state";
 import { BATCH_PREVIEW_SIZE } from "./batch-preview";
@@ -31,7 +31,7 @@ export function BatchRenderer({
             saveImageInDb({
               batchId,
               image: blob,
-              variables: getActiveVariableValues(frameId),
+              variables: getVariableSnapshots(frameId),
             });
           }
           resetFrame(frameId);
