@@ -1,10 +1,11 @@
 import { css } from "@emotion/css";
+import { useEffect } from "react";
 import { useSnapshot } from "valtio";
 import { BatchPreview } from "./batch/batch-preview";
 import { ImageViewer } from "./batch/image-viewer";
 import { DevelopScreen } from "./develop/develop-screen";
 import { Dialog } from "./generic-ui/dialog";
-import { navigation } from "./navigation";
+import { navigation, popScreen } from "./navigation";
 
 const styles = css`
   height: 100%;
@@ -22,6 +23,19 @@ const styles = css`
 
 export function NavigationStack() {
   const _navigation = useSnapshot(navigation);
+
+  useEffect(() => {
+    function listener(e: KeyboardEvent) {
+      const hasModifier = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
+      if (!hasModifier && e.key === "Escape") {
+        popScreen();
+      }
+    }
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, []);
 
   return (
     <div className={styles}>
