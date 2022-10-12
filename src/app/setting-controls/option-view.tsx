@@ -6,9 +6,13 @@ const styles = css`
   gap: 8px;
   overflow: hidden;
   text-align: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
+
+  > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
 `;
 
 export function OptionView({ children }: { children: ReactNode }) {

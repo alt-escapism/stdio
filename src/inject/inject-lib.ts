@@ -36,6 +36,7 @@ const augmentedRandomNumber: typeof randomNumber = (
     name,
     type: "Number",
     value,
+    writable: true,
     min,
     max,
     shadowed,
@@ -71,6 +72,7 @@ const augmentedRandomChoice: typeof randomChoice = (name, choices) => {
         type: "SimpleArray",
         options: unweightedChoices,
         value: _chosenValue,
+        writable: true,
         shadowed,
       });
     } else {
@@ -87,6 +89,7 @@ const augmentedRandomChoice: typeof randomChoice = (name, choices) => {
         type: "Array",
         options: unweightedChoices,
         value: index,
+        writable: true,
         shadowed,
       });
     }
@@ -109,6 +112,7 @@ const augmentedRandomChoice: typeof randomChoice = (name, choices) => {
       type: "Object",
       options: Object.fromEntries(unweightedEntries),
       value: key,
+      writable: true,
       shadowed,
     });
   }
@@ -139,6 +143,7 @@ const augmentedRandomGaussian = (...args: any[]) => {
     name,
     type: "Number",
     value,
+    writable: true,
     mean,
     sd,
     shadowed,

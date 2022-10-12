@@ -1,19 +1,22 @@
 import { RiFileDownloadLine } from "react-icons/ri";
-import { captureImage, downloadImage } from "../capture";
-import { getHash } from "../frames-state";
+import { downloadImage } from "../capture";
 import { Button } from "../generic-ui/button";
 
-export function DownloadButton() {
+export function DownloadButton({
+  getImage,
+}: {
+  getImage: () => Promise<{
+    image: Blob;
+    filename: string | undefined;
+  } | null>;
+}) {
   return (
     <Button
       tip="Save image"
       onClick={() => {
-        captureImage("main").then((blob) => {
-          if (blob) {
-            const filename = getHash("main");
-            if (filename) {
-              downloadImage(blob, filename);
-            }
+        getImage().then((image) => {
+          if (image) {
+            downloadImage(image.image, image.filename ?? "image");
           }
         });
       }}

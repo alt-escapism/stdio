@@ -8,10 +8,14 @@ import { BsCircleHalf } from "react-icons/bs";
 import { Button } from "../generic-ui/button";
 import { autoReload } from "../reload";
 import { getLeafNodes, VariableTree } from "./variable-tree";
+import { isWritable } from "../variables";
 
 export function GroupLockButton({ tree }: { tree: VariableTree }) {
   const _settings = useSnapshot(settings);
-  const variables = useMemo(() => getLeafNodes(tree), [tree]);
+  const variables = useMemo(
+    () => getLeafNodes(tree).filter(isWritable),
+    [tree]
+  );
   const numLocked = useMemo(
     () =>
       variables.reduce(
@@ -21,6 +25,9 @@ export function GroupLockButton({ tree }: { tree: VariableTree }) {
       ),
     [_settings.variables, variables]
   );
+  if (!variables.length) {
+    return null;
+  }
 
   return (
     <Button

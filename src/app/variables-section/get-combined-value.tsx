@@ -1,10 +1,12 @@
-import { NumberVar } from "../../inject/variable-def.type";
+import { NumberVar, VariableSnapshot } from "../../inject/variable-def.type";
 import { last } from "../last";
 import { ColorSwatch } from "../setting-controls/color-swatch";
-import { TreeNode } from "./variable-tree";
+import { VariableTreeNode } from "./variable-tree";
 
-export function getCombinedValue(nodes: TreeNode[]) {
-  const keyedChildren: Record<string, TreeNode> = Object.fromEntries(
+export function getCombinedValue<T extends VariableSnapshot>(
+  nodes: VariableTreeNode<T>[]
+) {
+  const keyedChildren: Record<string, VariableTreeNode> = Object.fromEntries(
     nodes.map((node) => [last(node.name.split("/")), node])
   );
 
@@ -56,8 +58,8 @@ export function getCombinedValue(nodes: TreeNode[]) {
 }
 
 function nodesMatchExactly(
-  keyedNodes: { [key: string]: TreeNode },
-  matches: { [basename: string]: (node: TreeNode) => boolean }
+  keyedNodes: { [key: string]: VariableTreeNode },
+  matches: { [basename: string]: (node: VariableTreeNode) => boolean }
 ): boolean {
   const matchEntries = Object.entries(matches);
   if (Object.keys(keyedNodes).length !== matchEntries.length) {
@@ -69,6 +71,6 @@ function nodesMatchExactly(
   );
 }
 
-function isNumberVar(node: TreeNode): node is NumberVar {
+function isNumberVar(node: VariableTreeNode): node is NumberVar {
   return node.type === "Number";
 }

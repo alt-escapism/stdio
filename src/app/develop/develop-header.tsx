@@ -5,6 +5,8 @@ import stdioLogo from "./fx-stdio.svg";
 import { BatchGenerateButton } from "./batch-generate-button";
 import { ButtonGroup } from "../generic-ui/button";
 import { DevOnly } from "../generic-ui/dev-only";
+import { captureImage } from "../capture";
+import { getHash } from "../frames-state";
 
 const logoStyles = css`
   > img {
@@ -23,7 +25,13 @@ export function DevelopHeader() {
         <DevOnly>
           <BatchGenerateButton />
         </DevOnly>
-        <DownloadButton />
+        <DownloadButton
+          getImage={() =>
+            captureImage("main").then((image) =>
+              image ? { image, filename: getHash("main") } : null
+            )
+          }
+        />
         <ToggleBackgroundButton />
       </ButtonGroup>
     </>

@@ -1,6 +1,8 @@
-import { VariableSnapshot, Variable } from "../inject/variable-def.type";
+import { Variable, VariableSnapshot } from "../inject/variable-def.type";
 
-export function toVariableSnapshot(variable: Variable): VariableSnapshot {
+export function toVariableSnapshot(
+  variable: VariableSnapshot
+): VariableSnapshot {
   return {
     type: variable.type,
     name: variable.name,
@@ -19,4 +21,8 @@ export function getValueOfType<
     return variable.value;
   }
   return;
+}
+
+export function isWritable(variable: VariableSnapshot): variable is Variable {
+  return "writable" in variable && (variable as Variable).writable === true;
 }

@@ -1,15 +1,15 @@
 import { css } from "@emotion/css";
-import { NumberInput } from "../setting-controls/number-input";
 import { VariableLabel } from "./variable-label";
-import { TreeNode, VariableTree } from "./variable-tree";
+import { VariableTreeNode, VariableTree } from "./variable-tree";
 import { BiChevronDown, BiChevronRight } from "react-icons/bi";
 import { useMemo, useState } from "react";
 import { GroupLockButton } from "./group-lock-button";
 import { last } from "../last";
 import { getCombinedValue } from "./get-combined-value";
-import { ArrayDropdown } from "../setting-controls/array-dropdown";
-import { ObjectDropdown } from "../setting-controls/object-dropdown";
-import { SimpleArrayDropdown } from "../setting-controls/simple-array-dropdown";
+import { VariableSnapshot } from "../../inject/variable-def.type";
+import { isWritable } from "../variables";
+import { VariableInput } from "../setting-controls/variable-input";
+import { VariableView } from "../setting-controls/variable-view";
 
 const treeLabelStyles = css`
   align-items: center;
@@ -19,10 +19,6 @@ const treeLabelStyles = css`
   gap: 12px;
   margin-left: -18px;
   margin-right: -12px;
-
-  :hover {
-    color: #fff;
-  }
 
   > button {
     font-size: 0.9em;
@@ -40,11 +36,63 @@ const combinedValueStyles = css`
   padding-left: 13px;
 `;
 
-export function VariableTreeView({
+export function VariableTreeView<T extends VariableSnapshot>({
+  tree,
+}: {
+  tree: VariableTree<T>;
+}) {
+  return (
+    <>
+      {tree.children.map((node) => (
+        <TreeNodeView key={node.name} node={node} depth={0} />
+      ))}
+    </>
+  );
+}
+
+const variableStyles = css`
+  display: grid;
+  grid-template-columns: 40% minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+
+  :hover {
+    color: #fff;
+  }
+`;
+
+function TreeNodeView({
+  node,
+  depth,
+}: {
+  node: VariableTreeNode;
+  depth: number;
+}) {
+  const { name, type } = node;
+
+  if (type === "Tree") {
+    return <SubTreeView tree={node} depth={depth} />;
+  }
+
+  const isNodeWritable = isWritable(node);
+
+  return (
+    <div className={variableStyles}>
+      <VariableLabel name={last(name.split("/"))!} depth={depth} />
+      {isNodeWritable ? (
+        <VariableInput variable={node} />
+      ) : (
+        <VariableView variable={node} />
+      )}
+    </div>
+  );
+}
+
+function SubTreeView<T extends VariableSnapshot>({
   tree,
   depth,
 }: {
-  tree: VariableTree;
+  tree: VariableTree<T>;
   depth: number;
 }) {
   const combinedValue = useMemo(() => {
@@ -75,47 +123,6 @@ export function VariableTreeView({
           <TreeNodeView key={node.name} node={node} depth={depth + 1} />
         ))}
       </div>
-    </div>
-  );
-}
-
-const variableStyles = css`
-  display: grid;
-  grid-template-columns: 40% minmax(0, 1fr);
-  gap: 16px;
-  align-items: center;
-  color: #aaa;
-
-  :hover {
-    color: #fff;
-  }
-`;
-
-export function TreeNodeView({
-  node,
-  depth,
-}: {
-  node: TreeNode;
-  depth: number;
-}) {
-  const { name, type } = node;
-
-  if (type === "Tree") {
-    return <VariableTreeView tree={node} depth={depth} />;
-  }
-
-  return (
-    <div key={name} className={variableStyles}>
-      <VariableLabel name={last(name.split("/"))!} depth={depth} />
-      {type === "Array" ? (
-        <ArrayDropdown variable={node} />
-      ) : type === "Object" ? (
-        <ObjectDropdown variable={node} />
-      ) : type === "SimpleArray" ? (
-        <SimpleArrayDropdown variable={node} />
-      ) : type === "Number" ? (
-        <NumberInput variable={node} />
-      ) : null}
     </div>
   );
 }

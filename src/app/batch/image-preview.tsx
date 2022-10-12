@@ -18,8 +18,9 @@ const styles = css`
 export function ImagePreview({
   imageId,
   className,
+  background,
   ...props
-}: { imageId: string } & HTMLAttributes<HTMLDivElement>) {
+}: { imageId: string; background?: string } & HTMLAttributes<HTMLDivElement>) {
   const image = useLiveQuery(() => getDb().Image.get(imageId));
   const url = useMemo(
     () => (image ? URL.createObjectURL(image.image) : null),
@@ -32,7 +33,18 @@ export function ImagePreview({
   }, [url]);
 
   return (
-    <div className={cx(styles, className)} {...props}>
+    <div
+      className={cx(
+        styles,
+        className,
+        background
+          ? css`
+              background: ${background};
+            `
+          : null
+      )}
+      {...props}
+    >
       {url && <img src={url} alt="Preview" />}
     </div>
   );

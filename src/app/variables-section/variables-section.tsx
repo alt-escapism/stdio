@@ -4,7 +4,7 @@ import { useFrame } from "../frames-state";
 import { EmptyMessage } from "../generic-ui/empty-message";
 import { Section } from "../generic-ui/section";
 import { buildVariableTree } from "./variable-tree";
-import { TreeNodeView } from "./variable-tree-view";
+import { VariableTreeView } from "./variable-tree-view";
 
 const containerStyles = css`
   display: flex;
@@ -25,9 +25,7 @@ export function VariablesSection() {
     <Section title="Variables">
       {tree.children.length ? (
         <div className={containerStyles}>
-          {tree.children.map((node) => (
-            <TreeNodeView key={node.name} node={node} depth={0} />
-          ))}
+          <VariableTreeView tree={tree} />
         </div>
       ) : (
         <EmptyMessage>

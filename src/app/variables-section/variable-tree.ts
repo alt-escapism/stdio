@@ -1,13 +1,13 @@
-import { VariableSnapshot, Variable } from "../../inject/variable-def.type";
+import { VariableSnapshot } from "../../inject/variable-def.type";
 
-export type VariableTree<T extends VariableSnapshot = Variable> = {
+export type VariableTree<T extends VariableSnapshot = VariableSnapshot> = {
   type: "Tree";
   name: string;
-  children: TreeNode<T>[];
+  children: VariableTreeNode<T>[];
   subTrees: Record<string, VariableTree<T>>;
 };
 
-export type TreeNode<T extends VariableSnapshot = Variable> =
+export type VariableTreeNode<T extends VariableSnapshot = VariableSnapshot> =
   | T
   | VariableTree<T>;
 
@@ -44,7 +44,7 @@ export function buildVariableTree<T extends VariableSnapshot>(
   return tree;
 }
 
-export function getLeafNodes<T extends VariableSnapshot>(
+export function getLeafNodes<T extends VariableSnapshot = VariableSnapshot>(
   tree: VariableTree<T>,
   leaves: T[] = []
 ) {

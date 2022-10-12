@@ -2,7 +2,6 @@ import { css, cx } from "@emotion/css";
 import { FC, forwardRef, HTMLProps, RefAttributes } from "react";
 
 const styles = css`
-  color: #fff;
   position: relative;
   display: flex;
   width: calc(100% + 26px);

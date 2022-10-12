@@ -22,6 +22,7 @@ export type HashVar = {
   type: "Hash";
   name: string;
   value: string;
+  writable: true;
   shadowed?: string;
 };
 
@@ -29,6 +30,7 @@ export type NumberVar = {
   type: "Number";
   name: string;
   value: number;
+  writable: true;
   min?: number;
   max?: number;
   mean?: number;
@@ -41,6 +43,7 @@ export type ArrayVar = {
   name: string;
   value: number; // index of selected option
   options: unknown[];
+  writable: true;
   shadowed?: number;
 };
 
@@ -53,6 +56,7 @@ export type SimpleArrayVar = {
   name: string;
   value: SimpleValue;
   options: SimpleValue[];
+  writable: true;
   shadowed?: SimpleValue;
 };
 
@@ -61,5 +65,6 @@ export type ObjectVar = {
   name: string;
   value: string; // key of selected option
   options: Record<string, unknown>;
+  writable: true;
   shadowed?: string;
 };

@@ -1,9 +1,11 @@
 import { useSnapshot } from "valtio";
-import { SimpleArrayVar } from "../../inject/variable-def.type";
+import { SimpleArrayVar, SimpleValue } from "../../inject/variable-def.type";
 import { settings } from "../settings-state";
 import { getValueOfType } from "../variables";
 import { GenericVariableDropdown } from "./generic-variable-dropdown";
 import deepEqual from "fast-deep-equal";
+import { ReactNode } from "react";
+import { OptionView } from "./option-view";
 
 export function SimpleArrayDropdown({
   variable,
@@ -28,17 +30,7 @@ export function SimpleArrayDropdown({
       variable={variable}
       items={options}
       selectedItem={activeValue}
-      renderItem={(item) => {
-        if (Array.isArray(item)) {
-          return item.join(", ");
-        }
-        if (typeof item === "object") {
-          return Object.entries(item)
-            .map(([key, val]) => `${key}:${val}`)
-            .join(", ");
-        }
-        return item;
-      }}
+      renderItem={(item) => <SimpleValueView value={item} />}
       onSelect={(item) => {
         settings.variables[name] = {
           type: "SimpleArray",
@@ -47,5 +39,23 @@ export function SimpleArrayDropdown({
         };
       }}
     />
+  );
+}
+
+export function SimpleValueView({ value }: { value: SimpleValue }) {
+  let content: ReactNode;
+  if (Array.isArray(value)) {
+    content = value.join(", ");
+  } else if (typeof value === "object") {
+    content = Object.entries(value)
+      .map(([key, val]) => `${key}:${val}`)
+      .join(", ");
+  } else {
+    content = value;
+  }
+  return (
+    <OptionView>
+      <span>{content}</span>
+    </OptionView>
   );
 }

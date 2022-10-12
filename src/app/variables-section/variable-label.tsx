@@ -2,8 +2,9 @@ import { css } from "@emotion/css";
 import { HTMLProps, ReactNode } from "react";
 
 const styles = css`
-  display: flex;
   align-items: center;
+  color: #aaa;
+  display: flex;
   gap: 4px;
   height: 32px;
   overflow: hidden;

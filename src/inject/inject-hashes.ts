@@ -13,6 +13,7 @@ export function injectHashes() {
         type: "Hash",
         name,
         value: variable.value,
+        writable: true,
       });
     } else {
       let value: unknown;
@@ -24,6 +25,7 @@ export function injectHashes() {
             type: "Hash",
             name,
             value: v,
+            writable: true,
           });
         },
       });
