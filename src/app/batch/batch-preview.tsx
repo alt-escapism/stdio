@@ -1,19 +1,20 @@
 import { css } from "@emotion/css";
 import { useLiveQuery } from "dexie-react-hooks";
+import { useSnapshot } from "valtio";
 import { getDb } from "../db";
 import { ButtonGroup } from "../generic-ui/button";
 import { Pane } from "../generic-ui/pane";
 import { Spacer } from "../generic-ui/spacer";
 import { popScreen, pushScreen } from "../navigation";
 import { NavigationBackButton } from "../navigation-back-buttons";
+import { settings } from "../settings-state";
 import { BatchRenderer } from "./batch-renderer";
 import { formatBatchDate } from "./batch-summary-row";
 import { DeleteBatchButton } from "./delete-batch-button";
 import { ImagePreview } from "./image-preview";
+import { ThumbnailSizePicker } from "./thumbnail-size-picker";
 
-export const BATCH_PREVIEW_SIZE = 280;
-
-const imageGridStyles = css`
+const imageGridStyles = (previewSize: number) => css`
   align-self: start;
   display: flex;
   flex-wrap: wrap;
@@ -22,9 +23,9 @@ const imageGridStyles = css`
 
   > * {
     border: 2px solid transparent;
-    height: ${BATCH_PREVIEW_SIZE}px;
+    height: ${previewSize}px;
     overflow: hidden;
-    width: ${BATCH_PREVIEW_SIZE}px;
+    width: ${previewSize}px;
 
     :hover {
       border-color: white;
@@ -33,6 +34,7 @@ const imageGridStyles = css`
 `;
 
 export function BatchPreview({ batchId }: { batchId: string }) {
+  const _settings = useSnapshot(settings);
   const imagesMeta = useLiveQuery(() =>
     getDb()
       .ImageMeta.where("batchId")
@@ -50,20 +52,25 @@ export function BatchPreview({ batchId }: { batchId: string }) {
             <BatchTitle batchId={batchId} />
           </Spacer>
           <ButtonGroup>
-            <DeleteBatchButton
-              batchId={batchId}
-              onSuccess={() => popScreen(["batch", batchId])}
-            />
+            <Spacer>
+              <ThumbnailSizePicker />
+              <div />
+              <DeleteBatchButton
+                batchId={batchId}
+                onSuccess={() => popScreen(["batch", batchId])}
+              />
+            </Spacer>
           </ButtonGroup>
         </>
       }
       main={
-        <div className={imageGridStyles}>
+        <div className={imageGridStyles(_settings.batchThumbnailSize)}>
           <BatchRenderer batchId={batchId} />
           {imagesMeta?.map((imageMeta) => (
             <ImagePreview
               key={imageMeta.id}
               imageId={imageMeta.id}
+              imageSize={imageMeta.thumbnailSizes[0]}
               onClick={() => {
                 pushScreen(["image", imageMeta.id]);
               }}

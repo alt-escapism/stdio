@@ -1,7 +1,7 @@
 import { css, cx } from "@emotion/css";
 import { useLiveQuery } from "dexie-react-hooks";
 import { HTMLAttributes, useEffect, useMemo } from "react";
-import { getDb } from "../db";
+import { DbObject, getDb } from "../db";
 
 const styles = css`
   align-items: center;
@@ -17,11 +17,25 @@ const styles = css`
 
 export function ImagePreview({
   imageId,
+  imageSize,
   className,
   background,
   ...props
-}: { imageId: string; background?: string } & HTMLAttributes<HTMLDivElement>) {
-  const image = useLiveQuery(() => getDb().Image.get(imageId));
+}: {
+  imageId: string;
+  imageSize?: number;
+  background?: string;
+} & HTMLAttributes<HTMLDivElement>) {
+  const image = useLiveQuery(async () => {
+    let image: DbObject["Image"] | undefined;
+    if (imageSize !== undefined) {
+      image = await getDb().ImageThumbnail.get([imageId, imageSize]);
+    }
+    if (image == null) {
+      image = await getDb().Image.get(imageId);
+    }
+    return image;
+  });
   const url = useMemo(
     () => (image ? URL.createObjectURL(image.image) : null),
     [image]

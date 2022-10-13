@@ -1,6 +1,7 @@
 export function captureImage(
   frameId: string,
-  size?: number
+  size?: number,
+  quality: number = 1
 ): Promise<Blob | null> {
   const iframe = document.getElementById(frameId) as HTMLIFrameElement | null;
   const w = iframe?.contentWindow ?? window;
@@ -21,9 +22,13 @@ export function captureImage(
       _canvas = newCanvas;
     }
     return new Promise((resolve) => {
-      _canvas.toBlob((blob) => {
-        resolve(blob);
-      }, "image/jpeg");
+      _canvas.toBlob(
+        (blob) => {
+          resolve(blob);
+        },
+        "image/jpeg",
+        quality
+      );
     });
   }
   return Promise.resolve(null);

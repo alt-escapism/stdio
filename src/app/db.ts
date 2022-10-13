@@ -19,6 +19,12 @@ export type DbObject = {
     createdAt: string;
     batchId: string;
     variables: VariableSnapshots;
+    thumbnailSizes: number[];
+  };
+  ImageThumbnail: {
+    id: string;
+    size: number;
+    image: Blob;
   };
 };
 
@@ -26,6 +32,7 @@ const schema: { [k in keyof DbObject]: string } = {
   Thumbnail: `hash`,
   Image: `id`,
   ImageMeta: `id,batchId`,
+  ImageThumbnail: `[id+size],id`,
   Batch: `id,createdAt`,
 };
 
