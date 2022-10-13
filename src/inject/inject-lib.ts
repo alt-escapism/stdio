@@ -1,6 +1,7 @@
 import { getValueOfType } from "../app/variables";
 import { random } from "../lib/random";
 import { randomChoice, toUnweighted, weight } from "../lib/random-choice";
+import { urlParam } from "../lib/url-param";
 import { randomGaussian } from "../lib/random-gaussian";
 import { randomNumber } from "../lib/random-number";
 import { Stdio } from "../lib/stdio.type";
@@ -8,6 +9,7 @@ import { addVariable, variables } from "./context";
 import { isSimpleValue } from "./simple-value";
 import { SimpleValue, VariableSnapshot } from "./variable-def.type";
 import deepEqual from "fast-deep-equal";
+import { getParentWindow } from "./app-interface";
 
 const augmentedRandomNumber: typeof randomNumber = (
   name,
@@ -152,6 +154,12 @@ const augmentedRandomGaussian = (...args: any[]) => {
   return value;
 };
 
+const augmentedUrlParam: typeof urlParam = (name) => {
+  const search = (getParentWindow() ?? window).location.search;
+  const values = new URLSearchParams(search).getAll(name);
+  return values.length === 0 ? null : values.length === 1 ? values[0] : values;
+};
+
 export function injectLib() {
   const stdio: Stdio = {
     random(...args: any[]): any {
@@ -167,6 +175,7 @@ export function injectLib() {
     },
     weight,
     randomGaussian: augmentedRandomGaussian,
+    urlParam: augmentedUrlParam,
   };
 
   (window as any).stdio = stdio;

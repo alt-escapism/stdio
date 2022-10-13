@@ -20,7 +20,7 @@ export function getAppInterface() {
   return null;
 }
 
-function getParentWindow(): Window | null {
+export function getParentWindow(): Window | null {
   const w = window;
   try {
     if (w.parent !== w && w.parent.origin === w.origin) {
