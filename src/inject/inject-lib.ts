@@ -54,26 +54,25 @@ const augmentedRandomChoice: typeof randomChoice = (name, choices) => {
   if (Array.isArray(choices)) {
     const unweightedChoices = choices.map(toUnweighted);
     if (unweightedChoices.every(isSimpleValue)) {
-      let _chosenValue = chosenValue as unknown as SimpleValue;
       const unweightedChoices = choices.map(
         toUnweighted
       ) as unknown as SimpleValue[];
       const lockedValue = getValueOfType(lockedVariable, "SimpleArray");
       let shadowed: SimpleValue | undefined;
-      if (lockedValue) {
+      if (lockedValue !== undefined) {
         const matchingValue = unweightedChoices.find((choice) =>
           deepEqual(choice, lockedValue)
         );
         if (matchingValue) {
-          shadowed = _chosenValue;
-          _chosenValue = matchingValue;
+          shadowed = chosenValue as any;
+          chosenValue = matchingValue as any;
         }
       }
       addVariable({
         name,
         type: "SimpleArray",
         options: unweightedChoices,
-        value: _chosenValue,
+        value: chosenValue as any,
         writable: true,
         shadowed,
       });
@@ -81,7 +80,7 @@ const augmentedRandomChoice: typeof randomChoice = (name, choices) => {
       let index = unweightedChoices.indexOf(chosenValue);
       let shadowed: number | undefined;
       const lockedValue = getValueOfType(lockedVariable, "Array");
-      if (lockedValue && choices.length > lockedValue) {
+      if (lockedValue !== undefined && choices.length > lockedValue) {
         shadowed = index;
         index = lockedValue;
         chosenValue = unweightedChoices[lockedValue];
@@ -104,7 +103,7 @@ const augmentedRandomChoice: typeof randomChoice = (name, choices) => {
       unweightedEntries[0];
     let shadowed: string | undefined;
     const lockedValue = getValueOfType(lockedVariable, "Object");
-    if (lockedValue && lockedValue in choices) {
+    if (lockedValue !== undefined && lockedValue in choices) {
       shadowed = key;
       key = lockedValue;
       chosenValue = toUnweighted(choices[lockedValue]);
