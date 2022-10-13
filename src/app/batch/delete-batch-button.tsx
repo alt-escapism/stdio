@@ -1,3 +1,4 @@
+import { BiTrash } from "react-icons/bi";
 import { getDb } from "../db";
 import { Button } from "../generic-ui/button";
 import { pushScreen, popScreen } from "../navigation";
@@ -11,6 +12,7 @@ export function DeleteBatchButton({
 }) {
   return (
     <Button
+      tip="Delete batch"
       onClick={() => {
         pushScreen([
           "dialog",
@@ -28,7 +30,7 @@ export function DeleteBatchButton({
         ]);
       }}
     >
-      Delete batch
+      <BiTrash />
     </Button>
   );
 }
