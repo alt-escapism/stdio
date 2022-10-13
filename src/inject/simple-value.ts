@@ -3,7 +3,7 @@ import { SimpleValue } from "./variable-def.type";
 const primitiveTypes = new Set(["number", "boolean", "string"]);
 
 function isPrimitive(value: unknown): value is number | boolean | string {
-  return primitiveTypes.has(typeof value);
+  return value === null || primitiveTypes.has(typeof value);
 }
 
 function isPlainObject(value: unknown): value is {} {

@@ -32,7 +32,7 @@ export function SettingLockButton({ variable }: { variable: Variable }) {
   const lockStyles = useLockStyles(variable);
   const _settings = useSnapshot(settings);
   const lockedVariable = _settings.variables[variable.name];
-  const isLocked = lockedVariable != null;
+  const isLocked = lockedVariable !== undefined;
 
   return (
     <button

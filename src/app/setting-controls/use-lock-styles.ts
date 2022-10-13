@@ -12,6 +12,6 @@ export const lockedStyles = css`
 export function useLockStyles(variable: Variable) {
   const _settings = useSnapshot(settings);
   const lockedValue = _settings.variables[variable.name]?.value;
-  const isLocked = lockedValue != null;
+  const isLocked = lockedValue !== undefined;
   return isLocked ? lockedStyles : undefined;
 }

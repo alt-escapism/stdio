@@ -47,7 +47,7 @@ export type ArrayVar = {
   shadowed?: number;
 };
 
-export type Primitive = number | string | boolean;
+export type Primitive = number | string | boolean | null;
 
 export type SimpleValue = Primitive | Primitive[] | Record<string, Primitive>;
 

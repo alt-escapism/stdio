@@ -14,9 +14,9 @@ export function autoReload(...variables: Variable[]) {
     const needsReload = variables.some((variable) => {
       const { name } = variable;
       const lockedValue = settings.variables[name]?.value;
-      if (lockedValue == null && variable.shadowed != null) {
+      if (lockedValue === undefined && variable.shadowed !== undefined) {
         return true;
-      } else if (lockedValue != null && lockedValue !== variable.value) {
+      } else if (lockedValue !== undefined && lockedValue !== variable.value) {
         return true;
       }
       return false;

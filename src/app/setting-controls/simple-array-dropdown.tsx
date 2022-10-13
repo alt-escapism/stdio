@@ -44,7 +44,9 @@ export function SimpleArrayDropdown({
 
 export function SimpleValueView({ value }: { value: SimpleValue }) {
   let content: ReactNode;
-  if (Array.isArray(value)) {
+  if (value === null) {
+    content = "null";
+  } else if (Array.isArray(value)) {
     content = value.join(", ");
   } else if (typeof value === "object") {
     content = Object.entries(value)
