@@ -31,7 +31,7 @@ export function BatchSummaryRow({ batchId }: { batchId: string }) {
       <div>
         {batch.rendered < batch.total ? (
           <>
-            {batch.rendered}/{batch.total}
+            Paused ({batch.rendered}/{batch.total})
           </>
         ) : (
           <>Batch of {batch.total}</>
