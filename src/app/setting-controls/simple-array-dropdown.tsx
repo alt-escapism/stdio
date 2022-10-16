@@ -53,7 +53,7 @@ export function SimpleValueView({ value }: { value: SimpleValue }) {
       .map(([key, val]) => `${key}:${val}`)
       .join(", ");
   } else {
-    content = value;
+    content = String(value);
   }
   return (
     <OptionView>
