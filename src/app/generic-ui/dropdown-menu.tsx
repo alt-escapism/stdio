@@ -51,7 +51,6 @@ function toNullValue<T>(value: T): T | NullValue {
 }
 
 function fromNullValue<T>(value: T | NullValue): T {
-  console.log(value, NULL_VALUE, value === NULL_VALUE);
   return (value === NULL_VALUE ? null : value) as T;
 }
 
@@ -95,7 +94,6 @@ export function DropdownMenu<T>({
       ((item) => (item === null ? "" : itemToString(fromNullValue(item)))),
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem != null) {
-        console.log(selectedItem);
         onSelect(fromNullValue(selectedItem));
       }
     },
