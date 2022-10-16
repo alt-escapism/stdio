@@ -1,4 +1,4 @@
-import { proxy, useSnapshot } from "valtio";
+import { proxy, snapshot, useSnapshot } from "valtio";
 import { Variables } from "../inject/variable-def.type";
 import { getValueOfType, toVariableSnapshot } from "./variables";
 
@@ -37,7 +37,7 @@ export function getHash(id: string) {
 
 export function getVariableSnapshots(id: string) {
   return Object.fromEntries(
-    Object.values(requireFrame(id).variables).map((variable) => [
+    Object.values(snapshot(requireFrame(id).variables)).map((variable) => [
       variable.name,
       toVariableSnapshot(variable),
     ])

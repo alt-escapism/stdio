@@ -26,7 +26,10 @@ export function saveImageInDb({
   const db = getDb();
   db.transaction("rw", [db.ImageMeta, db.Image, db.ImageThumbnail], () => {
     const writes = [
-      db.ImageMeta.add(imageMeta),
+      db.ImageMeta.add(imageMeta).catch((e) => {
+        console.log("Failed to add image metadata", imageMeta);
+        throw e;
+      }),
       db.Image.add(imageObject),
       thumbnails.length
         ? db.ImageThumbnail.bulkAdd(
