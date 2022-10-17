@@ -63,7 +63,7 @@ const augmentedRandomChoice: typeof randomChoice = (name, choices) => {
         const matchingValue = unweightedChoices.find((choice) =>
           deepEqual(choice, lockedValue)
         );
-        if (matchingValue) {
+        if (matchingValue !== undefined) {
           shadowed = chosenValue as any;
           chosenValue = matchingValue as any;
         }
