@@ -47,13 +47,7 @@ export function NavigationStack() {
         } else if (screen[0] === "image") {
           return <ImageViewer key={screen[0]} imageId={screen[1]} />;
         } else if (screen[0] === "dialog") {
-          return (
-            <Dialog
-              key={screen[0]}
-              body={screen[1].body}
-              actions={screen[1].actions}
-            />
-          );
+          return <Dialog key={screen[0]} {...screen[1]} />;
         } else {
           return null;
         }

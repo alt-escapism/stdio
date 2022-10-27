@@ -1,6 +1,12 @@
 import { css } from "@emotion/css";
 import { MouseEvent, ReactNode, useRef, useState } from "react";
-import { useFloating, flip, offset, shift } from "@floating-ui/react-dom";
+import {
+  useFloating,
+  flip,
+  offset,
+  shift,
+  autoUpdate,
+} from "@floating-ui/react-dom";
 
 const styles = css`
   background: #ccc;
@@ -10,6 +16,7 @@ const styles = css`
   line-height: 1.8;
   padding: 4px 8px;
   z-index: 1;
+  white-space: nowrap;
 `;
 
 const TOOLTIP_DELAY = 500;
@@ -18,6 +25,7 @@ export function useTooltip(tip: ReactNode) {
   const [open, setOpen] = useState(false);
   const { x, y, reference, floating, strategy } = useFloating({
     middleware: [flip(), offset(8), shift({ padding: 8 })],
+    whileElementsMounted: autoUpdate,
   });
   const timerRef = useRef<number>();
 

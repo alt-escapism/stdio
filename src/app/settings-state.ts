@@ -6,9 +6,21 @@ import {
 } from "../inject/settings-storage";
 import { Settings } from "../inject/settings.type";
 import { VariableSnapshot } from "../inject/variable-def.type";
+import { decode } from "./develop/share";
 import { toVariableSnapshot } from "./variables";
 
-export const settings = proxy(getStoredSettings());
+const rawSettings = getStoredSettings();
+// Check URL to see if there are settings there
+const url = new URL(window.location.href);
+const shared = url.searchParams.get("s");
+if (shared) {
+  rawSettings.variables = decode(shared);
+  url.searchParams.delete("s");
+  window.history.replaceState({}, "", url.href);
+  setStoredSettings(rawSettings);
+}
+
+export const settings = proxy(rawSettings);
 
 export function initSettings() {
   subscribe(settings, () => {

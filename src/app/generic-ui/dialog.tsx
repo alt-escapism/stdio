@@ -25,16 +25,24 @@ const actionStyles = css`
   margin-top: 24px;
 `;
 
+const headerStyles = css`
+  font-weight: bold;
+  margin-bottom: 8px;
+`;
+
 export function Dialog({
   body,
   actions,
+  header,
 }: {
   body: ReactNode;
   actions: ComponentProps<typeof Button>[];
+  header?: ReactNode;
 }) {
   return (
     <div className={styles}>
       <div className={contentStyles}>
+        {header ? <div className={headerStyles}>{header}</div> : null}
         <div>{body}</div>
         <div className={actionStyles}>
           {actions.map((action, index) => (

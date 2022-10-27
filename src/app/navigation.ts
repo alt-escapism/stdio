@@ -9,7 +9,14 @@ export type Screen =
   | ["develop", "configure-batch"]
   | ["batch", string]
   | ["image", string]
-  | ["dialog", { body: ReactNode; actions: ComponentProps<typeof Button>[] }];
+  | [
+      "dialog",
+      {
+        body: ReactNode;
+        actions: ComponentProps<typeof Button>[];
+        header?: ReactNode;
+      }
+    ];
 
 const ROOT_SCREEN: Screen = ["develop"];
 
