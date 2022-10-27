@@ -1,6 +1,6 @@
-import { projectKey } from "../inject/settings-storage";
 import { Dexie, Table } from "dexie";
 import { VariableSnapshots } from "../inject/variable-def.type";
+import { config } from "../inject/config";
 
 export type DbObject = {
   Thumbnail: { hash: string; image: Blob };
@@ -41,7 +41,7 @@ export type Db = Dexie & { [k in keyof DbObject]: Table<DbObject[k]> };
 let db: Db;
 export function getDb() {
   if (!db) {
-    db = new Dexie(projectKey) as Db;
+    db = new Dexie(config.project) as Db;
     db.version(2).stores({
       thumbnails: null,
       ...schema,

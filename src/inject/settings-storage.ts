@@ -1,12 +1,10 @@
+import { config } from "./config";
 import { Settings } from "./settings.type";
 
-export const projectKey =
-  new URLSearchParams(window.location.search).get("project") ?? "stdio";
-
-const storageKey = projectKey;
+const storageKey = config.project;
 
 // Delete old key
-localStorage.removeItem(projectKey + ".settings");
+localStorage.removeItem(storageKey + ".settings");
 
 export const BATCH_THUMBNAIL_SIZES = [180, 300, 440] as [
   number,
