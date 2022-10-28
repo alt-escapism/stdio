@@ -12,6 +12,10 @@ const styles = css`
   :hover {
     border-color: rgba(255, 255, 255, 0.15);
   }
+
+  :focus-within {
+    border-color: rgba(255, 255, 255, 1);
+  }
 `;
 
 export const InputContainer: FC<

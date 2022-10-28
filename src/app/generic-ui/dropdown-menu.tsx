@@ -9,7 +9,7 @@ const overrideButtonStyles = css`
   justify-content: space-between;
 `;
 
-const dropdownStyles = css`
+export const dropdownStyles = css`
   background: #222;
   margin: 0;
   max-height: 340px;
