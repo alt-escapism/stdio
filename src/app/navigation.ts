@@ -8,7 +8,7 @@ export type Screen =
   | ["develop"]
   | ["develop", "configure-batch"]
   | ["batch", string]
-  | ["image", string]
+  | ["image", { imageId: string; onPrev?: () => void; onNext?: () => void }]
   | [
       "dialog",
       {
@@ -40,16 +40,21 @@ export const navigation = proxyWithComputed(
   }
 );
 
-export function pushScreen(screen: Screen) {
+export function pushScreen(screen: Screen, replaceIfSameType = false) {
+  if (replaceIfSameType && last(navigation.history)![0] === screen[0]) {
+    popScreen();
+  }
   navigation.history.push(ref(screen));
 }
 
-export function popScreen(screen: Screen = last(navigation.history)!) {
-  const index = navigation.history.findIndex(
-    (_screen) =>
-      _screen.length === screen.length &&
-      (_screen as unknown[]).every((part, index) => part === screen[index])
-  );
+export function popScreen(to?: Screen) {
+  const index = to
+    ? navigation.history.findIndex(
+        (_screen) =>
+          _screen.length === to.length &&
+          (_screen as unknown[]).every((part, index) => part === to[index])
+      )
+    : navigation.history.length - 1;
   navigation.history.splice(index, navigation.history.length - index);
   if (navigation.history.length === 0) {
     navigation.history.push(ROOT_SCREEN);

@@ -20,11 +20,15 @@ export function ImagePreview({
   imageSize,
   className,
   background,
+  onNext,
+  onPrev,
   ...props
 }: {
   imageId: string;
   imageSize?: number;
   background?: string;
+  onNext?: () => void;
+  onPrev?: () => void;
 } & HTMLAttributes<HTMLDivElement>) {
   const image = useLiveQuery(async () => {
     let image: DbObject["Image"] | undefined;
@@ -35,7 +39,7 @@ export function ImagePreview({
       image = await getDb().Image.get(imageId);
     }
     return image;
-  });
+  }, [imageId, imageSize]);
   const url = useMemo(
     () => (image ? URL.createObjectURL(image.image) : null),
     [image]

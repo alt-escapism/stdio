@@ -1,7 +1,7 @@
 import { css } from "@emotion/css";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useSnapshot } from "valtio";
-import { getDb } from "../db";
+import { DbObject, getDb } from "../db";
 import { ButtonGroup } from "../generic-ui/button";
 import { Pane } from "../generic-ui/pane";
 import { Spacer } from "../generic-ui/spacer";
@@ -66,20 +66,38 @@ export function BatchPreview({ batchId }: { batchId: string }) {
       main={
         <div className={imageGridStyles(_settings.batchThumbnailSize)}>
           <BatchRenderer batchId={batchId} />
-          {imagesMeta?.map((imageMeta) => (
+          {imagesMeta?.map((imageMeta, i) => (
             <ImagePreview
               key={imageMeta.id}
               imageId={imageMeta.id}
               imageSize={imageMeta.thumbnailSizes[0]}
-              onClick={() => {
-                pushScreen(["image", imageMeta.id]);
-              }}
+              onClick={getImageViewerHandler(imagesMeta, i)}
             />
           ))}
         </div>
       }
     />
   );
+}
+
+function getImageViewerHandler(imagesMeta: DbObject["ImageMeta"][], i: number) {
+  return () => {
+    const { id } = imagesMeta[i];
+    pushScreen(
+      [
+        "image",
+        {
+          imageId: id,
+          onNext:
+            i < imagesMeta.length - 1
+              ? getImageViewerHandler(imagesMeta, i + 1)
+              : undefined,
+          onPrev: i > 0 ? getImageViewerHandler(imagesMeta, i - 1) : undefined,
+        },
+      ],
+      true
+    );
+  };
 }
 
 const batchTitleStyles = css`

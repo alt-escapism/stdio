@@ -45,7 +45,7 @@ export function NavigationStack() {
         } else if (screen[0] === "batch") {
           return <BatchPreview key={screen[0]} batchId={screen[1]} />;
         } else if (screen[0] === "image") {
-          return <ImageViewer key={screen[0]} imageId={screen[1]} />;
+          return <ImageViewer key={screen[0]} {...screen[1]} />;
         } else if (screen[0] === "dialog") {
           return <Dialog key={screen[0]} {...screen[1]} />;
         } else {
