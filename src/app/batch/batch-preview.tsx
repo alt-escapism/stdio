@@ -1,5 +1,7 @@
 import { css } from "@emotion/css";
 import { useLiveQuery } from "dexie-react-hooks";
+import { memo } from "react";
+import RenderIfVisible from "react-render-if-visible";
 import { useSnapshot } from "valtio";
 import { DbObject, getDb } from "../db";
 import { ButtonGroup } from "../generic-ui/button";
@@ -23,6 +25,7 @@ const imageGridStyles = (previewSize: number) => css`
 
   > * {
     border: 2px solid transparent;
+    box-sizing: content-box;
     height: ${previewSize}px;
     overflow: hidden;
     width: ${previewSize}px;
@@ -33,7 +36,7 @@ const imageGridStyles = (previewSize: number) => css`
   }
 `;
 
-export function BatchPreview({ batchId }: { batchId: string }) {
+export const BatchPreview = memo(({ batchId }: { batchId: string }) => {
   const _settings = useSnapshot(settings);
   const imagesMeta = useLiveQuery(() =>
     getDb()
@@ -67,18 +70,19 @@ export function BatchPreview({ batchId }: { batchId: string }) {
         <div className={imageGridStyles(_settings.batchThumbnailSize)}>
           <BatchRenderer batchId={batchId} />
           {imagesMeta?.map((imageMeta, i) => (
-            <ImagePreview
-              key={imageMeta.id}
-              imageId={imageMeta.id}
-              imageSize={imageMeta.thumbnailSizes[0]}
-              onClick={getImageViewerHandler(imagesMeta, i)}
-            />
+            <RenderIfVisible stayRendered key={imageMeta.id}>
+              <ImagePreview
+                imageId={imageMeta.id}
+                imageSize={imageMeta.thumbnailSizes[0]}
+                onClick={getImageViewerHandler(imagesMeta, i)}
+              />
+            </RenderIfVisible>
           ))}
         </div>
       }
     />
   );
-}
+});
 
 function getImageViewerHandler(imagesMeta: DbObject["ImageMeta"][], i: number) {
   return () => {

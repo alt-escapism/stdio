@@ -1,10 +1,11 @@
+import { memo } from "react";
 import { Pane } from "../generic-ui/pane";
 import { DevelopFooter } from "./develop-footer";
 import { DevelopHeader } from "./develop-header";
 import { DevelopMain } from "./develop-main";
 import { ReloadToolbar } from "./reload-toolbar";
 
-export function DevelopPane() {
+export const DevelopPane = memo(() => {
   return (
     <Pane
       header={<DevelopHeader />}
@@ -13,4 +14,4 @@ export function DevelopPane() {
       footer={<DevelopFooter />}
     />
   );
-}
+});
