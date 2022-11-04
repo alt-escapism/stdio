@@ -6,6 +6,7 @@ export type Settings = {
   recents: Record<string, string[]>;
   background: "light" | "dark";
   autoReload: boolean;
+  isBatchSidebarOpen: boolean;
   batchThumbnailSize: number;
 };
 

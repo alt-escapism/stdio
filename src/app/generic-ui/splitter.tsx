@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 
 const styles = css`
   display: grid;
-  grid-template-columns: 1fr minmax(340px, 25%);
   height: 100%;
   overflow: hidden;
 
@@ -15,9 +14,14 @@ const styles = css`
 
 export function Splitter({ main, side }: { main: ReactNode; side: ReactNode }) {
   return (
-    <div className={styles}>
+    <div
+      className={styles}
+      style={{
+        gridTemplateColumns: side == null ? "1fr" : "1fr minmax(340px, 25%)",
+      }}
+    >
       <div>{main}</div>
-      <div>{side}</div>
+      {side == null ? null : <div>{side}</div>}
     </div>
   );
 }

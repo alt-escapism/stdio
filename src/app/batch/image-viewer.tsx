@@ -19,8 +19,8 @@ import {
   settings,
 } from "../settings-state";
 import { getValueOfType } from "../variables";
-import { buildVariableTree } from "../variables-section/variable-tree";
 import { VariableTreeView } from "../variables-section/variable-tree-view";
+import { ImageMetaView } from "./image-meta-view";
 import { ImagePreview } from "./image-preview";
 
 export function ImageViewer({
@@ -124,19 +124,5 @@ function TitleHash({ hash }: { hash?: string }) {
         </Button>
       </ButtonGroup>
     </>
-  );
-}
-
-function ImageMetaView({ imageMeta }: { imageMeta: DbObject["ImageMeta"] }) {
-  const tree = buildVariableTree(Object.values(imageMeta.variables));
-
-  return (
-    <Pane
-      main={
-        <div style={{ padding: 24 }}>
-          <VariableTreeView tree={tree} />
-        </div>
-      }
-    />
   );
 }

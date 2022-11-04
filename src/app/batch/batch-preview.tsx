@@ -1,23 +1,29 @@
 import { css } from "@emotion/css";
 import { useLiveQuery } from "dexie-react-hooks";
-import { memo } from "react";
+import { memo, useState } from "react";
+import { BiDetail } from "react-icons/bi";
 import RenderIfVisible from "react-render-if-visible";
 import { useSnapshot } from "valtio";
 import { DbObject, getDb } from "../db";
-import { ButtonGroup } from "../generic-ui/button";
+import { Button, ButtonGroup } from "../generic-ui/button";
+import { Divider } from "../generic-ui/divider";
 import { Pane } from "../generic-ui/pane";
 import { Spacer } from "../generic-ui/spacer";
+import { Splitter } from "../generic-ui/splitter";
 import { popScreen, pushScreen } from "../navigation";
 import { NavigationBackButton } from "../navigation-back-buttons";
 import { settings } from "../settings-state";
+import { BatchDetail } from "./batch-detail";
 import { BatchRenderer } from "./batch-renderer";
 import { formatBatchDate } from "./batch-summary-row";
 import { DeleteBatchButton } from "./delete-batch-button";
+import { ImageMetaView } from "./image-meta-view";
 import { ImagePreview } from "./image-preview";
 import { ThumbnailSizePicker } from "./thumbnail-size-picker";
 
 const imageGridStyles = (previewSize: number) => css`
   align-self: start;
+  background: black;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -45,6 +51,8 @@ export const BatchPreview = memo(({ batchId }: { batchId: string }) => {
       .reverse()
       .sortBy("createdAt")
   );
+  const [imageMetaInSidePane, setImageMetaInSidePane] =
+    useState<DbObject["ImageMeta"]>();
 
   return (
     <Pane
@@ -57,28 +65,53 @@ export const BatchPreview = memo(({ batchId }: { batchId: string }) => {
           <ButtonGroup>
             <Spacer>
               <ThumbnailSizePicker />
-              <div />
+              <Divider />
               <DeleteBatchButton
                 batchId={batchId}
                 onSuccess={() => popScreen(["batch", batchId])}
               />
+              <Divider />
+              <Button
+                tip={
+                  _settings.isBatchSidebarOpen ? "Hide details" : "Show details"
+                }
+                active={_settings.isBatchSidebarOpen}
+                onClick={() => {
+                  settings.isBatchSidebarOpen = !settings.isBatchSidebarOpen;
+                }}
+              >
+                <BiDetail />
+              </Button>
             </Spacer>
           </ButtonGroup>
         </>
       }
       main={
-        <div className={imageGridStyles(_settings.batchThumbnailSize)}>
-          <BatchRenderer batchId={batchId} />
-          {imagesMeta?.map((imageMeta, i) => (
-            <RenderIfVisible stayRendered key={imageMeta.id}>
-              <ImagePreview
-                imageId={imageMeta.id}
-                imageSize={imageMeta.thumbnailSizes[0]}
-                onClick={getImageViewerHandler(imagesMeta, i)}
-              />
-            </RenderIfVisible>
-          ))}
-        </div>
+        <Splitter
+          main={
+            <div className={imageGridStyles(_settings.batchThumbnailSize)}>
+              <BatchRenderer batchId={batchId} />
+              {imagesMeta?.map((imageMeta, i) => (
+                <RenderIfVisible stayRendered key={imageMeta.id}>
+                  <ImagePreview
+                    imageId={imageMeta.id}
+                    imageSize={imageMeta.thumbnailSizes[0]}
+                    onClick={getImageViewerHandler(imagesMeta, i)}
+                    onMouseEnter={() => setImageMetaInSidePane(imageMeta)}
+                    onMouseLeave={() => setImageMetaInSidePane(undefined)}
+                  />
+                </RenderIfVisible>
+              ))}
+            </div>
+          }
+          side={
+            !_settings.isBatchSidebarOpen ? null : imageMetaInSidePane ? (
+              <ImageMetaView imageMeta={imageMetaInSidePane} />
+            ) : (
+              <BatchDetail batchId={batchId} />
+            )
+          }
+        />
       }
     />
   );
@@ -105,6 +138,7 @@ function getImageViewerHandler(imagesMeta: DbObject["ImageMeta"][], i: number) {
 }
 
 const batchTitleStyles = css`
+  align-items: center;
   color: #aaa;
   display: flex;
   font-size: 17px;
@@ -113,11 +147,6 @@ const batchTitleStyles = css`
   > :first-child {
     color: white;
     font-size: 18px;
-  }
-
-  > :nth-child(2) {
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
-    padding-left: 24px;
   }
 `;
 
@@ -133,6 +162,7 @@ function BatchTitle({ batchId }: { batchId: string }) {
           ? `Generating ${batch.rendered + 1} of ${batch.total}...`
           : `Batch of ${batch.total}`}
       </span>
+      <Divider />
       <span>
         {batch.windowWidth}x{batch.windowHeight}
       </span>

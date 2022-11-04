@@ -3,7 +3,6 @@ import { useMemo } from "react";
 import { useFrame } from "../frames-state";
 import { EmptyMessage } from "../generic-ui/empty-message";
 import { Section } from "../generic-ui/section";
-import { buildVariableTree } from "./variable-tree";
 import { VariableTreeView } from "./variable-tree-view";
 
 const containerStyles = css`
@@ -13,19 +12,21 @@ const containerStyles = css`
 
 export function VariablesSection() {
   const _variables = useFrame("main").variables;
-  const tree = useMemo(
+  const nonHashVariables = useMemo(
     () =>
-      buildVariableTree(
-        Object.values(_variables).filter((variable) => variable.type !== "Hash")
+      Object.fromEntries(
+        Object.entries(_variables).filter(
+          ([_, variable]) => variable.type !== "Hash"
+        )
       ),
     [_variables]
   );
 
   return (
     <Section title="Variables">
-      {tree.children.length ? (
+      {Object.keys(nonHashVariables).length ? (
         <div className={containerStyles}>
-          <VariableTreeView tree={tree} />
+          <VariableTreeView variables={nonHashVariables} />
         </div>
       ) : (
         <EmptyMessage>

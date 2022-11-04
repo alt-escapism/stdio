@@ -44,14 +44,26 @@ const primaryStyles = css`
   font-weight: bold;
 `;
 
+const activeStyles = css`
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+
+  :hover {
+    background: rgba(255, 255, 255, 0.9);
+    opacity: 1;
+  }
+`;
+
 export function Button(
   props: Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> & {
     primary?: boolean;
+    active?: boolean;
     tip?: ReactNode;
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => unknown;
   }
 ) {
-  const { className, tip, primary, onClick, disabled, ...otherProps } = props;
+  const { className, tip, primary, active, onClick, disabled, ...otherProps } =
+    props;
   const { tooltip, getTriggerProps } = useTooltip(tip);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -59,7 +71,12 @@ export function Button(
     <>
       <button
         type="button"
-        className={cx(buttonStyles, primary ? primaryStyles : null, className)}
+        className={cx(
+          buttonStyles,
+          primary ? primaryStyles : null,
+          active ? activeStyles : null,
+          className
+        )}
         onClick={
           onClick
             ? (e) => {

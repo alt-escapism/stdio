@@ -19,6 +19,7 @@ const DEFAULT_SETTINGS: Settings = {
   background: "dark",
   autoReload: true,
   batchThumbnailSize: BATCH_THUMBNAIL_SIZES[1],
+  isBatchSidebarOpen: true,
 };
 
 export function getStoredSettings(): Settings {

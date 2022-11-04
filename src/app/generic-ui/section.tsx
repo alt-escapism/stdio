@@ -2,7 +2,7 @@ import { css } from "@emotion/css";
 import { ReactNode } from "react";
 
 const styles = css`
-  padding: 16px 24px;
+  margin: 24px;
 
   h2 {
     font-size: 17px;

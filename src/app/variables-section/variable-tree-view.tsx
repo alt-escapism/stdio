@@ -1,12 +1,20 @@
 import { css } from "@emotion/css";
 import { VariableLabel } from "./variable-label";
-import { VariableTreeNode, VariableTree } from "./variable-tree";
+import {
+  VariableTreeNode,
+  VariableTree,
+  buildVariableTree,
+} from "./variable-tree";
 import { BiChevronDown, BiChevronRight } from "react-icons/bi";
 import { useMemo, useState } from "react";
 import { GroupLockButton } from "./group-lock-button";
 import { last } from "../last";
 import { getCombinedValue } from "./get-combined-value";
-import { VariableSnapshot } from "../../inject/variable-def.type";
+import {
+  Variables,
+  VariableSnapshot,
+  VariableSnapshots,
+} from "../../inject/variable-def.type";
 import { isWritable } from "../variables";
 import { VariableInput } from "../setting-controls/variable-input";
 import { VariableView } from "../setting-controls/variable-view";
@@ -36,11 +44,16 @@ const combinedValueStyles = css`
   padding-left: 13px;
 `;
 
-export function VariableTreeView<T extends VariableSnapshot>({
-  tree,
+export function VariableTreeView({
+  variables,
 }: {
-  tree: VariableTree<T>;
+  variables: Variables | VariableSnapshots;
 }) {
+  const tree = useMemo(
+    () => buildVariableTree(Object.values(variables)),
+    [variables]
+  );
+
   return (
     <>
       {tree.children.map((node) => (
