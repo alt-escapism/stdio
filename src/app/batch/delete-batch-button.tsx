@@ -1,6 +1,7 @@
 import { BiTrash } from "react-icons/bi";
 import { getDb } from "../db";
 import { Button } from "../generic-ui/button";
+import { Dialog } from "../generic-ui/dialog";
 import { pushScreen, popScreen } from "../navigation";
 
 export function DeleteBatchButton({
@@ -16,17 +17,17 @@ export function DeleteBatchButton({
       onClick={() => {
         pushScreen([
           "dialog",
-          {
-            body: "Deleting this batch will permanently delete the images as well. Are you sure you want to continue?",
-            actions: [
+          <Dialog
+            body="Deleting this batch will permanently delete the images as well. Are you sure you want to continue?"
+            actions={[
               {
                 children: "Yes",
                 primary: true,
                 onClick: () => deleteBatch(batchId).then(onSuccess),
               },
               { children: "No", onClick: () => popScreen() },
-            ],
-          },
+            ]}
+          />,
         ]);
       }}
     >

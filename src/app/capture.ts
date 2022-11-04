@@ -34,9 +34,9 @@ export function captureImage(
   return Promise.resolve(null);
 }
 
-export function downloadImage(blob: Blob, filename: string) {
+export function downloadBlob(blob: Blob, filename: string, extension = "jpeg") {
   const url = URL.createObjectURL(blob);
-  downloadFile(`${filename}.jpeg`, url);
+  downloadFile(`${filename}.${extension}`, url);
   URL.revokeObjectURL(url);
 }
 

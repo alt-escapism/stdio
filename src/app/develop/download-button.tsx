@@ -1,5 +1,5 @@
 import { RiFileDownloadLine } from "react-icons/ri";
-import { downloadImage } from "../capture";
+import { downloadBlob } from "../capture";
 import { Button } from "../generic-ui/button";
 
 export function DownloadButton({
@@ -16,7 +16,7 @@ export function DownloadButton({
       onClick={() => {
         getImage().then((image) => {
           if (image) {
-            downloadImage(image.image, image.filename ?? "image");
+            downloadBlob(image.image, image.filename ?? "image");
           }
         });
       }}

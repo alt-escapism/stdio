@@ -1,10 +1,9 @@
 import { css } from "@emotion/css";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useSnapshot } from "valtio";
 import { BatchPreview } from "./batch/batch-preview";
 import { ImageViewer } from "./batch/image-viewer";
 import { DevelopScreen } from "./develop/develop-screen";
-import { Dialog } from "./generic-ui/dialog";
 import { navigation, popScreen } from "./navigation";
 
 const styles = css`
@@ -40,17 +39,23 @@ export function NavigationStack() {
   return (
     <div className={styles}>
       {_navigation.stack.map((screen, i) => {
-        if (screen[0] === "develop") {
-          return <DevelopScreen key={screen[0]} screen={screen} />;
-        } else if (screen[0] === "batch") {
-          return <BatchPreview key={screen[0]} batchId={screen[1]} />;
-        } else if (screen[0] === "image") {
-          return <ImageViewer key={screen[0]} {...screen[1]} />;
-        } else if (screen[0] === "dialog") {
-          return <Dialog key={screen[0]} {...screen[1]} />;
-        } else {
-          return null;
-        }
+        return (
+          <Fragment key={i}>
+            {(() => {
+              if (screen[0] === "develop") {
+                return <DevelopScreen screen={screen} />;
+              } else if (screen[0] === "batch") {
+                return <BatchPreview batchId={screen[1]} />;
+              } else if (screen[0] === "image") {
+                return <ImageViewer {...screen[1]} />;
+              } else if (screen[0] === "dialog") {
+                return screen[1];
+              } else {
+                return null;
+              }
+            })()}
+          </Fragment>
+        );
       })}
     </div>
   );

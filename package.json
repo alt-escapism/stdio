@@ -49,6 +49,7 @@
     "@types/node": "^16.11.45",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "client-zip": "^2.3.0",
     "dexie": "^3.2.2",
     "dexie-react-hooks": "^1.1.1",
     "downshift": "^7.0.0",

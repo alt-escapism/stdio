@@ -2,7 +2,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect } from "react";
 import { BsBoxArrowRight } from "react-icons/bs";
 import { useSnapshot } from "valtio";
-import { DbObject, getDb } from "../db";
+import { getDb } from "../db";
 import { reloadDevelopFrame } from "../develop/develop-frame";
 import { DownloadButton } from "../develop/download-button";
 import { ToggleBackgroundButton } from "../develop/toggle-background-button";
@@ -19,7 +19,6 @@ import {
   settings,
 } from "../settings-state";
 import { getValueOfType } from "../variables";
-import { VariableTreeView } from "../variables-section/variable-tree-view";
 import { ImageMetaView } from "./image-meta-view";
 import { ImagePreview } from "./image-preview";
 

@@ -19,11 +19,11 @@ import { formatBatchDate } from "./batch-summary-row";
 import { DeleteBatchButton } from "./delete-batch-button";
 import { ImageMetaView } from "./image-meta-view";
 import { ImagePreview } from "./image-preview";
+import { SaveBatchButton } from "./save-batch-button";
 import { ThumbnailSizePicker } from "./thumbnail-size-picker";
 
 const imageGridStyles = (previewSize: number) => css`
   align-self: start;
-  background: black;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -66,10 +66,13 @@ export const BatchPreview = memo(({ batchId }: { batchId: string }) => {
             <Spacer>
               <ThumbnailSizePicker />
               <Divider />
-              <DeleteBatchButton
-                batchId={batchId}
-                onSuccess={() => popScreen(["batch", batchId])}
-              />
+              <div>
+                <SaveBatchButton batchId={batchId} />
+                <DeleteBatchButton
+                  batchId={batchId}
+                  onSuccess={() => popScreen(["batch", batchId])}
+                />
+              </div>
               <Divider />
               <Button
                 tip={

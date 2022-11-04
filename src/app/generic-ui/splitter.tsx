@@ -6,6 +6,10 @@ const styles = css`
   height: 100%;
   overflow: hidden;
 
+  > :first-child {
+    background: black;
+  }
+
   > * {
     max-height: 100%;
     overflow: auto;

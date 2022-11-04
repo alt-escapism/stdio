@@ -1,7 +1,6 @@
-import { ComponentProps, ReactNode } from "react";
+import { ReactElement } from "react";
 import { ref } from "valtio";
 import { proxyWithComputed } from "valtio/utils";
-import { Button } from "./generic-ui/button";
 import { last } from "./last";
 
 export type Screen =
@@ -9,14 +8,7 @@ export type Screen =
   | ["develop", "configure-batch"]
   | ["batch", string]
   | ["image", { imageId: string; onPrev?: () => void; onNext?: () => void }]
-  | [
-      "dialog",
-      {
-        body: ReactNode;
-        actions: ComponentProps<typeof Button>[];
-        header?: ReactNode;
-      }
-    ];
+  | ["dialog", ReactElement];
 
 const ROOT_SCREEN: Screen = ["develop"];
 
