@@ -1,7 +1,6 @@
 import { css } from "@emotion/css";
 import { useMemo } from "react";
 import { useFrame } from "../frames-state";
-import { EmptyMessage } from "../generic-ui/empty-message";
 import { Section } from "../generic-ui/section";
 import { VariableTreeView } from "./variable-tree-view";
 
@@ -24,16 +23,18 @@ export function VariablesSection() {
 
   return (
     <Section title="Variables">
-      {Object.keys(nonHashVariables).length ? (
-        <div className={containerStyles}>
-          <VariableTreeView variables={nonHashVariables} />
-        </div>
-      ) : (
-        <EmptyMessage>
-          Add variables here by calling stdio's <code>random()</code> function
-          with a unique variable name – e.g. <code>random("count")</code>.
-        </EmptyMessage>
-      )}
+      <div className={containerStyles}>
+        <VariableTreeView
+          variables={nonHashVariables}
+          emptyMessage={
+            <>
+              Add variables here by calling stdio's <code>random()</code>{" "}
+              function with a unique variable name – e.g.{" "}
+              <code>random("count")</code>.
+            </>
+          }
+        />
+      </div>
     </Section>
   );
 }

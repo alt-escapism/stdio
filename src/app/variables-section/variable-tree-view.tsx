@@ -6,7 +6,7 @@ import {
   buildVariableTree,
 } from "./variable-tree";
 import { BiChevronDown, BiChevronRight } from "react-icons/bi";
-import { useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { GroupLockButton } from "./group-lock-button";
 import { last } from "../last";
 import { getCombinedValue } from "./get-combined-value";
@@ -18,6 +18,7 @@ import {
 import { isWritable } from "../variables";
 import { VariableInput } from "../setting-controls/variable-input";
 import { VariableView } from "../setting-controls/variable-view";
+import { EmptyMessage } from "../generic-ui/empty-message";
 
 const treeLabelStyles = css`
   align-items: center;
@@ -46,8 +47,10 @@ const combinedValueStyles = css`
 
 export function VariableTreeView({
   variables,
+  emptyMessage = "None",
 }: {
   variables: Variables | VariableSnapshots;
+  emptyMessage?: ReactNode;
 }) {
   const tree = useMemo(
     () => buildVariableTree(Object.values(variables)),
@@ -56,9 +59,13 @@ export function VariableTreeView({
 
   return (
     <>
-      {tree.children.map((node) => (
-        <TreeNodeView key={node.name} node={node} depth={0} />
-      ))}
+      {tree.children.length === 0 ? (
+        <EmptyMessage>{emptyMessage}</EmptyMessage>
+      ) : (
+        tree.children.map((node) => (
+          <TreeNodeView key={node.name} node={node} depth={0} />
+        ))
+      )}
     </>
   );
 }
