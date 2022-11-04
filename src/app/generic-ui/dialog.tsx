@@ -21,7 +21,7 @@ const contentStyles = css`
 
 const actionStyles = css`
   display: flex;
-  gap: 24px;
+  gap: 16px;
   margin-top: 24px;
 `;
 
@@ -46,7 +46,7 @@ export function Dialog({
         <div>{body}</div>
         <div className={actionStyles}>
           {actions.map((action, index) => (
-            <Button key={index} {...action} />
+            <Button key={index} full {...action} />
           ))}
         </div>
       </div>

@@ -4,7 +4,7 @@ import { useTooltip } from "./use-tooltip";
 
 const X_PADDING = 10;
 
-const BORDER_RADIUS = 4;
+const BORDER_RADIUS = 6;
 
 export const buttonStyles = css`
   align-items: center;
@@ -41,7 +41,12 @@ export const buttonStyles = css`
 `;
 
 const primaryStyles = css`
-  font-weight: bold;
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+
+  :hover {
+    background: rgba(255, 255, 255, 0.9);
+  }
 `;
 
 const activeStyles = css`
@@ -50,7 +55,19 @@ const activeStyles = css`
 
   :hover {
     background: rgba(255, 255, 255, 0.9);
-    opacity: 1;
+  }
+`;
+
+const fullStyles = css`
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  min-width: 100px;
+  padding: 10px 16px;
+
+  :hover {
+    background: rgba(255, 255, 255, 0.15);
   }
 `;
 
@@ -58,12 +75,21 @@ export function Button(
   props: Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> & {
     primary?: boolean;
     active?: boolean;
+    full?: boolean;
     tip?: ReactNode;
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => unknown;
   }
 ) {
-  const { className, tip, primary, active, onClick, disabled, ...otherProps } =
-    props;
+  const {
+    className,
+    tip,
+    primary,
+    active,
+    full,
+    onClick,
+    disabled,
+    ...otherProps
+  } = props;
   const { tooltip, getTriggerProps } = useTooltip(tip);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -73,8 +99,9 @@ export function Button(
         type="button"
         className={cx(
           buttonStyles,
-          primary ? primaryStyles : null,
           active ? activeStyles : null,
+          full ? fullStyles : null,
+          primary ? primaryStyles : null,
           className
         )}
         onClick={
