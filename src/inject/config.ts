@@ -12,9 +12,11 @@ type Config = {
 
 type RawConfig = { [k in keyof Config]?: unknown };
 
+export const DEFAULT_PROJECT_NAME = "stdio";
+
 function parseConfig(): Config {
   const config: Config = {
-    project: "stdio",
+    project: DEFAULT_PROJECT_NAME,
     playground: false,
   };
 

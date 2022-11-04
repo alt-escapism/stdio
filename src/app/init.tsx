@@ -4,6 +4,7 @@ import { AppWindow } from "../inject/app-interface";
 import { appInterface } from "./app-interface";
 import { App } from "./app";
 import { initSettings, updateBackground } from "./settings-state";
+import { config, DEFAULT_PROJECT_NAME } from "../inject/config";
 
 export function initApp() {
   const w = window as unknown as AppWindow;
@@ -20,6 +21,11 @@ export function render(rootEl: HTMLElement) {
   fontLink.href =
     "https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=block";
   document.head.appendChild(fontLink);
+
+  // Set title
+  if (config.project !== DEFAULT_PROJECT_NAME) {
+    document.title = `${config.project} – fx(stdio)`;
+  }
 
   // Render react app
   const root = ReactDOM.createRoot(rootEl);
