@@ -6,6 +6,7 @@ import { Toolbar } from "./toolbar";
 const styles = css`
   background: ${HEADER_BG_COLOR};
   font-size: 18px;
+  white-space: nowrap;
 `;
 
 export function Header({

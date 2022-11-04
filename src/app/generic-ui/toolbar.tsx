@@ -5,6 +5,7 @@ const styles = css`
   align-items: center;
   box-sizing: content-box;
   display: flex;
+  gap: 24px;
   height: 1em;
   padding: 16px 24px;
   justify-content: space-between;
