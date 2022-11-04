@@ -160,10 +160,7 @@ function getCsvOfVariableValues(imagesMeta: DbObject["ImageMeta"][]) {
       variableNames.add(name);
     });
   });
-  let iterationColumnName = "#";
-  while (variableNames.has(iterationColumnName)) {
-    iterationColumnName += "#";
-  }
+  const iterationColumnName = "#";
   const variableColumns = Array.from(variableNames);
   let csv = [iterationColumnName, ...variableColumns]
     .map(prepareForCsv)
