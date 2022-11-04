@@ -2,7 +2,7 @@ import { css, cx } from "@emotion/css";
 import { ButtonHTMLAttributes, ReactNode, useState } from "react";
 import { useTooltip } from "./use-tooltip";
 
-const X_PADDING = 12;
+const X_PADDING = 10;
 
 const BORDER_RADIUS = 4;
 
