@@ -5,8 +5,7 @@ import { Button } from "../generic-ui/button";
 import { Dialog } from "../generic-ui/dialog";
 import { ProgressBar } from "../generic-ui/progress-bar";
 import { popScreen, pushScreen } from "../navigation";
-import { proxy, subscribe, useSnapshot } from "valtio";
-import { useEffect } from "react";
+import { proxy, useSnapshot } from "valtio";
 import { VariableSnapshots } from "../../inject/variable-def.type";
 
 export function SaveBatchButton({ batchId }: { batchId: string }) {
@@ -14,8 +13,11 @@ export function SaveBatchButton({ batchId }: { batchId: string }) {
     <Button
       tip="Save batch"
       onClick={() => {
-        saveBatch(batchId);
+        const promise = saveBatch(batchId);
         pushScreen(["dialog", <SaveBatchDialog batchId={batchId} />]);
+        promise.then(() => {
+          popScreen();
+        });
       }}
     >
       <RiFolderDownloadLine />
@@ -62,14 +64,6 @@ async function saveBatch(batchId: string) {
 function SaveBatchDialog({ batchId }: { batchId: string }) {
   const progress = useSnapshot(saveState)[batchId]?.progress ?? 1;
 
-  useEffect(() => {
-    return subscribe(saveState, () => {
-      if (!saveState[batchId]) {
-        popScreen();
-      }
-    });
-  }, [batchId]);
-
   return (
     <Dialog
       header="Generating zip..."
@@ -79,7 +73,6 @@ function SaveBatchDialog({ batchId }: { batchId: string }) {
           children: "Cancel",
           onClick: () => {
             saveState[batchId]?.abort?.();
-            popScreen();
           },
         },
       ]}
