@@ -1,8 +1,7 @@
 import { css, cx } from "@emotion/css";
 import { ButtonHTMLAttributes, ReactNode, useState } from "react";
+import { INPUT_PADDING_X } from "./styles";
 import { useTooltip } from "./use-tooltip";
-
-const X_PADDING = 10;
 
 const BORDER_RADIUS = 6;
 
@@ -20,7 +19,7 @@ export const buttonStyles = css`
   min-height: 32px;
   min-width: 24px;
   opacity: 0.8;
-  padding: 6px ${X_PADDING}px;
+  padding: 6px ${INPUT_PADDING_X}px;
   max-width: 100%;
 
   > svg {
@@ -128,7 +127,7 @@ export function Button(
 
 const buttonGroupStyles = css`
   display: inline-flex;
-  margin: 0 ${-X_PADDING}px;
+  margin: 0 ${-INPUT_PADDING_X}px;
 `;
 
 export function ButtonGroup({ children }: { children: ReactNode }) {
@@ -140,7 +139,7 @@ const splitButtonStyles = css`
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: ${BORDER_RADIUS}px;
   display: inline-flex;
-  margin: 0 ${X_PADDING}px;
+  margin: 0 ${INPUT_PADDING_X}px;
 
   > :first-child {
     border-bottom-right-radius: 0;

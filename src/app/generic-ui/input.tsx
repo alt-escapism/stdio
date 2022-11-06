@@ -1,5 +1,6 @@
 import { css, cx } from "@emotion/css";
 import { FC, forwardRef, InputHTMLAttributes, RefAttributes } from "react";
+import { INPUT_PADDING_X } from "./styles";
 
 const styles = css`
   background: inherit;
@@ -10,7 +11,7 @@ const styles = css`
   font-size: 18px;
   height: 30px;
   outline: none;
-  padding: 6px 12px;
+  padding: 6px ${INPUT_PADDING_X}px;
   width: 100%;
 
   ::selection {
