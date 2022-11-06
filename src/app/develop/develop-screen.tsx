@@ -9,7 +9,7 @@ export function DevelopScreen({ screen }: { screen: Screen }) {
     <Splitter
       main={<DevelopFrame />}
       side={
-        screen[1] === "configure-batch" ? (
+        screen[0] === "develop/configure-batch" ? (
           <BatchConfigurePane />
         ) : (
           <DevelopPane />

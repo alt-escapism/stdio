@@ -15,7 +15,7 @@ export function BatchGenerateButton() {
     <Button
       tip="Generate batch"
       onClick={() => {
-        pushScreen(["develop", "configure-batch"]);
+        pushScreen(["develop/configure-batch"]);
       }}
     >
       <VscRunAll />

@@ -4,7 +4,7 @@ import { useSnapshot } from "valtio";
 import { BatchPreview } from "./batch/batch-preview";
 import { ImageViewer } from "./batch/image-viewer";
 import { DevelopScreen } from "./develop/develop-screen";
-import { navigation, popScreen } from "./navigation";
+import { flattenStack, navigation, popScreen } from "./navigation";
 
 const styles = css`
   height: 100%;
@@ -38,11 +38,14 @@ export function NavigationStack() {
 
   return (
     <div className={styles}>
-      {_navigation.stack.map((screen, i) => {
+      {flattenStack(_navigation.stack).map(({ screen }, i) => {
         return (
           <Fragment key={i}>
             {(() => {
-              if (screen[0] === "develop") {
+              if (
+                screen[0] === "develop" ||
+                screen[0] === "develop/configure-batch"
+              ) {
                 return <DevelopScreen screen={screen} />;
               } else if (screen[0] === "batch") {
                 return <BatchPreview batchId={screen[1]} />;

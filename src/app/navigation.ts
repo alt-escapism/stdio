@@ -1,54 +1,76 @@
 import { ReactElement } from "react";
-import { ref } from "valtio";
-import { proxyWithComputed } from "valtio/utils";
+import { proxy, ref } from "valtio";
 import { last } from "./last";
 
 export type Screen =
   | ["develop"]
-  | ["develop", "configure-batch"]
+  | ["develop/configure-batch"]
   | ["batch", string]
   | ["image", { imageId: string; onPrev?: () => void; onNext?: () => void }]
   | ["dialog", ReactElement];
 
 const ROOT_SCREEN: Screen = ["develop"];
 
-export const navigation = proxyWithComputed(
-  {
-    history: [ROOT_SCREEN] as Screen[],
-  },
-  {
-    stack: ({ history }) => {
-      const screenNames = new Set<string>();
-      const stack: Screen[] = [];
-      for (let i = history.length - 1; i >= 0; i--) {
-        const screenName = history[i][0];
-        if (!screenNames.has(screenName)) {
-          stack.unshift(history[i] as Screen);
-          screenNames.add(screenName);
-        }
-      }
-      return stack;
-    },
-  }
-);
+export type StackEntry = {
+  screen: Screen;
+  onPop?: () => void;
+};
 
-export function pushScreen(screen: Screen, replaceIfSameType = false) {
-  if (replaceIfSameType && last(navigation.history)![0] === screen[0]) {
-    popScreen();
+export const navigation = proxy({
+  stack: [{ screen: ROOT_SCREEN }] as StackEntry[],
+});
+
+export function pushScreen(
+  screen: Screen,
+  options: { onPop?: () => void } = {}
+) {
+  // Replace screen if the top of the stack is a screen of the same type
+  if (last(navigation.stack)!.screen[0] === screen[0]) {
+    if (!popScreen()) {
+      return;
+    }
   }
-  navigation.history.push(ref(screen));
+  navigation.stack.push({ screen: ref(screen), onPop: options.onPop });
 }
 
-export function popScreen(to?: Screen) {
+export function popScreen(to?: Screen): boolean {
   const index = to
-    ? navigation.history.findIndex(
-        (_screen) =>
-          _screen.length === to.length &&
-          (_screen as unknown[]).every((part, index) => part === to[index])
+    ? navigation.stack.findIndex(
+        (entry) =>
+          entry.screen.length === to.length &&
+          (entry.screen as unknown[]).every((part, index) => part === to[index])
       )
-    : navigation.history.length - 1;
-  navigation.history.splice(index, navigation.history.length - index);
-  if (navigation.history.length === 0) {
-    navigation.history.push(ROOT_SCREEN);
+    : navigation.stack.length - 1;
+
+  if (index <= 0) {
+    return false;
   }
+
+  const popped = navigation.stack.splice(
+    index,
+    navigation.stack.length - index
+  );
+  if (popped.length === 0) {
+    return false;
+  }
+
+  popped.forEach((entry) => {
+    entry.onPop?.();
+  });
+
+  return true;
+}
+
+export function flattenStack(stack: StackEntry[]): StackEntry[] {
+  const flattened: StackEntry[] = [];
+  const screenNames = new Set<string>();
+  for (let i = stack.length - 1; i >= 0; i--) {
+    const screen = stack[i].screen;
+    const baseName = screen[0].split("/")[0];
+    if (!screenNames.has(baseName)) {
+      screenNames.add(baseName);
+      flattened.unshift(stack[i]);
+    }
+  }
+  return flattened;
 }

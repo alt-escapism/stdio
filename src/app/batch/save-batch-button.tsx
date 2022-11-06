@@ -14,9 +14,13 @@ export function SaveBatchButton({ batchId }: { batchId: string }) {
       tip="Save batch"
       onClick={() => {
         const promise = saveBatch(batchId);
-        pushScreen(["dialog", <SaveBatchDialog batchId={batchId} />]);
-        promise.then(() => {
-          popScreen();
+        pushScreen(["dialog", <SaveBatchDialog batchId={batchId} />], {
+          onPop() {
+            saveState[batchId]?.abort?.();
+          },
+        });
+        promise.then((completed) => {
+          if (completed) popScreen();
         });
       }}
     >
@@ -54,11 +58,14 @@ async function saveBatch(batchId: string) {
   const blob = await downloadZip(generator).blob();
 
   // Check we completed successfully, rather than aborted
-  if (saveState[batchId].completed) {
+  let completed = saveState[batchId].completed;
+  if (completed) {
     downloadBlob(blob, `batch-${batchId}`, "zip");
   }
 
   delete saveState[batchId];
+
+  return completed;
 }
 
 function SaveBatchDialog({ batchId }: { batchId: string }) {
@@ -72,7 +79,7 @@ function SaveBatchDialog({ batchId }: { batchId: string }) {
         {
           children: "Cancel",
           onClick: () => {
-            saveState[batchId]?.abort?.();
+            popScreen();
           },
         },
       ]}

@@ -123,20 +123,17 @@ export const BatchPreview = memo(({ batchId }: { batchId: string }) => {
 function getImageViewerHandler(imagesMeta: DbObject["ImageMeta"][], i: number) {
   return () => {
     const { id } = imagesMeta[i];
-    pushScreen(
-      [
-        "image",
-        {
-          imageId: id,
-          onNext:
-            i < imagesMeta.length - 1
-              ? getImageViewerHandler(imagesMeta, i + 1)
-              : undefined,
-          onPrev: i > 0 ? getImageViewerHandler(imagesMeta, i - 1) : undefined,
-        },
-      ],
-      true
-    );
+    pushScreen([
+      "image",
+      {
+        imageId: id,
+        onNext:
+          i < imagesMeta.length - 1
+            ? getImageViewerHandler(imagesMeta, i + 1)
+            : undefined,
+        onPrev: i > 0 ? getImageViewerHandler(imagesMeta, i - 1) : undefined,
+      },
+    ]);
   };
 }
 
