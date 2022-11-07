@@ -50,6 +50,7 @@
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "client-zip": "^2.3.0",
+    "date-fns": "^2.29.3",
     "dexie": "^3.2.2",
     "dexie-react-hooks": "^1.1.1",
     "downshift": "^7.0.0",
@@ -67,7 +68,6 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "copy-webpack-plugin": "^11.0.0",
-    "date-fns": "^2.29.3"
+    "copy-webpack-plugin": "^11.0.0"
   }
 }
