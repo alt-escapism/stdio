@@ -1,3 +1,5 @@
+/* eslint-disable no-cond-assign */
+
 /**
  * Stdio config.
  *
@@ -10,8 +12,6 @@ type Config = {
   playground: boolean;
 };
 
-type RawConfig = { [k in keyof Config]?: unknown };
-
 export const DEFAULT_PROJECT_NAME = "stdio";
 
 function parseConfig(): Config {
@@ -20,13 +20,16 @@ function parseConfig(): Config {
     playground: false,
   };
 
-  const _config: RawConfig | undefined = (window as any).stdioConfig;
-  if (_config) {
-    if (typeof _config.playground === "boolean") {
-      config.playground = _config.playground;
+  const configEl = document.querySelector("stdio-config");
+  if (configEl) {
+    let a: string | null;
+    if ((a = configEl.getAttribute("playground"))) {
+      if (a === "true") {
+        config.playground = true;
+      }
     }
-    if (typeof _config.project === "string" && _config.project !== "") {
-      config.project = _config.project;
+    if ((a = configEl.getAttribute("project"))) {
+      config.project = a;
     }
   }
 
