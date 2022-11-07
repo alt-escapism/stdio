@@ -6,7 +6,6 @@ module.exports = {
   entry: {
     app: "./src/app/index.ts",
     inject: "./src/inject/index.ts",
-    lib: { import: "./src/lib/index.ts", filename: "../[name].js" },
     embed: { import: "./src/embed/index.ts", filename: "../[name].js" },
   },
   output: {
