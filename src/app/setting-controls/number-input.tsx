@@ -44,6 +44,11 @@ export function NumberInput({ variable }: { variable: NumberVar }) {
         onBlur={() => {
           autoReload(variable);
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            autoReload(variable);
+          }
+        }}
       />
       <SettingLockButton variable={variable} />
     </InputContainer>
