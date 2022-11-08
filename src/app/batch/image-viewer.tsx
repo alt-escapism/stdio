@@ -12,12 +12,7 @@ import { Spacer } from "../generic-ui/spacer";
 import { Splitter } from "../generic-ui/splitter";
 import { popScreen } from "../navigation";
 import { NavigationBackButton } from "../navigation-back-buttons";
-import {
-  getBackgroundColor,
-  lock,
-  resetLockedVariables,
-  settings,
-} from "../settings-state";
+import { lock, resetLockedVariables, settings } from "../settings-state";
 import { getValueOfType } from "../variables";
 import { ImageMetaView } from "./image-meta-view";
 import { ImagePreview } from "./image-preview";
@@ -84,12 +79,7 @@ export function ImageViewer({
       }
       main={
         <Splitter
-          main={
-            <ImagePreview
-              imageId={imageId}
-              background={getBackgroundColor(_settings)}
-            />
-          }
+          main={<ImagePreview imageId={imageId} />}
           side={imageMeta ? <ImageMetaView imageMeta={imageMeta} /> : null}
         />
       }

@@ -19,14 +19,12 @@ export function ImagePreview({
   imageId,
   imageSize,
   className,
-  background,
   onNext,
   onPrev,
   ...props
 }: {
   imageId: string;
   imageSize?: number;
-  background?: string;
   onNext?: () => void;
   onPrev?: () => void;
 } & HTMLAttributes<HTMLDivElement>) {
@@ -51,18 +49,7 @@ export function ImagePreview({
   }, [url]);
 
   return (
-    <div
-      className={cx(
-        styles,
-        className,
-        background
-          ? css`
-              background: ${background};
-            `
-          : null
-      )}
-      {...props}
-    >
+    <div className={cx(styles, className)} {...props}>
       {url && <img src={url} alt="Preview" />}
     </div>
   );

@@ -1,10 +1,12 @@
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import { useLiveQuery } from "dexie-react-hooks";
 import { memo, useState } from "react";
 import { BiDetail } from "react-icons/bi";
 import RenderIfVisible from "react-render-if-visible";
 import { useSnapshot } from "valtio";
+import { Settings } from "../../inject/settings.type";
 import { DbObject, getDb } from "../db";
+import { ToggleBackgroundButton } from "../develop/toggle-background-button";
 import { Button, ButtonGroup } from "../generic-ui/button";
 import { Divider } from "../generic-ui/divider";
 import { Pane } from "../generic-ui/pane";
@@ -12,7 +14,7 @@ import { Spacer } from "../generic-ui/spacer";
 import { Splitter } from "../generic-ui/splitter";
 import { popScreen, pushScreen } from "../navigation";
 import { NavigationBackButton } from "../navigation-back-buttons";
-import { settings } from "../settings-state";
+import { getBackgroundColor, settings } from "../settings-state";
 import { BatchDetail } from "./batch-detail";
 import { BatchRenderer } from "./batch-renderer";
 import { formatBatchDate } from "./batch-summary-row";
@@ -41,6 +43,20 @@ const imageGridStyles = (previewSize: number) => css`
     }
   }
 `;
+
+const lightModeStyles = (lightMode: Settings["background"]) => {
+  const invertedColor = getBackgroundColor(
+    lightMode === "dark" ? "light" : "dark"
+  );
+
+  return css`
+    > * {
+      :hover {
+        border-color: ${invertedColor};
+      }
+    }
+  `;
+};
 
 export const BatchPreview = memo(({ batchId }: { batchId: string }) => {
   const _settings = useSnapshot(settings);
@@ -72,6 +88,7 @@ export const BatchPreview = memo(({ batchId }: { batchId: string }) => {
                   batchId={batchId}
                   onSuccess={() => popScreen(["batch", batchId])}
                 />
+                <ToggleBackgroundButton />
               </div>
               <Divider />
               <Button
@@ -92,7 +109,12 @@ export const BatchPreview = memo(({ batchId }: { batchId: string }) => {
       main={
         <Splitter
           main={
-            <div className={imageGridStyles(_settings.batchThumbnailSize)}>
+            <div
+              className={cx(
+                imageGridStyles(_settings.batchThumbnailSize),
+                lightModeStyles(_settings.background)
+              )}
+            >
               <BatchRenderer batchId={batchId} />
               {imagesMeta?.map((imageMeta, i) => (
                 <RenderIfVisible stayRendered key={imageMeta.id}>

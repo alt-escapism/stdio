@@ -46,9 +46,9 @@ export function unlock(...variables: VariableSnapshot[]) {
 }
 
 export function updateBackground() {
-  document.body.style.background = getBackgroundColor(settings);
+  document.body.style.background = getBackgroundColor(settings.background);
 }
 
-export function getBackgroundColor(settings: Settings) {
-  return settings.background === "dark" ? "#000" : "#fff";
+export function getBackgroundColor(background: Settings["background"]) {
+  return background === "dark" ? "#000" : "#fff";
 }
