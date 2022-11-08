@@ -1,7 +1,6 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect } from "react";
 import { BsBoxArrowRight } from "react-icons/bs";
-import { useSnapshot } from "valtio";
 import { getDb } from "../db";
 import { reloadDevelopFrame } from "../develop/develop-frame";
 import { DownloadButton } from "../develop/download-button";
@@ -12,7 +11,7 @@ import { Spacer } from "../generic-ui/spacer";
 import { Splitter } from "../generic-ui/splitter";
 import { popScreen } from "../navigation";
 import { NavigationBackButton } from "../navigation-back-buttons";
-import { lock, resetLockedVariables, settings } from "../settings-state";
+import { lock, resetLockedVariables } from "../settings-state";
 import { getValueOfType } from "../variables";
 import { ImageMetaView } from "./image-meta-view";
 import { ImagePreview } from "./image-preview";
@@ -30,7 +29,6 @@ export function ImageViewer({
     () => getDb().ImageMeta.get(imageId),
     [imageId]
   );
-  const _settings = useSnapshot(settings);
 
   useEffect(() => {
     const onKeydown = (e: KeyboardEvent): void => {
