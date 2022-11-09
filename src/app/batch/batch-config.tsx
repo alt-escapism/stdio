@@ -13,7 +13,7 @@ const dualInputStyles = css`
 `;
 
 export function BatchConfig() {
-  const _batchConfig = useSnapshot(batchConfig);
+  const _batchConfig = useSnapshot(batchConfig, { sync: true });
 
   return (
     <Section>
