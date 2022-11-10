@@ -86,7 +86,7 @@ export const BatchPreview = memo(({ batchId }: { batchId: string }) => {
                 <SaveBatchButton batchId={batchId} />
                 <DeleteBatchButton
                   batchId={batchId}
-                  onSuccess={() => popScreen(["batch", batchId])}
+                  onSuccess={() => popScreen()}
                 />
                 <ToggleBackgroundButton />
               </div>

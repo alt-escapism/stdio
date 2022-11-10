@@ -49,7 +49,7 @@ export function BatchConfigurePane() {
                       )
                     ),
                 });
-                popScreen(["develop/configure-batch"]);
+                popScreen();
                 pushScreen(["batch", id]);
               }}
               disabled={!_batchConfig.isValid}

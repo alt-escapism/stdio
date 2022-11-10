@@ -104,7 +104,9 @@ function TitleHash({ hash }: { hash?: string }) {
               value: hash,
             });
             reloadDevelopFrame();
-            popScreen(["develop"]);
+            setTimeout(() => {
+              popScreen(["develop"]);
+            });
           }}
         >
           <BsBoxArrowRight />

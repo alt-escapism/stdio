@@ -39,7 +39,7 @@ export function popScreen(to?: Screen): boolean {
         (entry) =>
           entry.screen.length === to.length &&
           (entry.screen as unknown[]).every((part, index) => part === to[index])
-      )
+      ) + 1
     : navigation.stack.length - 1;
 
   if (index <= 0) {

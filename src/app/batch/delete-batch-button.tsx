@@ -23,7 +23,11 @@ export function DeleteBatchButton({
               {
                 children: "Yes",
                 primary: true,
-                onClick: () => deleteBatch(batchId).then(onSuccess),
+                onClick: () =>
+                  deleteBatch(batchId).then(() => {
+                    popScreen();
+                    onSuccess();
+                  }),
               },
               { children: "No", onClick: () => popScreen() },
             ]}
