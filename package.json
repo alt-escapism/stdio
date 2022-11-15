@@ -7,7 +7,7 @@
     "url": "https://github.com/alt-escapism/stdio.git"
   },
   "homepage": "https://altesc.art/stdio",
-  "main": "dist/lib.js",
+  "main": "dist/lib.cjs.js",
   "types": "dist/lib.d.ts",
   "files": [
     "dist",
@@ -18,7 +18,7 @@
     "start": "webpack serve --config ./webpack.config.dev.js",
     "build": "npm run build:app && npm run build:lib",
     "build:app": "webpack --config ./webpack.config.js",
-    "build:lib": "tsup --entry.lib src/lib/index.ts --dts --minify",
+    "build:lib": "tsup --entry.lib src/lib/index.ts --dts --format iife,cjs --minify --onSuccess \"mv dist/lib.js dist/lib.cjs.js && mv dist/lib.global.js dist/lib.js\"",
     "prepublishOnly": "npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
