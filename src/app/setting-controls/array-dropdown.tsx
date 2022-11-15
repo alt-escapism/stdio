@@ -4,6 +4,12 @@ import { settings } from "../settings-state";
 import { getValueOfType } from "../variables";
 import { GenericVariableDropdown } from "./generic-variable-dropdown";
 
+function getItemName(item: unknown): string | undefined {
+  return typeof item === "object" && item !== null
+    ? (item as { name?: string }).name
+    : undefined;
+}
+
 export function ArrayDropdown({ variable }: { variable: ArrayVar }) {
   const _settings = useSnapshot(settings);
   const { name, options } = variable;
@@ -17,7 +23,7 @@ export function ArrayDropdown({ variable }: { variable: ArrayVar }) {
           getValueOfType(_settings.variables[name], "Array") ?? variable.value
         ]
       }
-      renderItem={(item) => options.indexOf(item)}
+      renderItem={(item) => getItemName(item) ?? options.indexOf(item)}
       onSelect={(item) => {
         settings.variables[name] = {
           type: "Array",

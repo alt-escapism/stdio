@@ -34,7 +34,7 @@ export const dropdownStyles = css`
     margin: 0;
 
     > li {
-      padding: 6px 12px;
+      padding: 6px 10px;
       overflow: hidden;
       width: 100%;
       cursor: default;

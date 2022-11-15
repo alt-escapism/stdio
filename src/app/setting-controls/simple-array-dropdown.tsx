@@ -49,9 +49,13 @@ export function SimpleValueView({ value }: { value: SimpleValue }) {
   } else if (Array.isArray(value)) {
     content = value.join(", ");
   } else if (typeof value === "object") {
-    content = Object.entries(value)
-      .map(([key, val]) => `${key}:${val}`)
-      .join(", ");
+    if (value.name) {
+      content = value.name;
+    } else {
+      content = Object.entries(value)
+        .map(([key, val]) => `${key}:${val}`)
+        .join(", ");
+    }
   } else {
     content = String(value);
   }
