@@ -6,26 +6,25 @@ import { ReactNode, useState, useRef } from "react";
 import { buttonStyles } from "./button";
 import { Input } from "./input";
 import { dropdownStyles } from "./dropdown-menu";
+import { LOCK_SIZE } from "../setting-controls/setting-lock-button";
 
 const inputContainerStyles = css`
   align-items: center;
   display: flex;
   justify-content: space-between;
   overflow: hidden;
-  padding: 0 36px 0 12px;
+  padding: 0 ${LOCK_SIZE}px 0 12px;
   width: 100%;
 `;
 
 const dropdownButtonStyles = css`
-  padding: 0 3px;
+  width: 24px;
 
   :hover {
     background: none;
   }
 
   svg {
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0 8px;
     width: auto;
   }
 `;

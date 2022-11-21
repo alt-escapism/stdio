@@ -5,12 +5,12 @@ import { DropdownMenu } from "../generic-ui/dropdown-menu";
 import { autoReload } from "../reload";
 import { OptionView } from "./option-view";
 import { InputContainer } from "../generic-ui/input-container";
-import { SettingLockButton } from "./setting-lock-button";
+import { LOCK_SIZE, SettingLockButton } from "./setting-lock-button";
 import { useLockStyles } from "./use-lock-styles";
 
 const buttonStyles = css`
   opacity: 1;
-  padding-right: 36px;
+  padding-right: ${LOCK_SIZE}px;
   width: 100%;
 
   :hover {
@@ -18,8 +18,7 @@ const buttonStyles = css`
   }
 
   svg {
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0 8px;
+    padding: 0 3px;
     width: auto;
   }
 `;

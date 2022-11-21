@@ -27,7 +27,7 @@ const treeLabelStyles = css`
   grid-template-columns: calc(40% + 9px) minmax(0, 1fr) auto;
   gap: 12px;
   margin-left: -18px;
-  margin-right: -12px;
+  margin-right: -16px;
 
   > button {
     font-size: 0.9em;

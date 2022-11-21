@@ -6,6 +6,8 @@ import { autoReload } from "../reload";
 import { lock, settings, unlock } from "../settings-state";
 import { useLockStyles } from "./use-lock-styles";
 
+export const LOCK_SIZE = 32;
+
 export const buttonStyles = css`
   background: none;
   border: none;
@@ -16,7 +18,7 @@ export const buttonStyles = css`
   position: absolute;
   right: 0;
   top: 0;
-  width: 40px;
+  width: ${LOCK_SIZE}px;
 `;
 
 export const unlockedButtonStyles = css`

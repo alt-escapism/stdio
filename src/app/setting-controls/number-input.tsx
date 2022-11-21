@@ -7,11 +7,12 @@ import { settings } from "../settings-state";
 import { useDerivedState } from "../use-derived-state";
 import { getValueOfType } from "../variables";
 import { InputContainer } from "../generic-ui/input-container";
-import { SettingLockButton } from "./setting-lock-button";
+import { LOCK_SIZE, SettingLockButton } from "./setting-lock-button";
 import { useLockStyles } from "./use-lock-styles";
+import { Slider } from "../generic-ui/slider";
 
-const styles = css`
-  padding-right: 36px;
+const withSliderStyles = css`
+  width: 60px;
 `;
 
 export function NumberInput({ variable }: { variable: NumberVar }) {
@@ -23,11 +24,15 @@ export function NumberInput({ variable }: { variable: NumberVar }) {
     [lockedValue]
   );
   const lockStyles = useLockStyles(variable);
+  const hasSlider =
+    variable.min != null &&
+    variable.max != null &&
+    variable.min !== variable.max;
 
   return (
     <InputContainer>
       <Input
-        className={cx(styles, lockStyles)}
+        className={cx({ [withSliderStyles]: hasSlider }, lockStyles)}
         value={text ?? lockedValue ?? value}
         onChange={(e) => {
           const str = e.target.value;
@@ -50,6 +55,25 @@ export function NumberInput({ variable }: { variable: NumberVar }) {
           }
         }}
       />
+      {hasSlider ? (
+        <div style={{ paddingRight: LOCK_SIZE + 4, width: "100%" }}>
+          <Slider
+            value={[lockedValue ?? value]}
+            onValueChange={(value) => {
+              settings.variables[name] = {
+                type: "Number",
+                name,
+                value: value[0],
+              };
+            }}
+            onValueCommit={() => {
+              autoReload(variable);
+            }}
+            min={variable.min}
+            max={variable.max}
+          />
+        </div>
+      ) : null}
       <SettingLockButton variable={variable} />
     </InputContainer>
   );
