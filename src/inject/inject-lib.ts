@@ -42,6 +42,7 @@ const augmentedRandomNumber: typeof randomNumber = (
     writable: true,
     min,
     max,
+    transform,
     shadowed,
   });
 
@@ -128,10 +129,11 @@ const augmentedRandomGaussian = (...args: any[]) => {
     return value;
   }
 
-  const [name, mean = 0, sd = 1] = args as [
+  const [name, mean = 0, sd = 1, transform] = args as [
     string,
     number | undefined,
-    number | undefined
+    number | undefined,
+    ((x: number) => number) | undefined
   ];
   let shadowed: number | undefined;
 
@@ -148,6 +150,7 @@ const augmentedRandomGaussian = (...args: any[]) => {
     writable: true,
     mean,
     sd,
+    transform,
     shadowed,
   });
 

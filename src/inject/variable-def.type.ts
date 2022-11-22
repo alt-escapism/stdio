@@ -37,6 +37,7 @@ export type NumberVar = {
   max?: number;
   mean?: number;
   sd?: number;
+  transform?: (x: number) => number;
   shadowed?: number;
 };
 
