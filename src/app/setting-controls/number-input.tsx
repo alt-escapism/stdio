@@ -11,7 +11,14 @@ import { LOCK_SIZE, SettingLockButton } from "./setting-lock-button";
 import { useLockStyles } from "./use-lock-styles";
 import { Slider } from "../generic-ui/slider";
 
+const sliderStyles = css`
+  padding-left: 10px;
+  width: calc(100% - 60px - ${LOCK_SIZE + 4}px);
+`;
+
 const withSliderStyles = css`
+  padding-right: 4px;
+  text-align: right;
   width: 60px;
 `;
 
@@ -31,6 +38,25 @@ export function NumberInput({ variable }: { variable: NumberVar }) {
 
   return (
     <InputContainer>
+      {hasSlider ? (
+        <div className={sliderStyles}>
+          <Slider
+            value={[lockedValue ?? value]}
+            onValueChange={(value) => {
+              settings.variables[name] = {
+                type: "Number",
+                name,
+                value: value[0],
+              };
+            }}
+            onValueCommit={() => {
+              autoReload(variable);
+            }}
+            min={variable.min}
+            max={variable.max}
+          />
+        </div>
+      ) : null}
       <Input
         className={cx({ [withSliderStyles]: hasSlider }, lockStyles)}
         value={text ?? lockedValue ?? value}
@@ -55,25 +81,6 @@ export function NumberInput({ variable }: { variable: NumberVar }) {
           }
         }}
       />
-      {hasSlider ? (
-        <div style={{ paddingRight: LOCK_SIZE + 4, width: "100%" }}>
-          <Slider
-            value={[lockedValue ?? value]}
-            onValueChange={(value) => {
-              settings.variables[name] = {
-                type: "Number",
-                name,
-                value: value[0],
-              };
-            }}
-            onValueCommit={() => {
-              autoReload(variable);
-            }}
-            min={variable.min}
-            max={variable.max}
-          />
-        </div>
-      ) : null}
       <SettingLockButton variable={variable} />
     </InputContainer>
   );

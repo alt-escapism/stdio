@@ -9,6 +9,7 @@ const TYPES: { [k in VariableSnapshot["type"]]: number } = {
   Array: 2,
   SimpleArray: 3,
   Object: 4,
+  Boolean: 5,
 };
 
 function getTypeFor(n: number) {

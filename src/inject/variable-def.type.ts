@@ -3,6 +3,7 @@ export type Variables = Record<string, Variable>;
 export type Variable =
   | HashVar
   | NumberVar
+  | BooleanVar
   | ArrayVar
   | SimpleArrayVar
   | ObjectVar;
@@ -12,6 +13,7 @@ export type SnapshotOf<T extends Variable> = Pick<T, "type" | "name" | "value">;
 export type VariableSnapshot =
   | SnapshotOf<HashVar>
   | SnapshotOf<NumberVar>
+  | SnapshotOf<BooleanVar>
   | SnapshotOf<ArrayVar>
   | SnapshotOf<SimpleArrayVar>
   | SnapshotOf<ObjectVar>;
@@ -36,6 +38,15 @@ export type NumberVar = {
   mean?: number;
   sd?: number;
   shadowed?: number;
+};
+
+export type BooleanVar = {
+  type: "Boolean";
+  name: string;
+  value: boolean;
+  writable: true;
+  chanceTrue: number;
+  shadowed?: boolean;
 };
 
 export type ArrayVar = {

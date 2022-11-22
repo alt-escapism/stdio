@@ -10,6 +10,7 @@ import { isSimpleValue } from "./simple-value";
 import { SimpleValue, VariableSnapshot } from "./variable-def.type";
 import deepEqual from "fast-deep-equal";
 import { getParentWindow } from "./app-interface";
+import { randomBoolean } from "../lib/random-boolean";
 
 const augmentedRandomNumber: typeof randomNumber = (
   name,
@@ -153,6 +154,34 @@ const augmentedRandomGaussian = (...args: any[]) => {
   return value;
 };
 
+const augmentedRandomBoolean: typeof randomBoolean = (
+  name,
+  chanceTrue = 0.5
+) => {
+  let value = randomBoolean(name, chanceTrue);
+  if (!(typeof name === "string" && name)) {
+    return value;
+  }
+
+  let shadowed: boolean | undefined;
+  const lockedValue = getValueOfType(variables[name], "Boolean");
+  if (lockedValue != null) {
+    shadowed = value;
+    value = lockedValue;
+  }
+
+  addVariable({
+    name,
+    type: "Boolean",
+    value,
+    writable: true,
+    chanceTrue,
+    shadowed,
+  });
+
+  return value;
+};
+
 const augmentedUrlParam: typeof urlParam = (name) => {
   const search = (getParentWindow() ?? window).location.search;
   const values = new URLSearchParams(search).getAll(name);
@@ -174,6 +203,7 @@ export function injectLib() {
     },
     weight,
     randomGaussian: augmentedRandomGaussian,
+    randomBoolean: augmentedRandomBoolean,
     urlParam: augmentedUrlParam,
   };
 

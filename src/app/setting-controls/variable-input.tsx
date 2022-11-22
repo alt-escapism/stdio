@@ -1,5 +1,6 @@
 import { Variable } from "../../inject/variable-def.type";
 import { ArrayDropdown } from "./array-dropdown";
+import { BooleanSwitch } from "./boolean-switch";
 import { HashCombobox } from "./hash-combobox";
 import { NumberInput } from "./number-input";
 import { ObjectDropdown } from "./object-dropdown";
@@ -22,5 +23,9 @@ export function VariableInput({ variable }: { variable: Variable }) {
   if (type === "SimpleArray") {
     return <SimpleArrayDropdown variable={variable} />;
   }
-  return type as never;
+  if (type === "Boolean") {
+    return <BooleanSwitch variable={variable} />;
+  }
+  const _type: never = type;
+  return _type;
 }
