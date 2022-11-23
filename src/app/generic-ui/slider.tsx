@@ -27,7 +27,7 @@ const rangeStyles = css`
 `;
 
 const thumbStyles = css`
-  --size: 14px;
+  --size: 12px;
   background: white;
   border-radius: calc(var(--size) / 2);
   display: block;

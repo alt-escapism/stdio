@@ -3,7 +3,7 @@ import { Root, Thumb, SwitchProps } from "@radix-ui/react-switch";
 
 const SWITCH_HEIGHT = 22;
 const SWITCH_WIDTH = 48;
-const THUMB_SIZE = 14;
+const THUMB_SIZE = 12;
 const THUMB_X = (SWITCH_HEIGHT - THUMB_SIZE) / 2;
 
 const rootStyles = css`
@@ -11,7 +11,7 @@ const rootStyles = css`
   border: 1px solid #555;
   border-radius: 9999px;
   height: ${SWITCH_HEIGHT}px;
-  margin-left: ${-THUMB_X}px;
+  margin-left: -1px;
   padding: 0;
   position: relative;
   transition: all 150ms;

@@ -9,7 +9,12 @@ import { getValueOfType } from "../variables";
 import { InputContainer } from "../generic-ui/input-container";
 import { LOCK_SIZE, SettingLockButton } from "./setting-lock-button";
 import { useLockStyles } from "./use-lock-styles";
-import { Slider } from "../generic-ui/slider";
+import {
+  GaussianNumberSlider,
+  isGaussianNumberVar,
+} from "./gaussian-number-slider";
+import { ReactElement } from "react";
+import { isMinMaxNumberVar, MinMaxNumberSlider } from "./min-max-number-slider";
 
 const sliderStyles = css`
   padding-left: 10px;
@@ -36,18 +41,29 @@ export function NumberInput({ variable }: { variable: NumberVar }) {
     [lockedValue]
   );
   const lockStyles = useLockStyles(variable);
-  const hasSlider = isMinMaxNumberVar(variable);
+
+  let slider: ReactElement | undefined;
+  if (isMinMaxNumberVar(variable)) {
+    slider = <MinMaxNumberSlider variable={variable} />;
+  } else if (isGaussianNumberVar(variable)) {
+    slider = (
+      <MinMaxNumberSlider
+        variable={{
+          ...variable,
+          min: variable.mean - 3 * variable.sd,
+          max: variable.mean + 3 * variable.sd,
+        }}
+        includesMax
+      />
+    );
+  }
 
   return (
     <InputContainer>
-      {hasSlider ? (
-        <div className={sliderStyles}>
-          <NumberSlider variable={variable} />
-        </div>
-      ) : null}
+      {slider ? <div className={sliderStyles}>{slider}</div> : null}
       <Input
         className={cx(
-          hasSlider ? inputStyles.withSlider : inputStyles.withoutSlider,
+          slider ? inputStyles.withSlider : inputStyles.withoutSlider,
           lockStyles
         )}
         value={text ?? lockedValue ?? value}
@@ -74,42 +90,5 @@ export function NumberInput({ variable }: { variable: NumberVar }) {
       />
       <SettingLockButton variable={variable} />
     </InputContainer>
-  );
-}
-
-type MinMaxNumberVar = NumberVar & Required<Pick<NumberVar, "min" | "max">>;
-
-function isMinMaxNumberVar(variable: NumberVar): variable is MinMaxNumberVar {
-  return (
-    variable.min != null &&
-    variable.max != null &&
-    variable.min !== variable.max
-  );
-}
-
-function NumberSlider({ variable }: { variable: MinMaxNumberVar }) {
-  const { name, value } = variable;
-  const _settings = useSnapshot(settings);
-  const lockedValue = getValueOfType(_settings.variables[name], "Number");
-  const approxMax = (1 - Number.EPSILON) * variable.max;
-  const transform = variable.transform ?? ((x) => x);
-
-  return (
-    <Slider
-      value={[lockedValue ?? value]}
-      onValueChange={(value) => {
-        settings.variables[name] = {
-          type: "Number",
-          name,
-          value: transform(value[0]),
-        };
-      }}
-      onValueCommit={() => {
-        autoReload(variable);
-      }}
-      min={transform(variable.min)}
-      max={transform(approxMax)}
-      step={Math.min(1, (variable.max - variable.min) / 100)}
-    />
   );
 }
