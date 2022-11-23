@@ -7,8 +7,12 @@ const styles = css`
   display: flex;
   gap: 4px;
   height: 32px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;
 
 export function VariableLabel({
