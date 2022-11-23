@@ -35,5 +35,13 @@ export function VariableView({ variable }: { variable: VariableSnapshot }) {
   if (type === "SimpleArray") {
     return <SimpleValueView value={variable.value} />;
   }
-  return type as never;
+  if (type === "Boolean") {
+    return (
+      <OptionView>
+        <span>{String(variable.value)}</span>
+      </OptionView>
+    );
+  }
+  const _: never = type;
+  return _;
 }
